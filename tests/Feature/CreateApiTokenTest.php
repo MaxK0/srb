@@ -2,7 +2,7 @@
 
 namespace Tests\Feature;
 
-use App\Models\User;
+use App\Models\User\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Laravel\Jetstream\Features;
 use Tests\TestCase;
@@ -13,7 +13,7 @@ class CreateApiTokenTest extends TestCase
 
     public function test_api_tokens_can_be_created(): void
     {
-        if (! Features::hasApiFeatures()) {
+        if (!Features::hasApiFeatures()) {
             $this->markTestSkipped('API support is not enabled.');
         }
 

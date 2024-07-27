@@ -2,7 +2,7 @@
 
 namespace Tests\Feature;
 
-use App\Models\User;
+use App\Models\User\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Str;
 use Laravel\Jetstream\Features;
@@ -14,7 +14,7 @@ class ApiTokenPermissionsTest extends TestCase
 
     public function test_api_token_permissions_can_be_updated(): void
     {
-        if (! Features::hasApiFeatures()) {
+        if (!Features::hasApiFeatures()) {
             $this->markTestSkipped('API support is not enabled.');
         }
 
@@ -26,7 +26,7 @@ class ApiTokenPermissionsTest extends TestCase
             'abilities' => ['create', 'read'],
         ]);
 
-        $this->put('/user/api-tokens/'.$token->id, [
+        $this->put('/user/api-tokens/' . $token->id, [
             'name' => $token->name,
             'permissions' => [
                 'delete',
