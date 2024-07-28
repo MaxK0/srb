@@ -10,7 +10,10 @@ import TextInput from '@/Components/TextInput.vue';
 
 const form = useForm({
     name: '',
+    lastname: '',
+    patronymic: '',
     email: '',
+    phone: '',
     password: '',
     password_confirmation: '',
     terms: false,
@@ -33,7 +36,7 @@ const submit = () => {
 
         <form @submit.prevent="submit">
             <div>
-                <InputLabel for="name" value="Name" />
+                <InputLabel for="name" value="Имя" />
                 <TextInput
                     id="name"
                     v-model="form.name"
@@ -41,9 +44,30 @@ const submit = () => {
                     class="mt-1 block w-full"
                     required
                     autofocus
-                    autocomplete="name"
                 />
                 <InputError class="mt-2" :message="form.errors.name" />
+            </div>
+
+            <div class="mt-4">
+                <InputLabel for="lastname" value="Фамилия" />
+                <TextInput
+                    id="lastname"
+                    v-model="form.lastname"
+                    type="text"
+                    class="mt-1 block w-full"
+                />
+                <InputError class="mt-2" :message="form.errors.lastname" />
+            </div>
+
+            <div class="mt-4">
+                <InputLabel for="patronymic" value="Отчество" />
+                <TextInput
+                    id="patronymic"
+                    v-model="form.patronymic"
+                    type="text"
+                    class="mt-1 block w-full"
+                />
+                <InputError class="mt-2" :message="form.errors.patronymic" />
             </div>
 
             <div class="mt-4">
@@ -53,34 +77,41 @@ const submit = () => {
                     v-model="form.email"
                     type="email"
                     class="mt-1 block w-full"
-                    required
-                    autocomplete="username"
                 />
                 <InputError class="mt-2" :message="form.errors.email" />
             </div>
 
             <div class="mt-4">
-                <InputLabel for="password" value="Password" />
+                <InputLabel for="phone" value="Телефон" />
+                <TextInput
+                    id="phone"
+                    v-model="form.phone"
+                    type="text"
+                    class="mt-1 block w-full"
+                />
+                <InputError class="mt-2" :message="form.errors.phone" />
+            </div>
+
+            <div class="mt-4">
+                <InputLabel for="password" value="Пароль" />
                 <TextInput
                     id="password"
                     v-model="form.password"
                     type="password"
                     class="mt-1 block w-full"
                     required
-                    autocomplete="new-password"
                 />
                 <InputError class="mt-2" :message="form.errors.password" />
             </div>
 
             <div class="mt-4">
-                <InputLabel for="password_confirmation" value="Confirm Password" />
+                <InputLabel for="password_confirmation" value="Подтверждение пароля" />
                 <TextInput
                     id="password_confirmation"
                     v-model="form.password_confirmation"
                     type="password"
                     class="mt-1 block w-full"
                     required
-                    autocomplete="new-password"
                 />
                 <InputError class="mt-2" :message="form.errors.password_confirmation" />
             </div>
