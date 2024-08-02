@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 
 abstract class BaseService
 {
-    private Model $model;
+    protected Model $model;
 
     protected function __construct(string $modelName)
     {

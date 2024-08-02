@@ -13,23 +13,23 @@ import NavLink from "@/Components/NavLink.vue";
                     Расписание
                 </NavLink>
             </div>
-            <!-- <div class="aside__nav__block">
+            <div class="aside__nav__block">
                 <h6>
                     Управление
                 </h6>
                 <NavLink
-                    :href="route('business.index')"
-                    :active="route().current('business.index')"
+                    :href="route('businesses.index')"
+                    :active="route().current('businesses.index')"
                 >
                     Бизнесом
                 </NavLink>
-                <NavLink
+                <!-- <NavLink
                     :href="route('employee.index')"
                     :active="route().current('employee.index')"
                 >
                     Сотрудниками
-                </NavLink>
-            </div> -->
+                </NavLink> -->
+            </div>
         </nav>
     </aside>
 </template>
