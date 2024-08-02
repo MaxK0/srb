@@ -31,7 +31,7 @@ const submit = () => {
 
     <AuthenticationCard>
         <template #logo>
-            <AuthenticationCardLogo />
+            <h1>Регистрация</h1>
         </template>
 
         <form @submit.prevent="submit">
@@ -45,10 +45,10 @@ const submit = () => {
                     required
                     autofocus
                 />
-                <InputError class="mt-2" :message="form.errors.name" />
+                <InputError class="mt-8" :message="form.errors.name" />
             </div>
 
-            <div class="mt-4">
+            <div class="mt-8">
                 <InputLabel for="lastname" value="Фамилия" />
                 <TextInput
                     id="lastname"
@@ -56,10 +56,10 @@ const submit = () => {
                     type="text"
                     class="mt-1 block w-full"
                 />
-                <InputError class="mt-2" :message="form.errors.lastname" />
+                <InputError class="mt-8" :message="form.errors.lastname" />
             </div>
 
-            <div class="mt-4">
+            <div class="mt-8">
                 <InputLabel for="patronymic" value="Отчество" />
                 <TextInput
                     id="patronymic"
@@ -67,10 +67,10 @@ const submit = () => {
                     type="text"
                     class="mt-1 block w-full"
                 />
-                <InputError class="mt-2" :message="form.errors.patronymic" />
+                <InputError class="mt-8" :message="form.errors.patronymic" />
             </div>
 
-            <div class="mt-4">
+            <div class="mt-8">
                 <InputLabel for="email" value="Email" />
                 <TextInput
                     id="email"
@@ -78,10 +78,10 @@ const submit = () => {
                     type="email"
                     class="mt-1 block w-full"
                 />
-                <InputError class="mt-2" :message="form.errors.email" />
+                <InputError class="mt-8" :message="form.errors.email" />
             </div>
 
-            <div class="mt-4">
+            <div class="mt-8">
                 <InputLabel for="phone" value="Телефон" />
                 <TextInput
                     id="phone"
@@ -89,10 +89,10 @@ const submit = () => {
                     type="text"
                     class="mt-1 block w-full"
                 />
-                <InputError class="mt-2" :message="form.errors.phone" />
+                <InputError class="mt-8" :message="form.errors.phone" />
             </div>
 
-            <div class="mt-4">
+            <div class="mt-8">
                 <InputLabel for="password" value="Пароль" />
                 <TextInput
                     id="password"
@@ -101,10 +101,10 @@ const submit = () => {
                     class="mt-1 block w-full"
                     required
                 />
-                <InputError class="mt-2" :message="form.errors.password" />
+                <InputError class="mt-8" :message="form.errors.password" />
             </div>
 
-            <div class="mt-4">
+            <div class="mt-8">
                 <InputLabel for="password_confirmation" value="Подтверждение пароля" />
                 <TextInput
                     id="password_confirmation"
@@ -113,10 +113,10 @@ const submit = () => {
                     class="mt-1 block w-full"
                     required
                 />
-                <InputError class="mt-2" :message="form.errors.password_confirmation" />
+                <InputError class="mt-8" :message="form.errors.password_confirmation" />
             </div>
 
-            <div v-if="$page.props.jetstream.hasTermsAndPrivacyPolicyFeature" class="mt-4">
+            <div v-if="$page.props.jetstream.hasTermsAndPrivacyPolicyFeature" class="mt-8">
                 <InputLabel for="terms">
                     <div class="flex items-center">
                         <Checkbox id="terms" v-model:checked="form.terms" name="terms" required />
@@ -125,17 +125,17 @@ const submit = () => {
                             I agree to the <a target="_blank" :href="route('terms.show')" class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Terms of Service</a> and <a target="_blank" :href="route('policy.show')" class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Privacy Policy</a>
                         </div>
                     </div>
-                    <InputError class="mt-2" :message="form.errors.terms" />
+                    <InputError class="mt-8" :message="form.errors.terms" />
                 </InputLabel>
             </div>
 
-            <div class="flex items-center justify-end mt-4">
+            <div class="flex items-center justify-end mt-14">
                 <Link :href="route('login')" class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                    Already registered?
+                    Уже зарегистрированы?
                 </Link>
 
                 <PrimaryButton class="ms-4" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
-                    Register
+                    Зарегистрироваться
                 </PrimaryButton>
             </div>
         </form>

@@ -34,55 +34,51 @@ const submit = () => {
 
     <AuthenticationCard>
         <template #logo>
-            <AuthenticationCardLogo />
+            <h1>Вход</h1>
         </template>
-
-        <div v-if="status" class="mb-4 font-medium text-sm text-green-600">
-            {{ status }}
-        </div>
 
         <form @submit.prevent="submit">
             <div>
                 <InputLabel for="login" value="Email или телефон" />
                 <TextInput
+                    class="mt-1 block w-full"
                     id="login"
                     v-model="form.login"
                     type="text"
-                    class="mt-1 block w-full"
                     required
                     autofocus
                     autocomplete="username"
                 />
-                <InputError class="mt-2" :message="form.errors.login" />
+                <InputError class="mt-8" :message="form.errors.login" />
             </div>
 
-            <div class="mt-4">
+            <div class="mt-8">
                 <InputLabel for="password" value="Password" />
                 <TextInput
+                    class="mt-1 block w-full"
                     id="password"
                     v-model="form.password"
                     type="password"
-                    class="mt-1 block w-full"
                     required
                     autocomplete="current-password"
                 />
-                <InputError class="mt-2" :message="form.errors.password" />
+                <InputError class="mt-8" :message="form.errors.password" />
             </div>
 
-            <div class="block mt-4">
+            <div class="block mt-8">
                 <label class="flex items-center">
                     <Checkbox v-model:checked="form.remember" name="remember" />
                     <span class="ms-2 text-sm text-gray-600">Remember me</span>
                 </label>
             </div>
 
-            <div class="flex items-center justify-end mt-4">
-                <Link v-if="canResetPassword" :href="route('password.request')" class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+            <div class="flex items-center justify-end mt-14">
+                <!-- <Link v-if="canResetPassword" :href="route('password.request')" class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                     Forgot your password?
-                </Link>
+                </Link> -->
 
                 <PrimaryButton class="ms-4" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
-                    Log in
+                    Войти
                 </PrimaryButton>
             </div>
         </form>
