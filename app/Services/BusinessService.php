@@ -15,7 +15,11 @@ class BusinessService extends BaseService
 
     public function getUserBusinesses(?int $perPage = 25): LengthAwarePaginator
     {
-        $businesses = auth()->user()->employee()->businesses()
+        $businesses = auth()
+            ->user()
+            ->owner()
+            ->first()
+            ->businesses()
             ->select('id', 'title', 'information')
             ->paginate($perPage ?? 25);
 

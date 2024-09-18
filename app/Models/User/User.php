@@ -24,15 +24,25 @@ class User extends Authenticatable
     use Notifiable;
     use TwoFactorAuthenticatable;
 
+    public const OWNER = 'Владелец';
+    public const EMPLOYEE = 'Сотрудник';
+
+    public const OWNER_ID = 1;
+    public const EMPLOYEE_ID = 2;
+
     /**
      * The attributes that are mass assignable.
      *
      * @var array<int, string>
      */
     protected $fillable = [
-        'name', 'lastname', 'patronymic',
-        'phone', 'email',
-        'password', 'active'
+        'name',
+        'lastname',
+        'patronymic',
+        'phone',
+        'email',
+        'password',
+        'active'
     ];
 
     /**
@@ -70,9 +80,21 @@ class User extends Authenticatable
         ];
     }
 
+    protected $appends = ['is_owner'];
+
+    public function getIsOwnerAttribute(): bool
+    {
+        return $this->isOwner();
+    }
+
+    public function isOwner(): bool
+    {
+        return $this->roles()->where('title', self::OWNER)->exists();
+    }
+
     public function roles(): BelongsToMany
     {
-        return $this->belongsToMany(Role::class);
+        return $this->belongsToMany(Role::class, 'role_users');
     }
 
     public function client(): HasOne

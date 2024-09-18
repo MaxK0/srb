@@ -1,26 +1,25 @@
 <script setup>
+import { router } from "@inertiajs/vue3";
 import NavLink from "@/Components/NavLink.vue";
+
+const becomeOwner = () => {
+    router.post(route('owner.become'));
+}
 </script>
 
 <template>
     <aside class="aside">
         <nav class="aside__nav">
             <div class="aside__nav__block">
-                <NavLink
-                    :href="route('schedule.index')"
-                    :active="route().current('schedule.index')"
-                >
+                <NavLink :href="route('schedule.index')" :active="route().current('schedule.index')">
                     Расписание
                 </NavLink>
             </div>
-            <div class="aside__nav__block">
+            <div v-if="$page.props.auth.user.is_owner" class="aside__nav__block">
                 <h6>
                     Управление
                 </h6>
-                <NavLink
-                    :href="route('businesses.index')"
-                    :active="route().current('businesses.index')"
-                >
+                <NavLink :href="route('businesses.index')" :active="route().current('businesses.index')">
                     Бизнесом
                 </NavLink>
                 <!-- <NavLink
@@ -29,6 +28,11 @@ import NavLink from "@/Components/NavLink.vue";
                 >
                     Сотрудниками
                 </NavLink> -->
+            </div>
+            <div v-else class="aside__nav__block">
+                <form @submit.prevent="becomeOwner">
+                    <button class="btn-main">Стать владельцем</button>
+                </form>
             </div>
         </nav>
     </aside>

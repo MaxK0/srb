@@ -1,7 +1,10 @@
+
 <?php
 
 use App\Http\Controllers\BusinessController;
+use App\Http\Controllers\OwnerController;
 use App\Http\Controllers\ScheduleController;
+use App\Http\Middleware\IsOwner;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -26,5 +29,9 @@ Route::middleware([
 
     Route::get('/schedule', [ScheduleController::class, 'index'])->name('schedule.index');
 
-    Route::resource('businesses', BusinessController::class);
+    Route::resource('businesses', BusinessController::class)->middleware(IsOwner::class);
+
+    Route::name('owner.')->group(function () {
+        Route::post('/becomeOwner', [OwnerController::class, 'becomeOwner'])->name('become');
+    });
 });
