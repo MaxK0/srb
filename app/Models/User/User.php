@@ -24,9 +24,11 @@ class User extends Authenticatable
     use Notifiable;
     use TwoFactorAuthenticatable;
 
+    public const CLIENT = 'Клиент';
     public const OWNER = 'Владелец';
     public const EMPLOYEE = 'Сотрудник';
 
+    public const CLIENT_ID = 0;
     public const OWNER_ID = 1;
     public const EMPLOYEE_ID = 2;
 

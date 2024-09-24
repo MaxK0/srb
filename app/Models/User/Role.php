@@ -11,12 +11,12 @@ class Role extends Model
     use HasFactory;
 
     public const CLIENT_ID = 0;
-    public const EMPLOYEE_ID = 1;
-    public const OWNER_ID = 2;
+    public const OWNER_ID = 1;
+    public const EMPLOYEE_ID = 2;
 
     public const CLIENT = 'Клиент';
-    public const EMPLOYEE = 'Сотрудник';
     public const OWNER = 'Владелец';
+    public const EMPLOYEE = 'Сотрудник';
 
     protected $fillable = [
         'id', 'title'
