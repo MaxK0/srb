@@ -193,6 +193,18 @@ section {
     background: none;
     border: 0.2rem solid var(--color-second);
     padding: 1rem 1.5rem;
+    height: 100%;
+}
+
+.textarea {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: var(--font-size-normal);
+    border-radius: var(--border-radius);
+    background: none;
+    border: 0.2rem solid var(--color-second);
+    padding: 1rem 1.5rem;
 }
 
 .select {
@@ -223,9 +235,9 @@ section {
     margin-top: 1rem;
 }
 
-[data-pc-name="pcfiltericoncontainer"] > svg {
+[data-pc-name="pcfiltercontainer"] [data-pc-name="inputicon"] {
     position: absolute;
-    top: 50%;
+    top: 45%;
     right: 1rem;
 }
 
@@ -235,6 +247,18 @@ section {
     border: 0.2rem solid var(--color-main);
     border-radius: var(--border-radius);
     padding: 1rem;
+}
+
+[data-pc-section="overlay"] [data-pc-section="option"] {
+    cursor: pointer;
+    transition: var(--transition);
+    padding: 0.5rem;
+    border-radius: var(--border-radius);
+}
+
+[data-pc-section="overlay"] [data-pc-section="option"]:hover {
+    background-color: var(--color-main);
+    color: var(--color-second);
 }
 
 .error {
