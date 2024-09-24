@@ -164,7 +164,7 @@ section {
 
 .form__blocks {
     display: flex;
-    flex-wrap: wrap;
+    flex-grow: 1;
     gap: 3rem;
     width: 100%;
 }
@@ -193,6 +193,48 @@ section {
     background: none;
     border: 0.2rem solid var(--color-second);
     padding: 1rem 1.5rem;
+}
+
+.select {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: var(--font-size-normal);
+    border-radius: var(--border-radius);
+    background: none;
+    border: 0.2rem solid var(--color-second);
+    padding: 1rem 1.5rem;
+}
+
+[data-pc-name="pcfiltercontainer"] {
+    display: flex;
+    position: relative;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+}
+
+[data-pc-name="pcfiltercontainer"] > input {
+    width: 100%;
+    background: none;
+    border: 0.2rem solid var(--color-main);
+    border-radius: var(--border-radius);
+    font-size: var(--font-size-normal);
+    margin-top: 1rem;
+}
+
+[data-pc-name="pcfiltericoncontainer"] > svg {
+    position: absolute;
+    top: 50%;
+    right: 1rem;
+}
+
+[data-pc-section="overlay"] {
+    background-color: var(--color-second);
+    color: var(--color-main);
+    border: 0.2rem solid var(--color-main);
+    border-radius: var(--border-radius);
+    padding: 1rem;
 }
 
 .error {
