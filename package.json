@@ -19,6 +19,6 @@
         "vue": "^3.3.13"
     },
     "dependencies": {
-        "primevue": "^4.0.4"
+        "primevue": "^4.0.7"
     }
 }

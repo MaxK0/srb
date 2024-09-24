@@ -16,7 +16,9 @@ createInertiaApp({
         return createApp({ render: () => h(App, props) })
             .use(plugin)
             .use(ZiggyVue)
-            .use(PrimeVue)
+            .use(PrimeVue, {
+                unstyled: true
+            })
             .mount(el);
     },
     progress: {
