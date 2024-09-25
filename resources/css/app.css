@@ -235,9 +235,9 @@ section {
     margin-top: 1rem;
 }
 
-[data-pc-name="pcfiltercontainer"] [data-pc-name="inputicon"] {
+[data-pc-name="pcfiltercontainer"] [data-pc-name="pcfiltericoncontainer"] {
     position: absolute;
-    top: 45%;
+    top: 44%;
     right: 1rem;
 }
 

@@ -11,16 +11,23 @@ import TextArea from "@/Components/TextArea.vue";
 
 import Select from "primevue/select";
 
-const cities = ref([{ title: "Уфа" }, { title: "Москва" }]);
+defineProps({
+    cities: {
+        type: Array,
+        required: true,
+    },
+});
 
 const form = useForm({
     title: "",
-    city: "",
+    city: [],
     address: "",
     information: "",
 });
 
-const submit = () => {};
+const submit = () => {
+    form.post(route("businesses.store"));
+};
 </script>
 
 <template>
@@ -75,6 +82,13 @@ const submit = () => {};
                         ></TextArea>
                         <InputError :message="form.errors.information" />
                     </div>
+
+                    <PrimaryButton
+                        :class="{ 'opacity-25': form.processing }"
+                        :disabled="form.processing"
+                    >
+                        Создать бизнес
+                    </PrimaryButton>
                 </form>
             </div>
         </section>

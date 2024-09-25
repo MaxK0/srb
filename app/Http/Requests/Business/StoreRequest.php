@@ -11,7 +11,7 @@ class StoreRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,17 @@ class StoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            
+            'title' => ['required', 'string', 'max:255'],
+            'city_id' => ['required', 'integer', 'exists:cities,id'],
+            'address' => ['required', 'string', 'max:255'],
+            'information' => ['nullable', 'string']
         ];
+    }
+
+    protected function prepareForValidation()
+    {
+        $this->replace([
+            'city_id' => $this->city['id']
+        ]);
     }
 }

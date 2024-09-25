@@ -32,10 +32,15 @@ class BusinessController extends Controller
 
     public function create()
     {
-        return Inertia::render('Business/Create', []);
+        $data = $this->businessService->dataForCreate();
+
+        return Inertia::render('Business/Create', $data);
     }
 
-    public function store(StoreRequest $request) {}
+    public function store(StoreRequest $request)
+    {
+        dd($request->validated());
+    }
 
     public function edit(Business $business) {}
 
