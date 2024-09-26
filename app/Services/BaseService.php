@@ -3,8 +3,9 @@
 namespace App\Services;
 
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
-use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Collection as ECollection;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Collection;
 
 abstract class BaseService
 {
@@ -15,7 +16,7 @@ abstract class BaseService
         $this->model = app($modelName);
     }
 
-    public function all(): Collection
+    public function all(): ECollection
     {
         return $this->model->all();
     }
@@ -25,12 +26,12 @@ abstract class BaseService
         return $this->model->paginate($perPage ?? 25)->withQueryString();
     }
 
-    public function create(array $data): Model
+    public function create(array|Collection $data): Model
     {
         return $this->model->create($data);
     }
 
-    public function update(Model $model, array $data): bool
+    public function update(Model $model, array|Collection $data): bool
     {
         return $model->update($data);
     }
