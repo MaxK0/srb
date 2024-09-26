@@ -31,7 +31,11 @@ class StoreRequest extends FormRequest
 
     protected function prepareForValidation()
     {
-        $this->replace([
+        if (! isset($this->city['id'])) return back()->withErrors([
+            'city' => "Поле 'city' обязательно для заполнения"
+        ]);
+
+        $this->merge([
             'city_id' => $this->city['id']
         ]);
     }

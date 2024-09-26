@@ -3,9 +3,10 @@
 namespace App\Services;
 
 use App\Models\City;
+use App\Models\Owner\Branch;
 use App\Models\Owner\Business;
 use App\Models\User\User;
-use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 class BusinessService extends BaseService
@@ -35,5 +36,25 @@ class BusinessService extends BaseService
         return [
             'cities' => $cities
         ];
+    }
+
+    public function create(array|Collection $data): Business
+    {
+        if (is_array($data)) {
+            $data = collect($data);
+        }        
+
+        $dataBusiness = $data->only(['title', 'information']);      
+        
+        $business = Business::create($dataBusiness->all());
+        $businessId = $business->id;
+
+        $dataBranch = $data->merge([
+            'business_id' => $businessId
+        ]);
+
+        Branch::create($dataBranch->all());
+
+        return $business;
     }
 }

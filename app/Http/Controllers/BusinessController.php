@@ -39,8 +39,12 @@ class BusinessController extends Controller
 
     public function store(StoreRequest $request)
     {
-        dd($request->validated());
-    }
+        $data = $request->safe()->collect();
+
+        $this->businessService->create($data);
+
+        return redirect()->route('businesses.index');
+    }   
 
     public function edit(Business $business) {}
 

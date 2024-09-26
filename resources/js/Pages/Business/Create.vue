@@ -60,6 +60,7 @@ const submit = () => {
                             >
                             </Select>
                             <InputError :message="form.errors.city" />
+                            <InputError :message="form.errors.city_id" />
                         </div>
                         <div class="form__block">
                             <InputLabel for="address" value="Адрес" />
