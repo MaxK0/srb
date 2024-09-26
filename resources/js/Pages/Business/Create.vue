@@ -44,6 +44,7 @@ const submit = () => {
                             required
                             autofocus
                             autocomplete="title"
+                            placeholder="ООО 'Бизнес'"
                         />
                         <InputError :message="form.errors.title" />
                     </div>
@@ -70,6 +71,7 @@ const submit = () => {
                                 type="text"
                                 required
                                 autocomplete="address"
+                                placeholder="Уфа, Улица, 1"
                             />
                             <InputError :message="form.errors.address" />
                         </div>
@@ -80,6 +82,7 @@ const submit = () => {
                             rows="5"
                             v-model="form.information"
                             autocomplete="information"
+                            placeholder="Информация"
                         ></TextArea>
                         <InputError :message="form.errors.information" />
                     </div>
