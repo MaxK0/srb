@@ -23,7 +23,7 @@ class BusinessService extends BaseService
             ->owner()
             ->first()
             ->businesses()
-            ->select('id', 'title', 'information')
+            ->select('businesses.id', 'title', 'information')
             ->paginate($perPage ?? 25);
 
         return $businesses;
@@ -42,10 +42,10 @@ class BusinessService extends BaseService
     {
         if (is_array($data)) {
             $data = collect($data);
-        }        
+        }
 
-        $dataBusiness = $data->only(['title', 'information']);      
-        
+        $dataBusiness = $data->only(['title', 'information']);
+
         $business = Business::create($dataBusiness->all());
         $businessId = $business->id;
 
@@ -54,6 +54,14 @@ class BusinessService extends BaseService
         ]);
 
         Branch::create($dataBranch->all());
+
+        $business->owners()
+            ->sync(
+                auth()
+                    ->user()
+                    ->owner()
+                    ->id()
+            );
 
         return $business;
     }
