@@ -17,6 +17,8 @@
     --color-btn-hover: #0d3aad;
     --color-btn-active: #00288d;
     --color-wrong: #ae1919;
+    --color-wrong-hover: #640e0e;
+    --color-wrong-active: #3f0a0a;
     --color-not-active: #777;
 
     --font-size-large: 2rem;
@@ -263,7 +265,7 @@ section {
 }
 
 .error {
-    color: red;
+    color: var(--color-wrong);
     font-size: var(--font-size-small);
     margin-top: -1rem;
 }
@@ -280,6 +282,18 @@ button {
     border: none;
     transition: var(--transition);
     font-size: var(--font-size-normal);
+}
+
+button.delete {
+    background-color: var(--color-wrong);
+}
+
+button.delete:hover {
+    background-color: var(--color-wrong-hover);
+}
+
+button.delete:active {
+    background-color: var(--color-wrong-active);
 }
 
 .btn-main {
@@ -307,21 +321,31 @@ button {
 
 /* <===================== Таблицы =====================> */
 .table {
-    border: 0.2rem solid var(--color-second);
     border-collapse: collapse;
-    border-radius: var(--border-radius) var(--border-radius) 0 0;
-    overflow: hidden;
-    width: 100%;
+    border: 0.2rem solid var(--color-second);
 }
 
-.thead {    
+.thead {
     background-color: var(--color-second);
-    color: var(--color-main);    
-    width: 100%;
+    color: var(--color-main);
 }
 
-.tbody {
-    width: 100%;
+.tbody td {
+    border: 0.2rem solid var(--color-second);
+    padding: 0.5rem 1.5rem;
+}
+
+.business__table-inf {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 30rem;
+}
+
+.table__btns {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 3rem;
 }
 /* <===================== Конец таблиц =====================> */
-
