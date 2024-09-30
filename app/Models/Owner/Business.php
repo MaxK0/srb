@@ -28,6 +28,6 @@ class Business extends Model
 
     public function owners(): BelongsToMany
     {
-        return $this->belongsToMany(Owner::class);
+        return $this->belongsToMany(Owner::class, 'business_owners');
     }
 }

@@ -23,15 +23,12 @@ defineProps({
                         </tr>
                     </thead>
                     <tbody class="tbody">
-                        <tr>
-                            <td>Название</td>
-                            <td class="business__table-inf">Lorem ipsum dolor sit amet consectetur adipisicing elit. Magnam eius aliquam blanditiis eligendi quis soluta accusamus corporis iste unde molestias nesciunt modi ea repudiandae eaque sunt, aperiam et! Hic, nisi.
-                            Voluptatem, earum dicta facilis consequuntur tempore consectetur laudantium repellendus voluptates vel quisquam itaque odit iure? A obcaecati, omnis magni consequuntur tenetur ratione dolore accusamus at dolor debitis aspernatur quaerat illo.
-                            Vero consequuntur atque accusamus deserunt iure alias facere assumenda velit quo odit ullam voluptatem debitis necessitatibus, quasi, eaque quas repudiandae eos similique mollitia repellendus. Beatae vel voluptates id corrupti tenetur!
-                            Id in tenetur dolore ipsum, reiciendis illum esse obcaecati iusto nesciunt nemo sit dicta officiis nam quo voluptate alias ullam quibusdam numquam. Ab veritatis atque sequi. Dolor amet sit ipsum?</td>
+                        <tr v-for="(business, id) in businesses" :key="id">
+                            <td>{{ business.title }}</td>
+                            <td class="business__table-inf">{{ business.information }}</td>
                             <td>
                                 <div class="table__btns">
-                                    <button class="btn-main">Изменить</button>
+                                    <button class="btn-main" :href="route('businesses.edit')">Изменить</button>
                                     <button class="btn-main delete">Удалить</button>
                                 </div>
                             </td>
