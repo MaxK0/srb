@@ -59,8 +59,8 @@ class BusinessService extends BaseService
             ->sync(
                 auth()
                     ->user()
-                    ->owner()
-                    ->id()
+                    ->owner
+                    ->id
             );
 
         return $business;
