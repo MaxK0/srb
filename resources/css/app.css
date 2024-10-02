@@ -221,6 +221,10 @@ section {
     padding: 1rem 1.5rem;
 }
 
+.checkbox__block {
+    flex-direction: row;
+}
+
 [data-pc-name="pcfiltercontainer"] {
     display: flex;
     position: relative;
