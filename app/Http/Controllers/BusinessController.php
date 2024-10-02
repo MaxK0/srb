@@ -44,9 +44,14 @@ class BusinessController extends Controller
         $this->businessService->create($data);
 
         return redirect()->route('businesses.index');
-    }   
+    }
 
-    public function edit(Business $business) {}
+    public function edit(Business $business)
+    {
+        return Inertia::render('Business/Edit', [
+            'business' => $business
+        ]);
+    }
 
     public function update(Business $business, UpdateRequest $request) {}
 
