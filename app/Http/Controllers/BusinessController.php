@@ -14,9 +14,9 @@ class BusinessController extends Controller
 {
     public function __construct(protected BusinessService $businessService) {}
 
-    public function index()
+    public function index(Request $request)
     {
-        $businesses = $this->businessService->getUserBusinesses();
+        $businesses = $this->businessService->getUserBusinesses($request->get('perPage'));
 
         return Inertia::render('Business/Index', [
             'businesses' => $businesses

@@ -3,11 +3,11 @@ import { router } from "@inertiajs/vue3";
 import AppLayout from "@/Layouts/AppLayout.vue";
 import { Link } from "@inertiajs/vue3";
 
+import Paginator from "@/Components/Paginator.vue";
+
 const props = defineProps({
     businesses: Object,
 });
-
-console.log(props.businesses.data);
 
 const edit = (business) => {
     router.get(route("businesses.edit", business));
@@ -61,6 +61,7 @@ const destroy = (business) => {
                     </tbody>
                 </table>
                 <div v-else>Вы ещё не открыли бизнес</div>
+                <Paginator :pagination="businesses"/>
             </div>
         </section>
     </AppLayout>
