@@ -38,6 +38,18 @@ class BusinessService extends BaseService
         ];
     }
 
+    public function dataForShow(Business $business): array {
+        $branches = $business
+            ->branches()
+            ->select('id', 'title', 'address', 'information')
+            ->paginate(15);
+
+        return [
+            'business' => $business,
+            'branches' => $branches
+        ];
+    }
+
     public function create(array|Collection $data): Business
     {
         if (is_array($data)) {

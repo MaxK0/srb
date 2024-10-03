@@ -1,6 +1,7 @@
 
 <?php
 
+use App\Http\Controllers\BranchController;
 use App\Http\Controllers\BusinessController;
 use App\Http\Controllers\OwnerController;
 use App\Http\Controllers\ScheduleController;
@@ -32,7 +33,11 @@ Route::middleware([
 
     Route::get('/schedule', [ScheduleController::class, 'index'])->name('schedule.index');
 
-    Route::resource('businesses', BusinessController::class)->middleware(IsOwner::class);
+
+    Route::middleware(IsOwner::class)->group(function () {
+        Route::resource('businesses', BusinessController::class);
+        Route::resource('branches', BranchController::class);
+    });
 
     Route::name('owner.')->group(function () {
         Route::post('/becomeOwner', [OwnerController::class, 'becomeOwner'])->name('become');

@@ -37,8 +37,10 @@ const destroy = (business) => {
                     </thead>
                     <tbody class="tbody">
                         <tr v-for="(business, id) in businesses.data" :key="id">
-                            <td>{{ business.title }}</td>
-                            <td class="business__table-inf">
+                            <td>
+                                <Link :href="route('businesses.show', business)" class="link-main">{{ business.title }}</Link>
+                            </td>
+                            <td class="table-inf">
                                 {{ business.information }}
                             </td>
                             <td>

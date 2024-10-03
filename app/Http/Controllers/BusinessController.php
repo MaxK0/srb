@@ -25,9 +25,9 @@ class BusinessController extends Controller
 
     public function show(Business $business)
     {
-        return Inertia::render('Business/Show', [
-            'business' => $business
-        ]);
+        $data = $this->businessService->dataForShow($business);
+
+        return Inertia::render('Business/Show', $data);
     }
 
     public function create()
