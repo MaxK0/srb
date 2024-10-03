@@ -25,7 +25,7 @@ const form = useForm({
 });
 
 const submit = () => {
-    form.post(route("businesses.update"));
+    form.put(route("businesses.update", props.business));
 };
 </script>
 
@@ -57,13 +57,17 @@ const submit = () => {
                         ></TextArea>
                         <InputError :message="form.errors.information" />
                     </div>
-                    <div class="form__block checkbox__block">
-                        <Checkbox
-                        v-model="form.active"
-                        value="1"
-                        />
+                    <div class="form__block checkbox">
+                        <Checkbox v-model:checked="form.active" name="active" />
                         <InputLabel for="active" value="Активен" />
+                        <InputError :message="form.errors.active" />
                     </div>
+                    <PrimaryButton
+                        :class="{ 'opacity-25': form.processing }"
+                        :disabled="form.processing"
+                    >
+                        Редактировать бизнес
+                    </PrimaryButton>
                 </form>
             </div>
         </section>

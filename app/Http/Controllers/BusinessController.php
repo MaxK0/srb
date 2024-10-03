@@ -53,7 +53,17 @@ class BusinessController extends Controller
         ]);
     }
 
-    public function update(Business $business, UpdateRequest $request) {}
+    public function update(UpdateRequest $request, Business $business)
+    {
+        $data = $request->validated();
 
-    public function destroy(Business $business) {}
+        $this->businessService->update($business, $data);
+
+        return redirect()->route('businesses.index');
+    }
+
+    public function destroy(Business $business)
+    {
+        $this->businessService->delete($business);
+    }
 }

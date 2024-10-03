@@ -5,7 +5,7 @@ namespace App\Services;
 use App\Models\City;
 use App\Models\Owner\Branch;
 use App\Models\Owner\Business;
-use App\Models\User\User;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
 
@@ -64,5 +64,21 @@ class BusinessService extends BaseService
             );
 
         return $business;
+    }
+
+    public function update(Model $business, array|Collection $data): bool
+    {
+        if ($business->active == $data['active'])
+            return $business->update($data);
+
+        $branches = $business->branches()->get();
+
+        $branches->each(function (Branch $branch) use ($data) {
+            $branch->update([
+                'active' => $data['active']
+            ]);
+        });
+
+        return $business->update($data);
     }
 }

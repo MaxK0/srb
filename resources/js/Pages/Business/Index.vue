@@ -7,8 +7,14 @@ const props = defineProps({
     businesses: Object,
 });
 
+console.log(props.businesses.data);
+
 const edit = (business) => {
     router.get(route("businesses.edit", business));
+};
+
+const destroy = (business) => {
+    router.delete(route("businesses.destroy", business));
 };
 </script>
 
@@ -21,7 +27,7 @@ const edit = (business) => {
                     :href="route('businesses.create')"
                     >Создать бизнес</Link
                 >
-                <table v-if="businesses" class="table business__table">
+                <table v-if="businesses.data.length" class="table business__table">
                     <thead class="thead">
                         <tr>
                             <th>Название</th>
@@ -37,10 +43,16 @@ const edit = (business) => {
                             </td>
                             <td>
                                 <div class="table__btns">
-                                    <button class="btn-main" @click="edit(business)">
+                                    <button
+                                        class="btn-main"
+                                        @click="edit(business)"
+                                    >
                                         Изменить
                                     </button>
-                                    <button class="btn-main delete">
+                                    <button
+                                        class="btn-main delete"
+                                        @click="destroy(business)"
+                                    >
                                         Удалить
                                     </button>
                                 </div>
