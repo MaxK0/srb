@@ -28,11 +28,15 @@ abstract class BaseService
 
     public function create(array|Collection $data): Model
     {
+        if (! is_array($data) && $data instanceof Collection) $data = $data->all();
+
         return $this->model->create($data);
     }
 
     public function update(Model $model, array|Collection $data): bool
     {
+        if (! is_array($data) && $data instanceof Collection) $data = $data->all();
+
         return $model->update($data);
     }
 
