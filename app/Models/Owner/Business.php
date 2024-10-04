@@ -21,6 +21,10 @@ class Business extends Model
         'active' => 'boolean'
     ];
 
+    protected $hidden = [
+        'pivot'
+    ];
+
     public function branches(): HasMany
     {
         return $this->hasMany(Branch::class);
