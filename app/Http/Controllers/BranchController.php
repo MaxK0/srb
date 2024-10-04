@@ -2,63 +2,67 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Branch\StoreRequest;
+use App\Http\Requests\Branch\UpdateRequest;
 use App\Models\Owner\Branch;
+use App\Services\BranchService;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class BranchController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        //
+    public function __construct(protected BranchService $branchService)
+    {        
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
+    public function index()
+    {        
+    }
+
+    
     public function create()
     {
-        //
+        $data = $this->branchService->dataForCreate();
+
+        return Inertia::render('Branch/Create', $data);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    
+    public function store(StoreRequest $request)
     {
-        //
+        $data = $request->validated();
+
+        $branch = $this->branchService->create($data);
+
+        return redirect()->route('businesses.show', $branch->business_id);
     }
 
-    /**
-     * Display the specified resource.
-     */
+    
     public function show(Branch $branch)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    
+    public function edit(Branch $branch)
     {
-        //
+        $data = $this->branchService->dataForEdit($branch);
+
+        return Inertia::render('Branch/Edit', $data);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    
+    public function update(UpdateRequest $request, Branch $branch)
     {
-        //
+        $data = $request->validated();
+
+        $this->branchService->update($branch, $data);
+
+        return redirect()->route('businesses.show', $branch->business_id);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
+    
+    public function destroy(Branch $branch)
     {
         //
     }
