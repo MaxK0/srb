@@ -7,10 +7,12 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Filterable\Interfaces\Filterable as FilterableInterface;
+use Filterable\Traits\Filterable as FilterableTrait;
 
-class Position extends Model
+class Position extends Model implements FilterableInterface
 {
-    use HasFactory;
+    use HasFactory, FilterableTrait;
 
     protected $fillable = [
         'title',
