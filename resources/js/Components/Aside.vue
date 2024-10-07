@@ -22,6 +22,9 @@ const becomeOwner = () => {
                 <NavLink :href="route('businesses.index')" :active="route().current('businesses.index')">
                     Бизнесом
                 </NavLink>
+                <NavLink :href="route('positions.index')" :active="route().current('positions.index')">
+                    Должностями
+                </NavLink>
                 <!-- <NavLink
                     :href="route('employee.index')"
                     :active="route().current('employee.index')"
