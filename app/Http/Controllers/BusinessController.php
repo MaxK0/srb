@@ -65,5 +65,7 @@ class BusinessController extends Controller
     public function destroy(Business $business)
     {
         $this->businessService->delete($business);
+
+        return redirect()->route('businesses.index');
     }
 }
