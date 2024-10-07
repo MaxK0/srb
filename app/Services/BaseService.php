@@ -21,6 +21,12 @@ abstract class BaseService
         return $this->model->all();
     }
 
+    public function select(array $data): ECollection {
+        return $this->model
+            ->select($data)
+            ->get();
+    }
+
     public function allWithPaginate(?int $perPage = 25): LengthAwarePaginator
     {
         return $this->model->paginate($perPage ?? 25)->withQueryString();
