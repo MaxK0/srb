@@ -1,6 +1,8 @@
 <script setup>
 import { router, Link } from "@inertiajs/vue3";
 import AppLayout from "@/Layouts/AppLayout.vue";
+import { formateDate } from "@/Scripts/formateDate";
+import { formateInf } from "@/Scripts/formateInf";
 
 const props = defineProps({
     branch: {
@@ -8,24 +10,6 @@ const props = defineProps({
         required: true,
     },
 });
-
-const formateDate = (dateString) => {
-    const date = new Date(dateString);
-    const options = {
-        year: "numeric",
-        month: "2-digit",
-        day: "2-digit",
-        hour: "2-digit",
-        minute: "2-digit",
-        second: "2-digit",
-    };
-    return date.toLocaleDateString("ru-RU", options);
-};
-
-const formatInf = (info) => {
-    if (!info) return "";
-    return info.replace(/\n/g, "<br>");
-};
 
 const edit = () => {
     router.get(route("branches.edit", props.branch));
@@ -75,7 +59,7 @@ const destroy = () => {
                         </tr>
                         <tr>
                             <th>Информация</th>
-                            <td v-html="formatInf(branch.information)"></td>
+                            <td v-html="formateInf(branch.information)"></td>
                         </tr>
                         <tr>
                             <th>Активен</th>
