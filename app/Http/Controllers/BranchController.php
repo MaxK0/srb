@@ -13,12 +13,7 @@ class BranchController extends Controller
 {
     public function __construct(protected BranchService $branchService)
     {        
-    }
-
-    public function index()
-    {        
-    }
-
+    }  
     
     public function create()
     {
@@ -40,7 +35,9 @@ class BranchController extends Controller
     
     public function show(Branch $branch)
     {
-        //
+        return Inertia::render('Branch/Show', [
+            'branch' => $branch->load('business')
+        ]);
     }
 
     
@@ -64,6 +61,8 @@ class BranchController extends Controller
     
     public function destroy(Branch $branch)
     {
-        //
+        $this->branchService->delete($branch);
+
+        return redirect()->route('businesses.show', $branch->business_id);
     }
 }

@@ -3,11 +3,10 @@ import { router, Link } from "@inertiajs/vue3";
 import AppLayout from "@/Layouts/AppLayout.vue";
 
 const props = defineProps({
-    business: {
+    branch: {
         type: Object,
         required: true,
     },
-    branches: Object
 });
 
 const formateDate = (dateString) => {
@@ -29,27 +28,19 @@ const formatInf = (info) => {
 };
 
 const edit = () => {
-    router.get(route("businesses.edit", props.business));
+    router.get(route("branches.edit", props.branch));
 };
 
 const destroy = () => {
-    router.delete(route("businesses.destroy", props.business));
+    router.delete(route("branches.destroy", props.branch));
 };
-
-const editBranch = (branch) => {
-    router.get(route("branches.edit", branch))
-}
-
-const destroyBranch = (branch) => {
-    router.delete(route("branches.destroy", branch))
-}
 </script>
 
 <template>
-    <AppLayout :title="business.title">
-        <section class="business__show">
+    <AppLayout :title="branch.title">
+        <section class="branch__show">
             <div class="container">
-                <div class="business__show__btns">
+                <div class="branch__show__btns">
                     <button @click="edit" class="btn-main">
                         Редактировать
                     </button>
@@ -61,85 +52,52 @@ const destroyBranch = (branch) => {
                     <tbody class="tbody">
                         <tr>
                             <th>Название</th>
-                            <td>{{ business.title }}</td>
+                            <td>{{ branch.title }}</td>
+                        </tr>
+                        <tr>
+                            <th>Бизнес</th>
+                            <td>
+                                <Link
+                                    :href="
+                                        route(
+                                            'businesses.show',
+                                            branch.business
+                                        )
+                                    "
+                                    class="link-main"
+                                    >{{ branch.business.title }}</Link
+                                >
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Адрес</th>
+                            <td>{{ branch.address }}</td>
                         </tr>
                         <tr>
                             <th>Информация</th>
-                            <td v-html="formatInf(business.information)"></td>
+                            <td v-html="formatInf(branch.information)"></td>
                         </tr>
                         <tr>
                             <th>Активен</th>
-                            <td>{{ business.active }}</td>
+                            <td>{{ branch.active }}</td>
                         </tr>
                         <tr>
                             <th>Создан</th>
-                            <td>{{ formateDate(business.created_at) }}</td>
+                            <td>{{ formateDate(branch.created_at) }}</td>
                         </tr>
                         <tr>
                             <th>Обновлен</th>
-                            <td>{{ formateDate(business.updated_at) }}</td>
+                            <td>{{ formateDate(branch.updated_at) }}</td>
                         </tr>
                     </tbody>
                 </table>
-            </div>
-        </section>
-        <section class="business__show__branches">
-            <div class="container">
-                <Link
-                    class="btn-main branch__create-link"
-                    :href="route('branches.create')"
-                    >Создать филиал</Link
-                >
-                <table v-if="branches.data.length" class="table branches__table">
-                    <thead class="thead">
-                        <tr>
-                            <th>Название</th>
-                            <th>Адрес</th>
-                            <th>Информация</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody class="tbody">
-                        <tr v-for="(branch, id) in branches.data" :key="id">
-                            <td>
-                                <Link
-                                    :href="route('branches.show', branch)"
-                                    class="link-main"
-                                    >{{ branch.title }}</Link
-                                >
-                            </td>
-                            <td>{{ branch.address }}</td>
-                            <td class="table-inf">
-                                {{ branch.information }}
-                            </td>
-                            <td>
-                                <div class="table__btns">
-                                    <button
-                                        class="btn-main"
-                                        @click="editBranch(branch)"
-                                    >
-                                        Изменить
-                                    </button>
-                                    <button
-                                        class="btn-main delete"
-                                        @click="destroyBranch(branch)"
-                                    >
-                                        Удалить
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-                <div v-else>В вашем бизнесе ещё нет филиалов</div>
-                <Paginator :pagination="branches" />
             </div>
         </section>
     </AppLayout>
 </template>
 
 <style scoped>
-.business__show__btns {
+.branch__show__btns {
     align-self: flex-end;
     display: flex;
     gap: 2.5rem;

@@ -34,9 +34,9 @@ Route::middleware([
     Route::get('/schedule', [ScheduleController::class, 'index'])->name('schedule.index');
 
 
-    Route::middleware(IsOwner::class)->group(function () {
+    Route::middleware(IsOwner::class)->group(function () {  
         Route::resource('businesses', BusinessController::class);
-        Route::resource('branches', BranchController::class);
+        Route::resource('branches', BranchController::class)->except('index');
     });
 
     Route::name('owner.')->group(function () {
