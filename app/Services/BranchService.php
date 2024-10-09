@@ -5,15 +5,26 @@ namespace App\Services;
 use App\Models\City;
 use App\Models\Owner\Branch;
 use App\Models\Owner\Business;
-use Illuminate\Database\Eloquent\Model;
+use App\Models\User\User;
+use Illuminate\Database\Eloquent\Collection as ECollection;
 use Illuminate\Support\Collection;
-use Illuminate\Pagination\LengthAwarePaginator;
 
 class BranchService extends BaseService
 {
     public function __construct()
     {
         parent::__construct(Branch::class);
+    }
+
+    public function ownerBranches(): Collection {
+        /** @var User $user */
+        $user = auth()->user();
+
+        $branches = $user
+            ->owner
+            ->branches();
+
+        return $branches;
     }
 
     public function dataForCreate(): array

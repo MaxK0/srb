@@ -227,6 +227,7 @@ section {
     background: none;
     border: 0.2rem solid var(--color-second);
     padding: 1rem 1.5rem;
+    gap: 1rem;
 }
 
 .checkbox__block {

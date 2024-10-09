@@ -15,6 +15,7 @@ class BranchController extends Controller
     {        
     }  
     
+
     public function create()
     {
         $data = $this->branchService->dataForCreate();

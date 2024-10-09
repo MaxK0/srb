@@ -21,7 +21,7 @@ class PositionFilter extends Filter
      *
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    protected function branch(string $value): Builder
+    protected function branchId(string $value): Builder
     {
         return $this->builder->where('branch_id', $value);
     }

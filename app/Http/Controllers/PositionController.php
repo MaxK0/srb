@@ -3,31 +3,34 @@
 namespace App\Http\Controllers;
 
 use App\Filters\PositionFilter;
+use App\Models\Employee\Position;
 use App\Services\BranchService;
 use App\Services\PositionService;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class PositionController extends Controller
 {
-    public function __construct(protected PositionService $positionService,
-        protected BranchService $branchService)
-    {        
-    }
+    public function __construct(
+        protected PositionService $positionService,
+        protected BranchService $branchService
+    ) {}
+
 
     public function index(Request $request, PositionFilter $filter)
-    {
-        // TODO: заместо того, чтобы брать все branches через owner->businesses, нужно скачать пакет для более сложных связей
-        $businesses = auth()
-            ->user()
-            ->owner()
-            ->first()
-            ->businesses()
-            ->get();
+    {        
+        $data = [
+            'branches' => $this->branchService
+                ->ownerBranches()
+                ->map(fn($branch) => $branch->only(['id', 'title'])),
+        ];
 
-        dd($businesses);
+        if ($branchId = $request->input('branch_id')) {           
+            $data['positions'] = Position::filter($filter)->paginate(25)->withQueryString();
+            $data['branchId'] = $branchId;
+        }
 
-        $positions = $this->positionService
-            ->branchPositions($filter);
+        return Inertia::render('Position/Index', $data);
     }
 
     public function create()
