@@ -16,8 +16,6 @@ const props = defineProps({
     },
 });
 
-console.log(props.business);
-
 const form = useForm({
     title: props.business.title,
     information: props.business.information,
