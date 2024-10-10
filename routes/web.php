@@ -3,6 +3,7 @@
 
 use App\Http\Controllers\BranchController;
 use App\Http\Controllers\BusinessController;
+use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\OwnerController;
 use App\Http\Controllers\PositionController;
 use App\Http\Controllers\ScheduleController;
@@ -39,6 +40,7 @@ Route::middleware([
         Route::resource('businesses', BusinessController::class);
         Route::resource('branches', BranchController::class)->except('index');
         Route::resource('positions', PositionController::class);
+        Route::resource('employees', EmployeeController::class);
     });
 
     Route::name('owner.')->group(function () {

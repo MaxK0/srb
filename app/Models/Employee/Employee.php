@@ -11,10 +11,12 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Filterable\Interfaces\Filterable as FilterableInterface;
+use Filterable\Traits\Filterable as FilterableTrait;
 
-class Employee extends Model
+class Employee extends Model implements FilterableInterface
 {
-    use HasFactory;
+    use HasFactory, FilterableTrait;
 
     protected $fillable = [
         'work_phone',
