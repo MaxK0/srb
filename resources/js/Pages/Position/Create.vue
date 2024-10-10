@@ -1,18 +1,16 @@
 <script setup>
 import { useForm } from "@inertiajs/vue3";
-import { ref } from "vue";
 
 import AppLayout from "@/Layouts/AppLayout.vue";
 import InputLabel from "@/Components/InputLabel.vue";
 import InputError from "@/Components/InputError.vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
 import TextInput from "@/Components/TextInput.vue";
-import TextArea from "@/Components/TextArea.vue";
 
 import Select from "primevue/select";
 
-defineProps({
-    cities: {
+const props = defineProps({
+    branches: {
         type: Array,
         required: true,
     },
@@ -20,78 +18,54 @@ defineProps({
 
 const form = useForm({
     title: "",
-    city: [],
-    address: "",
-    information: "",
+    branch: [],
 });
 
 const submit = () => {
-    form.post(route("businesses.store"));
+    form.post(route("positions.store"));
 };
 </script>
 
 <template>
-    <AppLayout title="Создать бизнес">
-        <section class="business__create">
+    <AppLayout title="Создать должность">
+        <section class="positions__create">
             <div class="container">
                 <form class="form" @submit.prevent="submit">
-                    <div class="form__block">
-                        <InputLabel for="title" value="Название" />
-                        <TextInput
-                            id="title"
-                            v-model="form.title"
-                            type="text"
-                            required
-                            autofocus
-                            autocomplete="title"
-                            placeholder="ООО 'Бизнес'"
-                        />
-                        <InputError :message="form.errors.title" />
-                    </div>
                     <div class="form__blocks">
                         <div class="form__block">
-                            <InputLabel for="city" value="Город" />
+                            <InputLabel for="branch" value="Филиал" />
                             <Select
-                                v-model="form.city"
-                                :options="cities"
+                                v-model="form.branch"
+                                :options="branches"
                                 filter
                                 optionLabel="title"
-                                placeholder="Выберите город"
+                                placeholder="Выберите филиал"
                                 class="select"
                             >
                             </Select>
-                            <InputError :message="form.errors.city" />
-                            <InputError :message="form.errors.city_id" />
+                            <InputError :message="form.errors.branch" />
+                            <InputError :message="form.errors.branch_id" />
                         </div>
                         <div class="form__block">
-                            <InputLabel for="address" value="Адрес" />
+                            <InputLabel for="title" value="Должность" />
                             <TextInput
-                                id="address"
-                                v-model="form.address"
+                                id="title"
+                                v-model="form.title"
                                 type="text"
                                 required
-                                autocomplete="address"
-                                placeholder="Уфа, Улица, 1"
+                                autofocus
+                                autocomplete="title"
+                                placeholder="Работник"
                             />
-                            <InputError :message="form.errors.address" />
+                            <InputError :message="form.errors.title" />
                         </div>
-                    </div>
-                    <div class="form__block">
-                        <InputLabel for="information" value="Информация" />
-                        <TextArea
-                            rows="5"
-                            v-model="form.information"
-                            autocomplete="information"
-                            placeholder="Информация"
-                        ></TextArea>
-                        <InputError :message="form.errors.information" />
                     </div>
 
                     <PrimaryButton
                         :class="{ 'opacity-25': form.processing }"
                         :disabled="form.processing"
                     >
-                        Создать бизнес
+                        Создать должность
                     </PrimaryButton>
                 </form>
             </div>

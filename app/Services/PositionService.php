@@ -12,21 +12,29 @@ class PositionService extends BaseService
         parent::__construct(Position::class);
     }
 
-    public function branchPositions(?PositionFilter $filter): array
+    public function dataForCreate(): array
     {
-        // if (!$filter) {
-        //     $branch = auth()
-        //         ->user()
-        //         ->owner()
-        //         ->first()
-        //         ->businesses()
-        //         ->first()
-        //         ->branches()
-        //         ->first();
-        // }
+        $branchService = app(BranchService::class);
 
-        dd(Position::filter($filter)->get());
+        $branches = $branchService->ownerBranches(['id', 'title']);
 
-        return [];
+        return [
+            'branches' => $branches
+        ];
+    }
+
+    public function dataForEdit(Position $position): array
+    {
+        $branchService = app(BranchService::class);
+
+        $branches = $branchService->ownerBranches(['id', 'title']);
+        $position = $position->load([
+            'branch' => fn($q) => $q->select(['id', 'title'])
+        ]);
+
+        return [
+            'branches' => $branches,
+            'position' => $position
+        ];
     }
 }

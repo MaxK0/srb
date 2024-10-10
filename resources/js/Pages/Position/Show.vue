@@ -1,39 +1,29 @@
 <script setup>
-import { router, Link } from "@inertiajs/vue3";
+import { router } from "@inertiajs/vue3";
 import AppLayout from "@/Layouts/AppLayout.vue";
 import { formateDate } from "@/Scripts/formateDate";
-import { formateInf } from "@/Scripts/formateInf";
 
 const props = defineProps({
-    business: {
+    position: {
         type: Object,
         required: true,
     },
-    branches: Object
 });
 
 const edit = () => {
-    router.get(route("businesses.edit", props.business));
+    router.get(route("positions.edit", props.position));
 };
 
 const destroy = () => {
-    router.delete(route("businesses.destroy", props.business));
+    router.delete(route("positions.destroy", props.position));
 };
-
-const editBranch = (branch) => {
-    router.get(route("branches.edit", branch))
-}
-
-const destroyBranch = (branch) => {
-    router.delete(route("branches.destroy", branch))
-}
 </script>
 
 <template>
-    <AppLayout :title="business.title">
-        <section class="business__show">
+    <AppLayout :title="position.title">
+        <section class="position__show">
             <div class="container">
-                <div class="business__show__btns">
+                <div class="position__show__btns">
                     <button @click="edit" class="btn-main">
                         Редактировать
                     </button>
@@ -45,93 +35,32 @@ const destroyBranch = (branch) => {
                     <tbody class="tbody">
                         <tr>
                             <th>Название</th>
-                            <td>{{ business.title }}</td>
+                            <td>{{ position.title }}</td>
                         </tr>
                         <tr>
-                            <th>Информация</th>
-                            <td v-html="formateInf(business.information)"></td>
-                        </tr>
-                        <tr>
-                            <th>Активен</th>
-                            <td>{{ business.active }}</td>
+                            <th>Филиал</th>
+                            <td>{{ position.branch.title }}</td>
                         </tr>
                         <tr>
                             <th>Создан</th>
-                            <td>{{ formateDate(business.created_at) }}</td>
+                            <td>{{ formateDate(position.created_at) }}</td>
                         </tr>
                         <tr>
                             <th>Обновлен</th>
-                            <td>{{ formateDate(business.updated_at) }}</td>
+                            <td>{{ formateDate(position.updated_at) }}</td>
                         </tr>
                     </tbody>
                 </table>
-            </div>
-        </section>
-        <section class="business__show__branches">
-            <div class="container">
-                <Link
-                    class="btn-main branch__create-link"
-                    :href="route('branches.create')"
-                    >Создать филиал</Link
-                >
-                <table v-if="branches.data.length" class="table branches__table">
-                    <thead class="thead">
-                        <tr>
-                            <th>Название</th>
-                            <th>Адрес</th>
-                            <th>Информация</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody class="tbody">
-                        <tr v-for="(branch, id) in branches.data" :key="id">
-                            <td>
-                                <Link
-                                    :href="route('branches.show', branch)"
-                                    class="link-main"
-                                    >{{ branch.title }}</Link
-                                >
-                            </td>
-                            <td>{{ branch.address }}</td>
-                            <td class="table-inf">
-                                {{ branch.information }}
-                            </td>
-                            <td>
-                                <div class="table__btns">
-                                    <button
-                                        class="btn-main"
-                                        @click="editBranch(branch)"
-                                    >
-                                        Изменить
-                                    </button>
-                                    <button
-                                        class="btn-main delete"
-                                        @click="destroyBranch(branch)"
-                                    >
-                                        Удалить
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-                <div v-else>В вашем бизнесе ещё нет филиалов</div>
-                <Paginator :pagination="branches" />
             </div>
         </section>
     </AppLayout>
 </template>
 
 <style scoped>
-.business__show__btns {
+.position__show__btns {
     align-self: flex-end;
     display: flex;
     gap: 2.5rem;
-    margin-bottom: 4rem;
-}
-
-.branch__create-link {
-    align-self: flex-end;
     margin-bottom: 4rem;
 }
 </style>

@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Filters\PositionFilter;
+use App\Http\Requests\Position\StoreRequest;
+use App\Http\Requests\Position\UpdateRequest;
 use App\Models\Employee\Position;
 use App\Services\BranchService;
 use App\Services\PositionService;
@@ -18,14 +20,14 @@ class PositionController extends Controller
 
 
     public function index(Request $request, PositionFilter $filter)
-    {        
+    {
         $data = [
             'branches' => $this->branchService
                 ->ownerBranches()
                 ->map(fn($branch) => $branch->only(['id', 'title'])),
         ];
 
-        if ($branchId = $request->input('branch_id')) {           
+        if ($branchId = $request->input('branch_id')) {
             $data['positions'] = Position::filter($filter)->paginate(25)->withQueryString();
             $data['branchId'] = $branchId;
         }
@@ -35,31 +37,49 @@ class PositionController extends Controller
 
     public function create()
     {
-        //
+        $data = $this->positionService->dataForCreate();
+
+        return Inertia::render('Position/Create', $data);
     }
 
-    public function store(Request $request)
+    public function store(StoreRequest $request)
     {
-        //
+        $data = $request->validated();
+
+        $this->positionService->create($data);
+
+        return redirect()->route('positions.index');
     }
 
-    public function show(string $id)
+    public function show(Position $position)
     {
-        //
+        return Inertia::render('Position/Show', [
+            'position' => $position->load([
+                'branch' => fn($q) => $q->select('id', 'title')
+            ])
+        ]);
     }
 
-    public function edit(string $id)
+    public function edit(Position $position)
     {
-        //
+        $data = $this->positionService->dataForEdit($position);
+
+        return Inertia::render('Position/Edit', $data);
     }
 
-    public function update(Request $request, string $id)
+    public function update(UpdateRequest $request, Position $position)
     {
-        //
+        $data = $request->validated();
+
+        $this->positionService->update($position, $data);
+
+        return redirect()->route('positions.index');
     }
 
-    public function destroy(string $id)
+    public function destroy(Position $position)
     {
-        //
+        $this->positionService->delete($position);
+
+        return redirect()->route('positions.index', request()->query());
     }
 }

@@ -1,7 +1,7 @@
 <script setup>
 import { router, Link } from "@inertiajs/vue3";
 import AppLayout from "@/Layouts/AppLayout.vue";
-import { ref } from "vue";
+import { onUpdated, ref } from "vue";
 import Paginator from "@/Components/Paginator.vue";
 import Select from "primevue/select";
 
@@ -18,23 +18,35 @@ const branch = ref(
     props.branches.find((branch) => branch.id == props.branchId)
 );
 
+const gettingData = ref(false);
+
 const fetchPositions = () => {
+    gettingData.value = true;
+
     const branchId = branch.value.id;
 
     router.get(`/positions?branch_id=${branchId}`);
 };
 
-const edit = (positions) => {
-    router.get(route("positions.edit", positions));
+const edit = (position) => {
+    router.get(route("positions.edit", position));
 };
 
-const destroy = (positions) => {
-    router.delete(route("positions.destroy", positions));
+const destroy = (position) => {
+    gettingData.value = true;
+
+    router.delete(route("positions.destroy", position));
 };
+
+onUpdated(() => {
+    const branchId = branch.value.id;
+
+    router.get(`/positions?branch_id=${branchId}`);
+});
 </script>
 
 <template>
-    <AppLayout title="Позиции">
+    <AppLayout title="Должности">
         <section class="positions">
             <div class="container">
                 <div class="positions-top-btns">
@@ -48,13 +60,17 @@ const destroy = (positions) => {
                         @change="fetchPositions"
                     >
                     </Select>
-                    <Link
-                        class="btn-main"
-                        :href="route('positions.create')"
+                    <Link class="btn-main" :href="route('positions.create')"
                         >Создать должность</Link
                     >
                 </div>
-                <table v-if="positions && positions.data.length" class="table position__table">
+                <div v-if="gettingData" class="getting-data">
+                    Получение данных...
+                </div>
+                <table
+                    v-if="positions && positions.data.length && !gettingData"
+                    class="table position__table"
+                >
                     <thead class="thead">
                         <tr>
                             <th>Название</th>
@@ -64,7 +80,11 @@ const destroy = (positions) => {
                     <tbody class="tbody">
                         <tr v-for="(position, id) in positions.data" :key="id">
                             <td>
-                                <Link :href="route('positions.show', position)" class="link-main">{{ position.title }}</Link>
+                                <Link
+                                    :href="route('positions.show', position)"
+                                    class="link-main"
+                                    >{{ position.title }}</Link
+                                >
                             </td>
                             <td>
                                 <div class="table__btns">
@@ -85,8 +105,11 @@ const destroy = (positions) => {
                         </tr>
                     </tbody>
                 </table>
-                <div v-else>Нет должностей</div>
-                <Paginator v-if="positions && positions.links" :pagination="positions"/>
+                <div v-else-if="!gettingData">Нет должностей</div>
+                <Paginator
+                    v-if="positions && positions.links"
+                    :pagination="positions"
+                />
             </div>
         </section>
     </AppLayout>

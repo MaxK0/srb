@@ -16,13 +16,19 @@ class BranchService extends BaseService
         parent::__construct(Branch::class);
     }
 
-    public function ownerBranches(): Collection {
+    public function ownerBranches(array $select = null): Collection
+    {
         /** @var User $user */
         $user = auth()->user();
 
         $branches = $user
             ->owner
             ->branches();
+
+        if ($select) {
+            $branches = $branches
+                ->map(fn($branch) => $branch->only($select));
+        }
 
         return $branches;
     }
@@ -45,7 +51,8 @@ class BranchService extends BaseService
         ];
     }
 
-    public function dataForEdit(Branch $branch): array {
+    public function dataForEdit(Branch $branch): array
+    {
         $data = $this->dataForCreate();
 
         $data['branch'] = $branch->load([
@@ -60,7 +67,8 @@ class BranchService extends BaseService
         return $data;
     }
 
-    public function dataForShow(Business $business): array {
+    public function dataForShow(Business $business): array
+    {
         $branches = $business
             ->branches()
             ->select('id', 'title', 'address', 'information')

@@ -6,67 +6,69 @@ import InputLabel from "@/Components/InputLabel.vue";
 import InputError from "@/Components/InputError.vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
 import TextInput from "@/Components/TextInput.vue";
-import TextArea from "@/Components/TextArea.vue";
-import Checkbox from "@/Components/Checkbox.vue";
+import Select from "primevue/select";
 
 const props = defineProps({
-    business: {
+    position: {
         type: Object,
         required: true,
     },
+    branches: {
+        type: Array,
+        required: true
+    }
 });
 
-console.log(props.business);
-
 const form = useForm({
-    title: props.business.title,
-    information: props.business.information,
-    active: props.business.active,
+    title: props.position.title,
+    branch: props.position.branch
 });
 
 const submit = () => {
-    form.put(route("businesses.update", props.business));
+    form.put(route("positions.update", props.position));
 };
 </script>
 
 <template>
-    <AppLayout title="Редактировать бизнес">
-        <section class="business__create">
+    <AppLayout title="Редактировать должность">
+        <section class="position__create">
             <div class="container">
                 <form class="form" @submit.prevent="submit">
-                    <div class="form__block">
-                        <InputLabel for="title" value="Название" />
-                        <TextInput
-                            id="title"
-                            v-model="form.title"
-                            type="text"
-                            required
-                            autofocus
-                            autocomplete="title"
-                            placeholder="ООО 'Бизнес'"
-                        />
-                        <InputError :message="form.errors.title" />
-                    </div>
-                    <div class="form__block">
-                        <InputLabel for="information" value="Информация" />
-                        <TextArea
-                            rows="5"
-                            v-model="form.information"
-                            autocomplete="information"
-                            placeholder="Информация"
-                        ></TextArea>
-                        <InputError :message="form.errors.information" />
-                    </div>
-                    <div class="form__block checkbox">
-                        <Checkbox v-model:checked="form.active" name="active" />
-                        <InputLabel for="active" value="Активен" />
-                        <InputError :message="form.errors.active" />
+                    <div class="form__blocks">
+                        <div class="form__block">
+                            <InputLabel for="branch" value="Филиал" />
+                            <Select
+                                id="branch"
+                                v-model="form.branch"
+                                :options="branches"
+                                filter
+                                optionLabel="title"
+                                placeholder="Выберите филиал"
+                                class="select"
+                            >
+                            </Select>
+                            <InputError :message="form.errors.branch" />
+                            <InputError :message="form.errors.branch_id" />
+                        </div>
+                        <div class="form__block">
+                            <InputLabel for="title" value="Должность" />
+                            <TextInput
+                                id="title"
+                                v-model="form.title"
+                                type="text"
+                                required
+                                autofocus
+                                autocomplete="title"
+                                placeholder="Работник"
+                            />
+                            <InputError :message="form.errors.title" />
+                        </div>
                     </div>
                     <PrimaryButton
                         :class="{ 'opacity-25': form.processing }"
                         :disabled="form.processing"
                     >
-                        Редактировать бизнес
+                        Редактировать должность
                     </PrimaryButton>
                 </form>
             </div>
