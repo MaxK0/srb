@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('positions', function (Blueprint $table) {
-            $table->dropUnique('title');
+            $table->dropUnique(['title']);
         });
     }
 
