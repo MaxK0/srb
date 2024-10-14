@@ -12,7 +12,7 @@ class EmployeeFilter extends Filter
      *
      * @var array<string>
      */
-    protected array $filters = ['filter'];
+    protected array $filters = ['branch_id'];
 
     /**
      * Filter the query by a given attribute value.
@@ -21,8 +21,10 @@ class EmployeeFilter extends Filter
      *
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    protected function filter(string $value): Builder
+    protected function branchId(string $value): Builder
     {
-        return $this->builder->where('column', $value);
+        return $this->builder->whereHas('branches', function($q) use ($value) {
+            $q->where('branches.id', $value);
+        });
     }
 }

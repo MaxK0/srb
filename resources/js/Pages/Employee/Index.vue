@@ -10,8 +10,8 @@ const props = defineProps({
         type: Object,
         required: true,
     },
-    positions: Object,
-    branchId: String,
+    employees: Object,
+    branchId: String
 });
 
 const branch = ref(
@@ -25,31 +25,32 @@ const fetchPositions = () => {
 
     const branchId = branch.value.id;
 
-    router.get(`/positions?branch_id=${branchId}`);
+    router.get(`/employees?branch_id=${branchId}`);
 };
 
-const edit = (position) => {
-    router.get(route("positions.edit", position));
+const edit = (employee) => {
+    router.get(route("employees.edit", employee));
 };
 
-const destroy = (position) => {
+const destroy = (employee) => {
     gettingData.value = true;
 
-    router.delete(route("positions.destroy", position));
+    router.delete(route("employees.destroy", employee));
 };
+
 
 onUpdated(() => {
     const branchId = branch.value.id;
 
-    router.get(`/positions?branch_id=${branchId}`);
+    router.get(`/employees?branch_id=${branchId}`);
 });
 </script>
 
 <template>
-    <AppLayout title="Должности">
-        <section class="positions">
+    <AppLayout title="Сотрудники">
+        <section class="employees">
             <div class="container">
-                <div class="positions-top-btns">
+                <div class="employees-top-btns">
                     <Select
                         v-model="branch"
                         :options="branches"
@@ -60,15 +61,15 @@ onUpdated(() => {
                         @change="fetchPositions"
                     >
                     </Select>
-                    <Link class="btn-main" :href="route('positions.create')"
-                        >Создать должность</Link
+                    <Link class="btn-main" :href="route('employees.create')"
+                        >Создать сотрудника</Link
                     >
                 </div>
                 <div v-if="gettingData" class="getting-data">
                     Получение данных...
                 </div>
                 <table
-                    v-if="positions && positions.data.length && !gettingData"
+                    v-if="employees && employees.data.length && !gettingData"
                     class="table position__table"
                 >
                     <thead class="thead">
@@ -78,25 +79,25 @@ onUpdated(() => {
                         </tr>
                     </thead>
                     <tbody class="tbody">
-                        <tr v-for="(position, id) in positions.data" :key="id">
+                        <tr v-for="(employee, id) in employees.data" :key="id">
                             <td>
                                 <Link
-                                    :href="route('positions.show', position)"
+                                    :href="route('employees.show', employee)"
                                     class="link-main"
-                                    >{{ position.title }}</Link
+                                    >{{ employee.title }}</Link
                                 >
                             </td>
                             <td>
                                 <div class="table__btns">
                                     <button
                                         class="btn-main"
-                                        @click="edit(position)"
+                                        @click="edit(employee)"
                                     >
                                         Изменить
                                     </button>
                                     <button
                                         class="btn-main delete"
-                                        @click="destroy(position)"
+                                        @click="destroy(employee)"
                                     >
                                         Удалить
                                     </button>
@@ -105,10 +106,10 @@ onUpdated(() => {
                         </tr>
                     </tbody>
                 </table>
-                <div v-else-if="!gettingData">Нет должностей</div>
+                <div v-else-if="!gettingData">Нет сотрудников</div>
                 <Paginator
-                    v-if="positions && positions.links"
-                    :pagination="positions"
+                    v-if="employees && employees.links"
+                    :pagination="employees"
                 />
             </div>
         </section>
@@ -116,7 +117,7 @@ onUpdated(() => {
 </template>
 
 <style scoped>
-.positions-top-btns {
+.employees-top-btns {
     margin-bottom: 4rem;
     display: flex;
     align-items: center;
@@ -124,7 +125,7 @@ onUpdated(() => {
     gap: 2rem;
 }
 
-.positions-top-btns .select {
+.employees-top-btns .select {
     width: fit-content;
 }
 </style>

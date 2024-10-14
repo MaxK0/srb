@@ -41,7 +41,7 @@ class Employee extends Model implements FilterableInterface
 
     public function branches(): BelongsToMany
     {
-        return $this->belongsToMany(Branch::class);
+        return $this->belongsToMany(Branch::class, 'branch_employees');
     }
 
     public function workdays(): HasMany

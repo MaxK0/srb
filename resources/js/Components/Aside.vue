@@ -25,12 +25,12 @@ const becomeOwner = () => {
                 <NavLink :href="route('positions.index')" :active="route().current('positions.index')">
                     Должностями
                 </NavLink>
-                <!-- <NavLink
-                    :href="route('employee.index')"
-                    :active="route().current('employee.index')"
+                <NavLink
+                    :href="route('employees.index')"
+                    :active="route().current('employees.index')"
                 >
                     Сотрудниками
-                </NavLink> -->
+                </NavLink>
             </div>
             <div v-else class="aside__nav__block">
                 <form @submit.prevent="becomeOwner">

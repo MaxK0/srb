@@ -82,7 +82,15 @@ class User extends Authenticatable
         ];
     }
 
-    protected $appends = ['is_owner'];
+    protected $appends = ['is_owner', 'fio_short'];
+
+    public function getFioShortAttribute(): string
+    {
+        $name = mb_substr($this->name, 0, 1) . '.';
+        $fio = $this->lastname . ' ' . $name;
+        if ($this->patronymic) $fio .= mb_substr($this->patronymic, 0, 1) . '.';
+        return $fio;
+    }
 
     public function getIsOwnerAttribute(): bool
     {
