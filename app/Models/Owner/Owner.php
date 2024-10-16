@@ -31,11 +31,18 @@ class Owner extends Model
     {
         return $this->belongsToMany(Business::class, 'business_owners');
     }
-    
+
     public function branches(): Collection
     {
-        return $this->businesses()->with('branches')->get()->flatMap(function ($business) {
-            return $business->branches;
-        });
+        return $this->businesses()
+            ->with('branches')
+            ->get()
+            ->flatMap(fn($business) => $business->branches);
+    }
+
+    public function positions(): Collection
+    {
+        return $this->branches()
+            ->flatMap(fn($branch) => $branch->positions);
     }
 }

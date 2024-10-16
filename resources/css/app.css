@@ -275,6 +275,31 @@ section {
     color: var(--color-second);
 }
 
+[data-pc-name="password"] {
+    position: relative;
+    height: 100%;
+    width: 100%;
+}
+
+[data-pc-name="password"] > svg {
+    position: absolute;
+    right: 1.5rem;
+    top: 50%;
+    width: 2rem;
+    height: 2rem;
+    transform: translateY(-50%);
+}
+
+[data-pc-name="password"] > input {
+    font-size: var(--font-size-normal);
+    border-radius: var(--border-radius);
+    background: none;
+    border: 0.2rem solid var(--color-second);
+    padding: 1rem 4.5rem 1rem 1.5rem;
+    height: 100%;
+    width: 100%;
+}
+
 .error {
     color: var(--color-wrong);
     font-size: var(--font-size-small);

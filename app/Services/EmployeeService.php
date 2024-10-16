@@ -39,8 +39,15 @@ class EmployeeService extends BaseService
 
     public function dataForCreate(): array
     {
+        $branchService = app(BranchService::class);
+        $positionService = app(PositionService::class);
+
+        $branches = $branchService->ownerBranches();      
+        $positions = $positionService->ownerPositions();        
+
         return [
-            'users' => User::all(['id', 'name', 'lastname', 'patronymic'])
+            'branches' => $branches,
+            'positions' => $positions
         ];
     }
 
