@@ -166,8 +166,6 @@ section {
     display: flex;
     flex-direction: column;
     width: var(--form-width);
-    flex-direction: row;
-    justify-content: space-between;
     flex-wrap: wrap;
     row-gap: 3rem;
 }
@@ -327,7 +325,7 @@ button.delete:active {
 
 .form .btn-main {
     margin-top: 3rem;
-    align-self: center;
+    align-self: flex-start;
 }
 /* <================ Конец кнопок ================> */
 /* <===================== Конец формы =====================> */
