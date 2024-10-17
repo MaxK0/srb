@@ -1,5 +1,5 @@
 <script setup>
-import { useForm } from "@inertiajs/vue3";
+import { useForm, router } from "@inertiajs/vue3";
 import { ref } from "vue";
 
 import AppLayout from "@/Layouts/AppLayout.vue";
@@ -23,11 +23,16 @@ const props = defineProps({
         type: Object,
         required: true,
     },
+    sexes: {
+        type: Object,
+        required: true,
+    },
 });
 
 const form = useForm({
     branch: [],
     position: [],
+    sex: [],
     phone: "",
     work_phone: "",
     email: "",
@@ -39,15 +44,25 @@ const form = useForm({
     find_user: false,
 });
 
-const submitBtnText = ref('Создать пользователя');
+const submitBtnText = ref("Создать пользователя");
 
 const changedFindUser = () => {
-    if (form.find_user) submitBtnText.value = 'Найти пользователя';
-    else submitBtnText.value = 'Создать пользователя';
-}
+    if (form.find_user) submitBtnText.value = "Найти пользователя";
+    else submitBtnText.value = "Создать сотрудника";
+};
 
 const submit = () => {
-    form.post(route("employees.store"));
+    if (form.find_user) {
+        form.post(route("users.find"), {
+            onSuccess: (page) => {
+                if (page.props.user)
+                    router.get(
+                        route("employees.hire", page.props.user.id)
+                    );
+                else form.errors.submit = "Произошла ошибка";
+            },
+        });
+    } else form.post(route("employees.store"));
 };
 </script>
 
@@ -98,13 +113,14 @@ const submit = () => {
                                 for="find_user"
                                 value="Найти пользователя"
                             />
-                            <InputError
-                                :message="form.errors.find_user"
-                            />
+                            <InputError :message="form.errors.find_user" />
                         </div>
                     </div>
 
-                    <div v-if="form.find_user" class="form__blocks form__choose-user">
+                    <div
+                        v-if="form.find_user"
+                        class="form__blocks form__choose-user"
+                    >
                         <div class="form__block">
                             <InputLabel for="phone" value="Телефон" />
                             <InputMask
@@ -132,6 +148,20 @@ const submit = () => {
                     </div>
 
                     <div v-if="!form.find_user" class="form__create-user">
+                        <div class="form__block">
+                            <InputLabel for="sex" value="Пол" />
+                            <Select
+                                v-model="form.sex"
+                                :options="sexes"
+                                filter
+                                optionLabel="title"
+                                placeholder="Выберите пол"
+                                class="select"
+                            >
+                            </Select>
+                            <InputError :message="form.errors.sex" />
+                            <InputError :message="form.errors.sex_id" />
+                        </div>
                         <div class="form__blocks">
                             <div class="form__block">
                                 <InputLabel for="phone" value="Телефон" />
@@ -247,6 +277,8 @@ const submit = () => {
                         </div>
                     </div>
 
+                    <InputError class="-mb-14" :message="form.errors.submit" />
+
                     <PrimaryButton
                         :class="{ 'opacity-25': form.processing }"
                         :disabled="form.processing"
@@ -266,11 +298,8 @@ const submit = () => {
     row-gap: 3rem;
 }
 
-.form__choose-user {
-    align-items: center;
-}
-
 .form__choose-user > p {
+    align-self: center;
     height: fit-content;
 }
 </style>

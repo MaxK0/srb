@@ -41,13 +41,17 @@ class EmployeeService extends BaseService
     {
         $branchService = app(BranchService::class);
         $positionService = app(PositionService::class);
+        $userService = app(UserService::class);
 
         $branches = $branchService->ownerBranches();      
-        $positions = $positionService->ownerPositions();        
+        $positions = $positionService->ownerPositions(); 
+        $sexes = $userService->getSexes();  
+             
 
         return [
             'branches' => $branches,
-            'positions' => $positions
+            'positions' => $positions,
+            'sexes' => $sexes
         ];
     }
 

@@ -45,8 +45,8 @@ Route::middleware([
         Route::resource('positions', PositionController::class);
 
         Route::resource('employees', EmployeeController::class);
-        Route::get('employees/{user}/hire', [EmployeeController::class, 'employees.createByUser']);
-        Route::post('employees/{user}/hire', [EmployeeController::class, 'hire'])->name('employees.hire');
+        Route::get('employees/{user}/hire', [EmployeeController::class, 'hire'])->name('employees.hire');
+        Route::post('employees/{user}/hire', [EmployeeController::class, 'hireStore'])->name('employees.hire.store');
     });
 
     Route::name('owner.')->group(function () {
