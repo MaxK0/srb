@@ -7,6 +7,7 @@ use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\OwnerController;
 use App\Http\Controllers\PositionController;
 use App\Http\Controllers\ScheduleController;
+use App\Http\Controllers\UserController;
 use App\Http\Middleware\IsOwner;
 use App\Models\City;
 use App\Models\User\Role;
@@ -37,10 +38,15 @@ Route::middleware([
 
 
     Route::middleware(IsOwner::class)->group(function () {  
+        Route::post('users/find', [UserController::class, 'find'])->name('users.find');
+
         Route::resource('businesses', BusinessController::class);
         Route::resource('branches', BranchController::class)->except('index');
         Route::resource('positions', PositionController::class);
+
         Route::resource('employees', EmployeeController::class);
+        Route::get('employees/{user}/hire', [EmployeeController::class, 'employees.createByUser']);
+        Route::post('employees/{user}/hire', [EmployeeController::class, 'hire'])->name('employees.hire');
     });
 
     Route::name('owner.')->group(function () {
