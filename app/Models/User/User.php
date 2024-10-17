@@ -32,6 +32,11 @@ class User extends Authenticatable
     public const OWNER_ID = 1;
     public const EMPLOYEE_ID = 2;
 
+    public const SEX_MALE = 'м';
+    public const SEX_FEMALE = 'ж';
+
+
+
     /**
      * The attributes that are mass assignable.
      *
@@ -43,6 +48,7 @@ class User extends Authenticatable
         'patronymic',
         'phone',
         'email',
+        'sex',
         'password',
         'active'
     ];
@@ -82,7 +88,20 @@ class User extends Authenticatable
         ];
     }
 
-    protected $appends = ['is_owner', 'fio_short'];
+    protected $appends = ['is_owner', 'fio_short', 'sex_full'];
+
+    public static function getSexes(): array
+    {
+        return [
+            self::SEX_MALE => 'Мужской',
+            self::SEX_FEMALE => 'Женский'
+        ];
+    }
+
+    public function getSexFullAttribute(): ?string
+    {
+        return self::getSexes()[$this->sex] ?? null;
+    }
 
     public function getFioShortAttribute(): string
     {
