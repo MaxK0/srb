@@ -23,7 +23,6 @@ class EmployeeController extends Controller
     {
         $data = $this->employeeService->dataForIndex($filter);
 
-
         return Inertia::render('Employee/Index', $data);
     }
 

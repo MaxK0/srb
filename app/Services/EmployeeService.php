@@ -7,6 +7,7 @@ use App\Filters\PositionFilter;
 use App\Models\Employee\Employee;
 use App\Models\Employee\Position;
 use App\Models\User\User;
+use Illuminate\Support\Facades\DB;
 
 class EmployeeService extends BaseService
 {
@@ -25,10 +26,15 @@ class EmployeeService extends BaseService
             ->filter($filter)
             ->join('users', 'employees.user_id', '=', 'users.id')
             ->join('positions', 'employees.position_id', '=', 'positions.id')
-            ->select(['employees.id', 'users.name', 'users.lastname', 'users.phone', 'users.email', 'positions.title'])
+            ->select([
+                'employees.id',
+                'users.email',
+                'users.sex',
+                'positions.title AS position',
+                DB::raw('CONCAT(users.lastname, " ", LEFT(users.name, 1), ".", " ", LEFT(users.patronymic, 1), ".") AS fio_short')
+            ])
             ->paginate(25)
             ->withQueryString();
-
 
         $data =  [
             'branches' => $branches,

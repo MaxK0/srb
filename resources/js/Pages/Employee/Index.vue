@@ -11,7 +11,7 @@ const props = defineProps({
         required: true,
     },
     employees: Object,
-    branchId: String
+    branchId: String,
 });
 
 const branch = ref(
@@ -25,7 +25,7 @@ const fetchEmployees = () => {
 
     const branchId = branch.value.id;
 
-    router.get(`/employees?branch_id=${branchId}`);
+    router.get(route("employees.index", { branch_id: branchId }));
 };
 
 const edit = (employee) => {
@@ -38,11 +38,10 @@ const destroy = (employee) => {
     router.delete(route("employees.destroy", employee));
 };
 
-
 onUpdated(() => {
     const branchId = branch.value.id;
 
-    router.get(`/employees?branch_id=${branchId}`);
+    router.get(route("employees.index", { branch_id: branchId }));
 });
 </script>
 
@@ -74,7 +73,10 @@ onUpdated(() => {
                 >
                     <thead class="thead">
                         <tr>
-                            <th>Название</th>
+                            <th>ФИО</th>
+                            <th>Email</th>
+                            <th>Пол</th>
+                            <th>Должность</th>
                             <th></th>
                         </tr>
                     </thead>
@@ -84,8 +86,17 @@ onUpdated(() => {
                                 <Link
                                     :href="route('employees.show', employee)"
                                     class="link-main"
-                                    >{{ employee.title }}</Link
+                                    >{{ employee.fio_short }}</Link
                                 >
+                            </td>
+                            <td>
+                                {{ employee.email }}
+                            </td>
+                            <td>
+                                {{ employee.sex }}
+                            </td>
+                            <td>
+                                {{ employee.position }}
                             </td>
                             <td>
                                 <div class="table__btns">
