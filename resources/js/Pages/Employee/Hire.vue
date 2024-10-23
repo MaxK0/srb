@@ -1,5 +1,5 @@
 <script setup>
-import { useForm } from "@inertiajs/vue3";
+import { useForm, router } from "@inertiajs/vue3";
 
 import AppLayout from "@/Layouts/AppLayout.vue";
 
@@ -19,17 +19,22 @@ const props = defineProps({
         type: Object,
         required: true,
     },
-    positions: {
-        type: Object,
-        required: true,
-    },
+    positions: Object,
+    branch_id: String,
 });
 
 const form = useForm({
-    branch: [],
+    branch: props.branches.find((branch) => branch.id == props.branch_id),
     position: [],
     work_phone: "",
+    user: props.user
 });
+
+const fetchPositions = () => {
+    const branchId = form.branch.id;
+
+    router.get(route('employees.hire', {branch_id: branchId, user: props.user}));
+};
 
 const submit = () => {
     form.post(route("employees.hire.store", props.user));
@@ -52,6 +57,7 @@ const submit = () => {
                                 optionLabel="title"
                                 placeholder="Выберите филиал"
                                 class="select"
+                                @change="fetchPositions"
                             >
                             </Select>
                             <InputError :message="form.errors.branch" />

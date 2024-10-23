@@ -3,7 +3,9 @@
 namespace App\Services;
 
 use App\Filters\EmployeeFilter;
+use App\Filters\PositionFilter;
 use App\Models\Employee\Employee;
+use App\Models\Employee\Position;
 use App\Models\User\User;
 
 class EmployeeService extends BaseService
@@ -21,10 +23,12 @@ class EmployeeService extends BaseService
 
         $employees = $this->model
             ->filter($filter)
-            ->with(['user', 'position'])
+            ->join('users', 'employees.user_id', '=', 'users.id')
+            ->join('positions', 'employees.position_id', '=', 'positions.id')
             ->select(['employees.id', 'users.name', 'users.lastname', 'users.phone', 'users.email', 'positions.title'])
             ->paginate(25)
             ->withQueryString();
+
 
         $data =  [
             'branches' => $branches,
@@ -43,16 +47,43 @@ class EmployeeService extends BaseService
         $positionService = app(PositionService::class);
         $userService = app(UserService::class);
 
-        $branches = $branchService->ownerBranches();      
-        $positions = $positionService->ownerPositions(); 
-        $sexes = $userService->getSexes();  
-             
+        $branches = $branchService->ownerBranches(['id', 'title']);
+        $positions = $positionService->ownerPositions(['id', 'title']);
+        $sexes = $userService->getSexes();
+
 
         return [
             'branches' => $branches,
             'positions' => $positions,
             'sexes' => $sexes
         ];
+    }
+
+
+    public function dataForHire(PositionFilter $filter): array
+    {
+        $branchService = app(BranchService::class);
+
+        $data['branches'] = $branchService->ownerBranches(['id', 'title']);
+
+        if ($data['branch_id'] = request()->input('branch_id')) {
+            $data['positions'] = Position::filter($filter)->select(['id', 'title'])->get();
+        }
+
+        return $data;
+    }
+
+    /**
+     * TODO: Пока у пользователя может лишь быть одно рабочее место. Нужно сделать так, чтобы сотрудник мог уволиться, если захочет на новую работу.
+     * Можно сделать, чтобы сотрудник мог работать в нескольких филиалов, но тогда нужно переделать бд.
+     */
+    public function hire(array $data): Employee
+    {
+        $employee = $this->model->create($data);
+
+        $employee->branches()->sync($data['branch_id']);
+
+        return $employee;
     }
 
 

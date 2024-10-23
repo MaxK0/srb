@@ -20,7 +20,7 @@ const branch = ref(
 
 const gettingData = ref(false);
 
-const fetchPositions = () => {
+const fetchEmployees = () => {
     gettingData.value = true;
 
     const branchId = branch.value.id;
@@ -58,7 +58,7 @@ onUpdated(() => {
                         optionLabel="title"
                         placeholder="Выберите филиал"
                         class="select"
-                        @change="fetchPositions"
+                        @change="fetchEmployees"
                     >
                     </Select>
                     <Link class="btn-main" :href="route('employees.create')"

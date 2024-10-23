@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Filters\EmployeeFilter;
+use App\Filters\PositionFilter;
 use App\Http\Requests\Employee\HireRequest;
 use App\Http\Requests\Employee\StoreRequest;
 use App\Http\Requests\Employee\UpdateRequest;
 use App\Models\Employee\Employee;
+use App\Models\Employee\Position;
 use App\Models\User\User;
 use App\Services\EmployeeService;
 use Illuminate\Http\Request;
@@ -42,9 +44,9 @@ class EmployeeController extends Controller
     public function store(StoreRequest $request) {}
 
 
-    public function hire(User $user)
+    public function hire(User $user, PositionFilter $filter)
     {
-        $data = $this->employeeService->dataForCreate();
+        $data = $this->employeeService->dataForHire($filter);
 
         $data['user'] = $user;
 
@@ -52,7 +54,14 @@ class EmployeeController extends Controller
     }
 
 
-    public function hireStore(HireRequest $request) {}
+    public function hireStore(HireRequest $request)
+    {
+        $data = $request->validated();
+
+        $this->employeeService->hire($data);
+
+        return redirect()->route('employees.index');
+    }
 
 
     public function edit(Employee $employee) {}

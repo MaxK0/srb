@@ -22,7 +22,33 @@ class HireRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'branch_id' => ['required', 'integer', 'exists:branches,id'],
+            'position_id' => ['required', 'integer', 'exists:positions,id'],
+            'user_id' => ['required', 'integer', 'exists:users,id'],
+            'work_phone' => ['nullable', 'string', 'min:11', 'max:11']
         ];
+    }
+
+    public function prepareForValidation()
+    {
+        $dataMerge = [];
+
+        if (! empty($this->branch['id'])) {
+            $dataMerge['branch_id'] = $this->branch['id'];            
+        }
+
+        if (! empty($this->position['id'])) {
+            $dataMerge['position_id'] = $this->position['id'];
+        }
+
+        if (! empty($this->user['id'])) {
+            $dataMerge['user_id'] = $this->user['id'];
+        }
+
+        if (! empty($this->work_phone)) {
+            $dataMerge['work_phone'] = preg_replace("/[^0-9]/", "", $this->work_phone);
+        }
+
+        $this->merge($dataMerge);
     }
 }
