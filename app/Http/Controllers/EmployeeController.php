@@ -30,9 +30,9 @@ class EmployeeController extends Controller
     public function show(Employee $employee) {}
 
 
-    public function create()
+    public function create(PositionFilter $filter)
     {
-        $data = $this->employeeService->dataForCreate();
+        $data = $this->employeeService->dataForCreate($filter);
 
         $data['user'] = session('user');
 

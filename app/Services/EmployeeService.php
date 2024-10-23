@@ -47,22 +47,19 @@ class EmployeeService extends BaseService
     }
 
 
-    public function dataForCreate(): array
+    public function dataForCreate(PositionFilter $filter): array
     {
         $branchService = app(BranchService::class);
-        $positionService = app(PositionService::class);
         $userService = app(UserService::class);
 
-        $branches = $branchService->ownerBranches(['id', 'title']);
-        $positions = $positionService->ownerPositions(['id', 'title']);
-        $sexes = $userService->getSexes();
+        $data['branches'] = $branchService->ownerBranches(['id', 'title']);
+        $data['sexes'] = $userService->getSexes();
 
+        if ($data['branch_id'] = request()->input('branch_id')) {
+            $data['positions'] = Position::filter($filter)->select(['id', 'title'])->get();
+        }
 
-        return [
-            'branches' => $branches,
-            'positions' => $positions,
-            'sexes' => $sexes
-        ];
+        return $data;
     }
 
 

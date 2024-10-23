@@ -19,18 +19,16 @@ const props = defineProps({
         type: Object,
         required: true,
     },
-    positions: {
-        type: Object,
-        required: true,
-    },
+    positions: Object,
     sexes: {
         type: Object,
         required: true,
     },
+    branch_id: String,
 });
 
 const form = useForm({
-    branch: [],
+    branch: props.branches.find((branch) => branch.id == props.branch_id),
     position: [],
     sex: [],
     phone: "",
@@ -51,14 +49,20 @@ const changedFindUser = () => {
     else submitBtnText.value = "Создать сотрудника";
 };
 
+const fetchPositions = () => {
+    const branchId = form.branch.id;
+
+    router.get(
+        route("employees.create", { branch_id: branchId, user: props.user })
+    );
+};
+
 const submit = () => {
     if (form.find_user) {
         form.post(route("users.find"), {
             onSuccess: (page) => {
                 if (page.props.user)
-                    router.get(
-                        route("employees.hire", page.props.user.id)
-                    );
+                    router.get(route("employees.hire", page.props.user.id));
                 else form.errors.submit = "Произошла ошибка";
             },
         });
@@ -71,37 +75,6 @@ const submit = () => {
         <section class="employees__create">
             <div class="container">
                 <form class="form" @submit.prevent="submit">
-                    <div class="form__blocks">
-                        <div class="form__block">
-                            <InputLabel for="branch" value="Филиал" />
-                            <Select
-                                v-model="form.branch"
-                                :options="branches"
-                                filter
-                                optionLabel="title"
-                                placeholder="Выберите филиал"
-                                class="select"
-                            >
-                            </Select>
-                            <InputError :message="form.errors.branch" />
-                            <InputError :message="form.errors.branch_id" />
-                        </div>
-                        <div class="form__block">
-                            <InputLabel for="position" value="Должность" />
-                            <Select
-                                v-model="form.position"
-                                :options="positions"
-                                filter
-                                optionLabel="title"
-                                placeholder="Выберите должность"
-                                class="select"
-                            >
-                            </Select>
-                            <InputError :message="form.errors.position" />
-                            <InputError :message="form.errors.position_id" />
-                        </div>
-                    </div>
-
                     <div class="form__blocks">
                         <div class="form__block checkbox">
                             <Checkbox
@@ -148,6 +121,40 @@ const submit = () => {
                     </div>
 
                     <div v-if="!form.find_user" class="form__create-user">
+                        <div class="form__blocks">
+                            <div class="form__block">
+                                <InputLabel for="branch" value="Филиал" />
+                                <Select
+                                    v-model="form.branch"
+                                    :options="branches"
+                                    filter
+                                    optionLabel="title"
+                                    placeholder="Выберите филиал"
+                                    class="select"
+                                    @change="fetchPositions"
+                                >
+                                </Select>
+                                <InputError :message="form.errors.branch" />
+                                <InputError :message="form.errors.branch_id" />
+                            </div>
+                            <div class="form__block">
+                                <InputLabel for="position" value="Должность" />
+                                <Select
+                                    v-model="form.position"
+                                    :options="positions"
+                                    filter
+                                    optionLabel="title"
+                                    placeholder="Выберите должность"
+                                    class="select"
+                                >
+                                </Select>
+                                <InputError :message="form.errors.position" />
+                                <InputError
+                                    :message="form.errors.position_id"
+                                />
+                            </div>
+                        </div>
+
                         <div class="form__block">
                             <InputLabel for="sex" value="Пол" />
                             <Select
