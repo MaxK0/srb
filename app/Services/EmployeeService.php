@@ -8,6 +8,7 @@ use App\Models\Employee\Employee;
 use App\Models\Employee\Position;
 use App\Models\User\User;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class EmployeeService extends BaseService
 {
@@ -31,7 +32,7 @@ class EmployeeService extends BaseService
                 'users.email',
                 'users.sex',
                 'positions.title AS position',
-                DB::raw('CONCAT(users.lastname, " ", LEFT(users.name, 1), ".", " ", LEFT(users.patronymic, 1), ".") AS fio_short')
+                DB::raw('CONCAT(users.lastname, " ", LEFT(users.name, 1), ".", IF(users.patronymic IS NOT NULL AND users.patronymic != "", CONCAT(" ", LEFT(users.patronymic, 1), "."), "")) AS fio_short')
             ])
             ->paginate(25)
             ->withQueryString();
@@ -82,6 +83,22 @@ class EmployeeService extends BaseService
      */
     public function hire(array $data): Employee
     {
+        $employee = $this->model->create($data);
+
+        $employee->branches()->sync($data['branch_id']);
+
+        return $employee;
+    }
+
+
+    public function createWithUser(array $data): Employee
+    {
+        $data['password'] = Hash::make($data['password']);
+
+        $user = User::create($data);
+
+        $data['user_id'] = $user->id;
+
         $employee = $this->model->create($data);
 
         $employee->branches()->sync($data['branch_id']);

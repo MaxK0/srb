@@ -8,10 +8,8 @@ use App\Http\Requests\Employee\HireRequest;
 use App\Http\Requests\Employee\StoreRequest;
 use App\Http\Requests\Employee\UpdateRequest;
 use App\Models\Employee\Employee;
-use App\Models\Employee\Position;
 use App\Models\User\User;
 use App\Services\EmployeeService;
-use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 class EmployeeController extends Controller
@@ -40,7 +38,14 @@ class EmployeeController extends Controller
     }
 
 
-    public function store(StoreRequest $request) {}
+    public function store(StoreRequest $request)
+    {
+        $data = $request->validated();
+
+        $this->employeeService->createWithUser($data);
+
+        return redirect()->route('employees.index');
+    }
 
 
     public function hire(User $user, PositionFilter $filter)
