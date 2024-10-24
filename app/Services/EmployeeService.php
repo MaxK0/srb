@@ -127,8 +127,28 @@ class EmployeeService extends BaseService
     }
 
 
-    public function dataForEdit(): array
+    public function dataForEdit(Employee $employee, PositionFilter $filter): array
     {
-        return [];
+        $branchService = app(BranchService::class);
+
+        $data['branches'] = $branchService->ownerBranches(['id', 'title']);
+        $data['employee'] = $employee->load(
+            [
+                'branches' => function ($q) {
+                    $q->select(['branches.id', 'title']);
+                },
+                'position' => function ($q) {
+                    $q->select(['id', 'title']);
+                }
+            ]
+        );
+
+        if ($data['branch_id'] = request()->input('branch_id')) {
+            $data['positions'] = Position::filter($filter)->select(['id', 'title'])->get();
+        } else {
+            $data['positions'] = Position::where('branch_id', $employee->branches[0]->id)->select(['id', 'title'])->get();
+        }
+
+        return $data;
     }
 }

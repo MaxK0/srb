@@ -73,7 +73,12 @@ class EmployeeController extends Controller
     }
 
 
-    public function edit(Employee $employee) {}
+    public function edit(Employee $employee, PositionFilter $filter)
+    {
+        $data = $this->employeeService->dataForEdit($employee, $filter);
+
+        return Inertia::render('Employee/Edit', $data);
+    }
 
 
     public function update(UpdateRequest $request, Employee $employee) {}
