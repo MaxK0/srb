@@ -29,6 +29,20 @@ class Employee extends Model implements FilterableInterface
         'position_id' => 'integer'
     ];
 
+    protected $appends = ['formatted_work_phone'];
+
+
+    public function getFormattedWorkPhoneAttribute()
+    {
+        $phone = $this->work_phone;
+
+        $phone = preg_replace("/[^0-9]/", "", $phone);
+
+        $formattedPhone = "+" . substr($phone, 0, 1) . " (" . substr($phone, 1, 3) . ") " . substr($phone, 4, 3) . " " . substr($phone, 7, 2) . "-" . substr($phone, 9, 2);
+
+        return $formattedPhone;
+    }
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);

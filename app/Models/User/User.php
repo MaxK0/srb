@@ -88,7 +88,7 @@ class User extends Authenticatable
         ];
     }
 
-    protected $appends = ['is_owner', 'fio_short', 'sex_full'];
+    protected $appends = ['is_owner', 'fio_short', 'sex_full', 'formatted_phone'];
 
     public static function getSexes(): array
     {
@@ -109,6 +109,17 @@ class User extends Authenticatable
         $fio = $this->lastname . ' ' . $name;
         if ($this->patronymic) $fio .= mb_substr($this->patronymic, 0, 1) . '.';
         return $fio;
+    }
+
+    public function getFormattedPhoneAttribute()
+    {
+        $phone = $this->phone;
+
+        $phone = preg_replace("/[^0-9]/", "", $phone);
+
+        $formattedPhone = "+" . substr($phone, 0, 1) . " (" . substr($phone, 1, 3) . ") " . substr($phone, 4, 3) . " " . substr($phone, 7, 2) . "-" . substr($phone, 9, 2);
+
+        return $formattedPhone;
     }
 
     public function getIsOwnerAttribute(): bool
