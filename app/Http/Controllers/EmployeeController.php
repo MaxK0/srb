@@ -25,7 +25,12 @@ class EmployeeController extends Controller
     }
 
 
-    public function show(Employee $employee) {}
+    public function show(Employee $employee)
+    {
+        $data = $this->employeeService->dataForShow($employee);
+
+        return Inertia::render('Employee/Show', $data);
+    }
 
 
     public function create(PositionFilter $filter)

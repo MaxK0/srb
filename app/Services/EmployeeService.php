@@ -107,6 +107,26 @@ class EmployeeService extends BaseService
     }
 
 
+    public function dataForShow(Employee $employee): array
+    {
+        $employee->load([
+            'user' => function ($q) {
+                $q->select(['id', 'name', 'lastname', 'patronymic', 'phone', 'email', 'sex']);
+            },
+            'position' => function ($q) {
+                $q->select(['id', 'title']);
+            },
+            'branches' => function ($q) {
+                $q->select(['branches.id', 'title']);
+            }
+        ]);
+
+        return [
+            'employee' => $employee,
+        ];
+    }
+
+
     public function dataForEdit(): array
     {
         return [];
