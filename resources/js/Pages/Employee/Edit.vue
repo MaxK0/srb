@@ -25,10 +25,8 @@ const props = defineProps({
 });
 
 const form = useForm({
-    branch:
-        props.branches[0] ??
-        props.branches.find((branch) => branch.id == props.branch_id),
-    position: props.employee.position,
+    branch: props.branches.find((branch) => branch.id == (props.branch_id ?? props.employee.branches[0].id)),
+    position: props.positions.find((position) => position.id == props.employee.position.id),
     work_phone: props.employee.work_phone,
 });
 
@@ -44,7 +42,7 @@ const fetchPositions = () => {
 };
 
 const submit = () => {
-    form.post(route("employees.update", props.employee));
+    form.put(route("employees.update", props.employee));
 };
 </script>
 
