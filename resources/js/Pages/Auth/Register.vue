@@ -1,27 +1,39 @@
 <script setup>
-import { Head, Link, useForm } from '@inertiajs/vue3';
-import AuthenticationCard from '@/Components/AuthenticationCard.vue';
-import AuthenticationCardLogo from '@/Components/AuthenticationCardLogo.vue';
-import Checkbox from '@/Components/Checkbox.vue';
-import InputError from '@/Components/InputError.vue';
-import InputLabel from '@/Components/InputLabel.vue';
-import PrimaryButton from '@/Components/PrimaryButton.vue';
-import TextInput from '@/Components/TextInput.vue';
+import { Head, Link, useForm } from "@inertiajs/vue3";
+
+import AuthenticationCard from "@/Components/AuthenticationCard.vue";
+import AuthenticationCardLogo from "@/Components/AuthenticationCardLogo.vue";
+import Checkbox from "@/Components/Checkbox.vue";
+import InputError from "@/Components/InputError.vue";
+import InputLabel from "@/Components/InputLabel.vue";
+import PrimaryButton from "@/Components/PrimaryButton.vue";
+import TextInput from "@/Components/TextInput.vue";
+
+import Select from "primevue/select";
+import InputMask from "primevue/inputmask";
+
+const props = defineProps({
+    sexes: {
+        type: Object,
+        required: true,
+    },
+});
 
 const form = useForm({
-    name: '',
-    lastname: '',
-    patronymic: '',
-    email: '',
-    phone: '',
-    password: '',
-    password_confirmation: '',
+    name: "",
+    lastname: "",
+    patronymic: "",
+    email: "",
+    phone: "",
+    password: "",
+    password_confirmation: "",
+    sex: [],
     terms: false,
 });
 
 const submit = () => {
-    form.post(route('register'), {
-        onFinish: () => form.reset('password', 'password_confirmation'),
+    form.post(route("register"), {
+        onFinish: () => form.reset("password", "password_confirmation"),
     });
 };
 </script>
@@ -81,15 +93,32 @@ const submit = () => {
                 <InputError class="mt-8" :message="form.errors.email" />
             </div>
 
-            <div class="mt-8">
+            <div class="form__block mt-8">
                 <InputLabel for="phone" value="Телефон" />
-                <TextInput
+                <InputMask
                     id="phone"
+                    class="input"
                     v-model="form.phone"
-                    type="text"
-                    class="mt-1 block w-full"
+                    required
+                    autocomplete="phone"
+                    mask="+9 (999) 999 99-99"
+                    placeholder="+9 (999) 999 99-99"
                 />
                 <InputError class="mt-8" :message="form.errors.phone" />
+            </div>
+
+            <div class="form__block mt-8">
+                <InputLabel for="sex" value="Пол" />
+                <Select
+                    v-model="form.sex"
+                    :options="sexes"
+                    filter
+                    optionLabel="title"
+                    placeholder="Выберите пол"
+                    class="select"
+                >
+                </Select>
+                <InputError class="mt-8" :message="form.errors.sex" />
             </div>
 
             <div class="mt-8">
@@ -105,7 +134,10 @@ const submit = () => {
             </div>
 
             <div class="mt-8">
-                <InputLabel for="password_confirmation" value="Подтверждение пароля" />
+                <InputLabel
+                    for="password_confirmation"
+                    value="Подтверждение пароля"
+                />
                 <TextInput
                     id="password_confirmation"
                     v-model="form.password_confirmation"
@@ -113,16 +145,40 @@ const submit = () => {
                     class="mt-1 block w-full"
                     required
                 />
-                <InputError class="mt-8" :message="form.errors.password_confirmation" />
+                <InputError
+                    class="mt-8"
+                    :message="form.errors.password_confirmation"
+                />
             </div>
 
-            <div v-if="$page.props.jetstream.hasTermsAndPrivacyPolicyFeature" class="mt-8">
+            <div
+                v-if="$page.props.jetstream.hasTermsAndPrivacyPolicyFeature"
+                class="mt-8"
+            >
                 <InputLabel for="terms">
                     <div class="flex items-center">
-                        <Checkbox id="terms" v-model:checked="form.terms" name="terms" required />
+                        <Checkbox
+                            id="terms"
+                            v-model:checked="form.terms"
+                            name="terms"
+                            required
+                        />
 
                         <div class="ms-2">
-                            I agree to the <a target="_blank" :href="route('terms.show')" class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Terms of Service</a> and <a target="_blank" :href="route('policy.show')" class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Privacy Policy</a>
+                            I agree to the
+                            <a
+                                target="_blank"
+                                :href="route('terms.show')"
+                                class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                                >Terms of Service</a
+                            >
+                            and
+                            <a
+                                target="_blank"
+                                :href="route('policy.show')"
+                                class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                                >Privacy Policy</a
+                            >
                         </div>
                     </div>
                     <InputError class="mt-8" :message="form.errors.terms" />
@@ -130,11 +186,18 @@ const submit = () => {
             </div>
 
             <div class="flex items-center justify-end mt-14">
-                <Link :href="route('login')" class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                <Link
+                    :href="route('login')"
+                    class="underline text-sm text-white-600 hover:text-blue-400 leading-6"
+                >
                     Уже зарегистрированы?
                 </Link>
 
-                <PrimaryButton class="ms-4" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
+                <PrimaryButton
+                    class="ms-4"
+                    :class="{ 'opacity-25': form.processing }"
+                    :disabled="form.processing"
+                >
                     Зарегистрироваться
                 </PrimaryButton>
             </div>
