@@ -39,9 +39,11 @@ const destroy = (employee) => {
 };
 
 onUpdated(() => {
-    const branchId = branch.value.id;
+    if (branch.value.id) {
+        const branchId = branch.value.id;
 
-    router.get(route("employees.index", { branch_id: branchId }));
+        router.get(route("employees.index", { branch_id: branchId }));
+    }
 });
 </script>
 
