@@ -91,5 +91,10 @@ class EmployeeController extends Controller
     }
 
 
-    public function destroy(Employee $employee) {}
+    public function destroy(Employee $employee)
+    {
+        $this->employeeService->delete($employee);
+
+        return redirect()->route('employees.index');
+    }
 }
