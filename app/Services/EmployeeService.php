@@ -7,6 +7,8 @@ use App\Filters\PositionFilter;
 use App\Models\Employee\Employee;
 use App\Models\Employee\Position;
 use App\Models\User\User;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
@@ -150,5 +152,15 @@ class EmployeeService extends BaseService
         }
 
         return $data;
+    }
+
+
+    public function update(Model $employee, array|Collection $data): bool
+    {
+        $result = $employee->update($data);
+
+        if ($result) $employee->branches()->sync($data['branch_id']);
+
+        return $result;
     }
 }
