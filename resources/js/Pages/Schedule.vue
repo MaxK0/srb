@@ -6,7 +6,7 @@ import AppLayout from "@/Layouts/AppLayout.vue";
     <AppLayout title="Расписание">
         <section class="schedule">
             <div class="container">
-                fasdfa
+                <p>Расписание не готово</p>
             </div>
         </section>
     </AppLayout>
