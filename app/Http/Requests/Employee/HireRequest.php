@@ -48,7 +48,7 @@ class HireRequest extends FormRequest
         if (! empty($this->work_phone)) {
             $dataMerge['work_phone'] = preg_replace("/[^0-9]/", "", $this->work_phone);
         }
-
+        
         $this->merge($dataMerge);
     }
 }
