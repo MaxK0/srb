@@ -1,6 +1,8 @@
 <script setup>
-import { ref } from "vue";
+import { computed, ref } from "vue";
 import { Head, Link, router } from "@inertiajs/vue3";
+import { useStore } from "vuex";
+
 import ApplicationMark from "@/Components/ApplicationMark.vue";
 import Banner from "@/Components/Banner.vue";
 import Dropdown from "@/Components/Dropdown.vue";
@@ -13,23 +15,13 @@ defineProps({
     title: String,
 });
 
-const showingNavigationDropdown = ref(false);
-const showingAside = ref(true);
+const store = useStore();
 
-const switchToTeam = (team) => {
-    router.put(
-        route("current-team.update"),
-        {
-            team_id: team.id,
-        },
-        {
-            preserveState: false,
-        }
-    );
-};
+const showingNavigationDropdown = ref(false);
+const showingAside = computed(() => store.state.isAsideOpen);
 
 const toggleAside = () => {
-    showingAside.value = !showingAside.value;
+    store.commit("toggleIsAsideOpen");
 };
 
 const logout = () => {
@@ -326,5 +318,11 @@ const logout = () => {
 
 .main_expanded {
     margin-left: 0;
+}
+
+@media (max-width: 1024px) {
+    .main_collapsed {
+        margin-left: 0;
+    }
 }
 </style>
