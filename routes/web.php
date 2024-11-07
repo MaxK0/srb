@@ -3,6 +3,7 @@
 
 use App\Http\Controllers\BranchController;
 use App\Http\Controllers\BusinessController;
+use App\Http\Controllers\ClientController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\OwnerController;
 use App\Http\Controllers\PositionController;
@@ -37,7 +38,7 @@ Route::middleware([
     Route::get('/schedule', [ScheduleController::class, 'index'])->name('schedule.index');
 
 
-    Route::middleware(IsOwner::class)->group(function () {  
+    Route::middleware(IsOwner::class)->group(function () {
         Route::post('users/find', [UserController::class, 'find'])->name('users.find');
 
         Route::resource('businesses', BusinessController::class);
@@ -47,6 +48,9 @@ Route::middleware([
         Route::resource('employees', EmployeeController::class);
         Route::get('employees/{user}/hire', [EmployeeController::class, 'hire'])->name('employees.hire');
         Route::post('employees/{user}/hire', [EmployeeController::class, 'hireStore'])->name('employees.hire.store');
+
+        Route::resource('clients', ClientController::class)->except(['edit', 'update', 'delete']);
+        Route::post('clients/{user}/attachUser', [ClientController::class, 'attachUserToClients'])->name('clients.attachUser');
     });
 
     Route::name('owner.')->group(function () {
