@@ -105,13 +105,13 @@ const logout = () => {
                                         <div
                                             class="block px-4 py-2 text-xs text-gray-400"
                                         >
-                                            Manage Account
+                                            Управление аккаунтом
                                         </div>
 
                                         <DropdownLink
                                             :href="route('profile.show')"
                                         >
-                                            Profile
+                                            Профиль
                                         </DropdownLink>
 
                                         <DropdownLink
@@ -121,7 +121,7 @@ const logout = () => {
                                             "
                                             :href="route('api-tokens.index')"
                                         >
-                                            API Tokens
+                                            API токены
                                         </DropdownLink>
 
                                         <div class="border-t border-gray-200" />
@@ -129,7 +129,7 @@ const logout = () => {
                                         <!-- Authentication -->
                                         <form @submit.prevent="logout">
                                             <DropdownLink as="button">
-                                                Log Out
+                                                Выйти
                                             </DropdownLink>
                                         </form>
                                     </template>

@@ -34,9 +34,9 @@ function handleImageError() {
                 <ul v-if="$page.props.auth.user" class="header__ul">
                     <Link
                         :href="route('dashboard')"
-                        class="rounded-md px-3 py-2 ring-1 ring-transparent transition focus:outline-none focus-visible:ring-[#FF2D20] dark:focus-visible:ring-white"
+                        class="link-nav"
                     >
-                        Dashboard
+                        Управление бизнесом
                     </Link>
                 </ul>
                 <template v-else>
