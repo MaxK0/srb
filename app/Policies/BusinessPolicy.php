@@ -38,9 +38,7 @@ class BusinessPolicy
      */
     public function update(User $user, Business $business): bool
     {
-        if (! $user->isOwner()) return false;
-
-        return $this->isUserOwnBusiness($user, $business);
+        return $user->isOwner() && $this->isUserOwnBusiness($user, $business);
     }
 
     /**
@@ -48,13 +46,11 @@ class BusinessPolicy
      */
     public function delete(User $user, Business $business): bool
     {
-        if (! $user->isOwner()) return false;
-
-        return $this->isUserOwnBusiness($user, $business);
+        return $user->isOwner() && $this->isUserOwnBusiness($user, $business);
     }
 
 
-    public function isUserOwnBusiness(User $user, Business $business): bool
+    private function isUserOwnBusiness(User $user, Business $business): bool
     {
         $owner = $user->owner;
 

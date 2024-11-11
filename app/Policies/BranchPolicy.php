@@ -37,9 +37,7 @@ class BranchPolicy
      */
     public function update(User $user, Branch $branch): bool
     {
-        if (! $user->isOwner()) return false;
-
-        return $this->isUserOwnBranch($user, $branch);
+        return $user->isOwner() && $this->isUserOwnBranch($user, $branch);
     }
 
     /**
@@ -47,13 +45,11 @@ class BranchPolicy
      */
     public function delete(User $user, Branch $branch): bool
     {
-        if (! $user->isOwner()) return false;
-
-        return $this->isUserOwnBranch($user, $branch);
+        return $user->isOwner() && $this->isUserOwnBranch($user, $branch);
     }
 
 
-    public function isUserOwnBranch(User $user, Branch $branch): bool
+    private function isUserOwnBranch(User $user, Branch $branch): bool
     {
         $owner = $user->owner;
 

@@ -37,9 +37,7 @@ class PositionPolicy
      */
     public function update(User $user, Position $position): bool
     {
-        if (! $user->isOwner()) return false;
-
-        return $this->isUserOwnPosition($user, $position);
+        return $user->isOwner() && $this->isUserOwnPosition($user, $position);
     }
 
     /**
@@ -47,13 +45,11 @@ class PositionPolicy
      */
     public function delete(User $user, Position $position): bool
     {
-        if (! $user->isOwner()) return false;
-
-        return $this->isUserOwnPosition($user, $position);
+        return $user->isOwner() && $this->isUserOwnPosition($user, $position);
     }
 
 
-    public function isUserOwnPosition(User $user, Position $position): bool
+    private function isUserOwnPosition(User $user, Position $position): bool
     {
         $owner = $user->owner;
 
