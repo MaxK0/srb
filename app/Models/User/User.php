@@ -132,6 +132,11 @@ class User extends Authenticatable
         return $this->roles()->where('title', self::OWNER)->exists();
     }
 
+    public function isEmployee(): bool
+    {
+        return $this->roles()->where('title', self::EMPLOYEE)->exists();
+    }
+
     public function roles(): BelongsToMany
     {
         return $this->belongsToMany(Role::class, 'role_users');
