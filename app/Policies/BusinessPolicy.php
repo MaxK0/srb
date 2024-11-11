@@ -14,7 +14,7 @@ class BusinessPolicy
      */
     public function viewAny(User $user): bool
     {
-        return true;
+        return $user->isOwner();
     }
 
     /**
@@ -58,7 +58,8 @@ class BusinessPolicy
     {
         $owner = $user->owner;
 
-        return $owner->businesses()
+        return $owner
+            ->businesses()
             ->where('businesses.id', $business->id)
             ->exists();
     }
