@@ -151,6 +151,14 @@ section {
     flex-direction: column;
 }
 
+.link-nav {
+    transition: var(--transition);
+}
+
+.link-nav:hover {
+    opacity: 0.7;
+}
+
 .link-main {
     text-decoration: underline;
     transition: var(--transition);
@@ -355,6 +363,38 @@ button.delete:active {
 }
 /* <================ Конец кнопок ================> */
 /* <===================== Конец формы =====================> */
+
+
+/* <===================== Шапка =====================> */
+.header {
+    height: 5rem;
+    background-color: var(--color-second);
+    position: fixed;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    top: 0;
+    left: 0;
+    z-index: 10;
+}
+
+.header__nav {
+    align-items: center;
+}
+
+.header__ul {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 3rem;
+}
+
+.header__ul .link-nav {
+    color: var(--color-main);
+}
+/* <===================== Конец шапка =====================> */
 
 /* <===================== Таблицы =====================> */
 .table {

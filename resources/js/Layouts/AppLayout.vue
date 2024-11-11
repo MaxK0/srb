@@ -280,14 +280,6 @@ const logout = () => {
 </template>
 
 <style scoped>
-.header__nav {
-    position: fixed;
-    width: 100%;
-    top: 0;
-    left: 0;
-    z-index: 10;
-}
-
 .main {
     transition: margin-left 0.3s ease;
     margin-top: 4rem;
