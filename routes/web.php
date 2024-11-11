@@ -10,9 +10,6 @@ use App\Http\Controllers\PositionController;
 use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\UserController;
 use App\Http\Middleware\IsOwner;
-use App\Models\City;
-use App\Models\User\Role;
-use DebugBar\DebugBar;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -38,10 +35,32 @@ Route::middleware([
     Route::get('/schedule', [ScheduleController::class, 'index'])->name('schedule.index');
 
 
+    Route::prefix('/businesses')->name('businesses.')->group(function () {
+        Route::get('', [BusinessController::class, 'index'])->name('index')
+            ->middleware('can:viewAny,\App\Models\Owner\Business');
+
+        Route::get('/create', [BusinessController::class, 'create'])->name('create')
+            ->middleware('can:create,\App\Models\Owner\Business');
+
+        Route::post('', [BusinessController::class, 'store'])->name('store')
+            ->middleware('can:create,\App\Models\Owner\Business');
+
+        Route::get('/{business}', [BusinessController::class, 'show'])->name('show')
+            ->middleware('can:view,business');
+
+        Route::get('/{business}/edit', [BusinessController::class, 'edit'])->name('edit')
+            ->middleware('can:update,business');
+
+        Route::put('/{business}', [BusinessController::class, 'update'])->name('update')
+            ->middleware('can:update,business');
+
+        Route::delete('/{business}', [BusinessController::class, 'destroy'])->name('destroy')
+            ->middleware('can:delete,business');
+    });
+
+
     Route::middleware(IsOwner::class)->group(function () {
         Route::post('users/find', [UserController::class, 'find'])->name('users.find');
-
-        Route::resource('businesses', BusinessController::class);
         Route::resource('branches', BranchController::class)->except('index');
         Route::resource('positions', PositionController::class);
 
