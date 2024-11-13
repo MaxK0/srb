@@ -58,7 +58,7 @@ const becomeOwner = () => {
     position: fixed;
     left: 3rem;
     top: 11rem;
-    z-index: 9;
+    z-index: 50;
 }
 
 .aside__nav {
