@@ -29,7 +29,7 @@ const logout = () => {
 };
 
 onMounted(() => {
-    if (window.screen.width < 1240) store.commit("setIsAsideOpen", false);
+    if (window.innerWidth < 1240) store.commit("setIsAsideOpen", false);
 });
 </script>
 
