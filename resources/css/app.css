@@ -505,4 +505,8 @@ button.delete:active {
     :root {
         --container-width: var(--container-width-sm);
     }
+
+    .section {
+        padding: 5rem 0;
+    }
 }
