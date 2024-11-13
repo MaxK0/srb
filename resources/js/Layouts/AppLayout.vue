@@ -56,6 +56,8 @@ onMounted(() => {
                                 @click="toggleAside"
                             />
 
+                            <Link class="link-nav" :href="route('home')">SRB</Link>
+
                             <div>
                                 <!-- Settings Dropdown -->
                                 <div class="relative">

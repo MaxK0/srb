@@ -80,7 +80,7 @@ h6 {
 }
 
 h1 {
-    font-size: 4.2rem;
+    font-size: 5.2rem;
 }
 
 h2 {
@@ -504,6 +504,10 @@ button.delete:active {
 @media (max-width: 768px) {
     :root {
         --container-width: var(--container-width-sm);
+    }
+
+    .header__ul {
+        gap: 1.5rem;
     }
 
     .section {

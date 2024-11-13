@@ -17,6 +17,12 @@ const becomeOwner = () => {
                 >
                     Расписание
                 </NavLink>
+                <NavLink
+                    :href="route('dashboard')"
+                    :active="route().current('dashboard')"
+                >
+                    Статистика
+                </NavLink>
             </div>
             <div
                 v-if="$page.props.auth.user.is_owner"
