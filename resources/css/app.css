@@ -1,10 +1,10 @@
 /* <===================== Основа =====================> */
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap");
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap");
 
 [x-cloak] {
     display: none;
@@ -367,7 +367,7 @@ button.delete:active {
 
 /* <===================== Шапка =====================> */
 .header {
-    height: 5rem;
+    height: 4rem;
     background-color: var(--color-second);
     position: fixed;
     display: flex;
@@ -389,6 +389,10 @@ button.delete:active {
     align-items: center;
     justify-content: flex-end;
     gap: 3rem;
+}
+
+.header__main .header__ul {
+    justify-content: space-between;
 }
 
 .header__ul .link-nav {
