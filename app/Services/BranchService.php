@@ -72,7 +72,8 @@ class BranchService extends BaseService
         $branches = $business
             ->branches()
             ->select('id', 'title', 'address', 'information')
-            ->paginate(15);
+            ->paginate(15)
+            ->withQueryString();
 
         return [
             'business' => $business,

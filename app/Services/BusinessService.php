@@ -24,7 +24,8 @@ class BusinessService extends BaseService
             ->first()
             ->businesses()
             ->select('businesses.id', 'title', 'information')
-            ->paginate($perPage ?? 25);
+            ->paginate($perPage ?? 25)
+            ->withQueryString();
 
         return $businesses;
     }
@@ -42,7 +43,8 @@ class BusinessService extends BaseService
         $branches = $business
             ->branches()
             ->select('id', 'title', 'address', 'information')
-            ->paginate(15);
+            ->paginate(15)
+            ->withQueryString();
 
         return [
             'business' => $business,
