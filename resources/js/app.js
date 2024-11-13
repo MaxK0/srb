@@ -7,6 +7,7 @@ import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import { ZiggyVue } from '../../vendor/tightenco/ziggy';
 import PrimeVue from 'primevue/config';
 import Store from './store/store.js';
+import vClickOutside from 'v-click-outside';
 
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
 
@@ -21,6 +22,7 @@ createInertiaApp({
             .use(PrimeVue, {
                 unstyled: true
             })
+            .use(vClickOutside)
             .mount(el);
     },
     progress: {

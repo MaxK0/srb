@@ -20,6 +20,7 @@
     },
     "dependencies": {
         "primevue": "^4.0.7",
+        "v-click-outside": "^3.2.0",
         "vuex": "^4.0.2"
     }
 }
