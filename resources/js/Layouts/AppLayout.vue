@@ -107,12 +107,12 @@ onMounted(() => {
                                     <template #content>
                                         <!-- Account Management -->
                                         <div
-                                            class="block px-4 py-2 text-xs text-gray-400"
+                                            class="block px-4 py-2 text-xs text-gray-500"
                                         >
                                             Управление аккаунтом
                                         </div>
 
-                                        <DropdownLink
+                                        <!-- <DropdownLink
                                             :href="route('profile.show')"
                                         >
                                             Профиль
@@ -126,7 +126,7 @@ onMounted(() => {
                                             :href="route('api-tokens.index')"
                                         >
                                             API токены
-                                        </DropdownLink>
+                                        </DropdownLink> -->
 
                                         <div class="border-t border-gray-200" />
 
@@ -223,7 +223,7 @@ onMounted(() => {
                         </div>
 
                         <div class="mt-3 space-y-1">
-                            <ResponsiveNavLink
+                            <!-- <ResponsiveNavLink
                                 :href="route('profile.show')"
                                 :active="route().current('profile.show')"
                             >
@@ -236,12 +236,12 @@ onMounted(() => {
                                 :active="route().current('api-tokens.index')"
                             >
                                 API Tokens
-                            </ResponsiveNavLink>
+                            </ResponsiveNavLink> -->
 
                             <!-- Authentication -->
                             <form method="POST" @submit.prevent="logout">
                                 <ResponsiveNavLink as="button">
-                                    Log Out
+                                    Выйти
                                 </ResponsiveNavLink>
                             </form>
                         </div>
