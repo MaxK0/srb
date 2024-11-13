@@ -10,6 +10,7 @@ import PrimaryButton from "@/Components/PrimaryButton.vue";
 import TextInput from "@/Components/TextInput.vue";
 
 import InputMask from "primevue/inputmask";
+import Password from "primevue/password";
 
 defineProps({
     canResetPassword: Boolean,
@@ -77,6 +78,7 @@ const submit = () => {
             <div class="block mt-8">
                 <label class="flex items-center">
                     <Checkbox
+                        id="is_phone"
                         v-model:checked="form.is_phone"
                         name="is_phone"
                         @change="isPhoneChanged"
@@ -87,12 +89,12 @@ const submit = () => {
 
             <div class="mt-8">
                 <InputLabel for="password" value="Password" />
-                <TextInput
-                    class="mt-1 block w-full"
+                <Password
                     id="password"
                     v-model="form.password"
-                    type="password"
-                    required
+                    toggleMask
+                    :feedback="false"
+                    placeholder="password"
                     autocomplete="current-password"
                 />
                 <InputError class="mt-8" :message="form.errors.password" />

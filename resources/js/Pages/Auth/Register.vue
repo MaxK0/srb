@@ -11,6 +11,7 @@ import TextInput from "@/Components/TextInput.vue";
 
 import Select from "primevue/select";
 import InputMask from "primevue/inputmask";
+import Password from "primevue/password";
 
 const props = defineProps({
     sexes: {
@@ -110,6 +111,7 @@ const submit = () => {
             <div class="form__block mt-8">
                 <InputLabel for="sex" value="Пол" />
                 <Select
+                    id="sex"
                     v-model="form.sex"
                     :options="sexes"
                     filter
@@ -123,12 +125,13 @@ const submit = () => {
 
             <div class="mt-8">
                 <InputLabel for="password" value="Пароль" />
-                <TextInput
+                <Password
                     id="password"
                     v-model="form.password"
-                    type="password"
-                    class="mt-1 block w-full"
-                    required
+                    toggleMask
+                    :feedback="false"
+                    placeholder="password"
+                    autocomplete="current-password"
                 />
                 <InputError class="mt-8" :message="form.errors.password" />
             </div>
@@ -138,12 +141,13 @@ const submit = () => {
                     for="password_confirmation"
                     value="Подтверждение пароля"
                 />
-                <TextInput
+                <Password
                     id="password_confirmation"
                     v-model="form.password_confirmation"
-                    type="password"
-                    class="mt-1 block w-full"
-                    required
+                    toggleMask
+                    :feedback="false"
+                    placeholder="password"
+                    autocomplete="current-password"
                 />
                 <InputError
                     class="mt-8"

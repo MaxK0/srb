@@ -44,7 +44,7 @@ onMounted(() => {
                 <div class="container header__container">
                     <nav class="header__nav">
                         <div class="header__ul">
-                            <button @click="toggleAside" lass="toggle-aside">
+                            <button @click="toggleAside" class="toggle-aside">
                                 <img
                                     src="@/assets/img/icons/burger-menu.svg"
                                     alt="Меню"
