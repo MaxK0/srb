@@ -74,8 +74,8 @@ const destroyBranch = (branch) => {
                     :href="route('branches.create')"
                     >Создать филиал</Link
                 >
-                <table v-if="branches.data.length" class="table branches__table">
-                    <thead class="thead">
+                <table v-if="branches.data.length" class="table table__index branches__table">
+                    <thead class="thead thead__index">
                         <tr>
                             <th>Название</th>
                             <th>Адрес</th>
@@ -83,17 +83,17 @@ const destroyBranch = (branch) => {
                             <th></th>
                         </tr>
                     </thead>
-                    <tbody class="tbody">
+                    <tbody class="tbody tbody__index">
                         <tr v-for="(branch, id) in branches.data" :key="id">
-                            <td>
+                            <td data-label="Название">
                                 <Link
                                     :href="route('branches.show', branch)"
                                     class="link-main"
                                     >{{ branch.title }}</Link
                                 >
                             </td>
-                            <td>{{ branch.address }}</td>
-                            <td class="table-inf">
+                            <td data-label="Адрес">{{ branch.address }}</td>
+                            <td data-label="Информация" class="table-inf">
                                 {{ branch.information }}
                             </td>
                             <td>

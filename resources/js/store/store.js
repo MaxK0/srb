@@ -10,6 +10,9 @@ const store = createStore({
         toggleIsAsideOpen(state) {
             state.isAsideOpen = !state.isAsideOpen;
         },
+        setIsAsideOpen(state, value) {
+            state.isAsideOpen = value;
+        }
     },
 });
 

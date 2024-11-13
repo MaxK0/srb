@@ -27,6 +27,7 @@
     --font-size-extrasmall: 1.4rem;
 
     --container-width-lg: 75%;
+    --container-width-md: 82%;
     --container-width-sm: 90%;
     --container-width: var(--container-width-lg);
 
@@ -364,7 +365,6 @@ button.delete:active {
 /* <================ Конец кнопок ================> */
 /* <===================== Конец формы =====================> */
 
-
 /* <===================== Шапка =====================> */
 .header {
     height: 5rem;
@@ -400,6 +400,7 @@ button.delete:active {
 .table {
     border-collapse: collapse;
     border: 0.2rem solid var(--color-second);
+    width: 100%;
 }
 
 .thead {
@@ -438,4 +439,66 @@ button.delete:active {
     justify-content: center;
     gap: 3rem;
 }
+
 /* <===================== Конец таблиц =====================> */
+
+@media (max-width: 1600px) {
+    :root {
+        --container-width: var(--container-width-md);
+    }
+}
+
+@media (max-width: 1024px) {
+    .form__blocks {
+        flex-direction: column;
+    }
+
+    /* <===================== Таблицы =====================> */
+    .table__index {
+        border: 0;
+        width: 100%;
+    }
+
+    .thead__index {
+        display: none;
+    }
+
+    .tbody__index tr {
+        margin-bottom: 2rem;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        border-bottom: 0.2rem solid var(--color-second);
+        border-right: 0.2rem solid var(--color-second);
+    }
+
+    .tbody__index td {
+        width: 100%;
+        position: relative;
+        text-align: right;
+        border-bottom: 0;
+        border-right: 0;
+    }
+
+    .tbody__index .table-inf {
+        max-width: 100%;
+    }
+
+    .tbody__index td:last-child {
+        border-bottom: 0;
+    }
+
+    .tbody__index td::before {
+        content: attr(data-label);
+        margin-right: 2rem;
+        float: left;
+        font-weight: bold;
+    }
+    /* <===================== Конец таблиц =====================> */
+}
+
+@media (max-width: 768px) {
+    :root {
+        --container-width: var(--container-width-sm);
+    }
+}

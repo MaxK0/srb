@@ -27,23 +27,23 @@ const destroy = (business) => {
                     :href="route('businesses.create')"
                     >Создать бизнес</Link
                 >
-                <table v-if="businesses.data.length" class="table business__table">
-                    <thead class="thead">
+                <table v-if="businesses.data.length" class="table table__index business__table">
+                    <thead class="thead thead__index">
                         <tr>
                             <th>Название</th>
                             <th>Информация</th>
                             <th></th>
                         </tr>
                     </thead>
-                    <tbody class="tbody">
+                    <tbody class="tbody tbody__index">
                         <tr v-for="(business, id) in businesses.data" :key="id">
-                            <td>
+                            <td data-label="Название">
                                 <Link :href="route('businesses.show', business)" class="link-main">{{ business.title }}</Link>
                             </td>
-                            <td class="table-inf">
+                            <td class="table-inf" data-label="Информация">
                                 {{ business.information }}
                             </td>
-                            <td>
+                            <td data-label="">
                                 <div class="table__btns">
                                     <button
                                         class="btn-main"

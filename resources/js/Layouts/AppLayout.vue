@@ -1,5 +1,5 @@
 <script setup>
-import { computed, ref } from "vue";
+import { computed, onMounted, ref } from "vue";
 import { Head, Link, router } from "@inertiajs/vue3";
 import { useStore } from "vuex";
 
@@ -27,6 +27,10 @@ const toggleAside = () => {
 const logout = () => {
     router.post(route("logout"));
 };
+
+onMounted(() => {
+    if (window.screen.width < 1240) store.commit("setIsAsideOpen", false);
+});
 </script>
 
 <template>
@@ -188,15 +192,6 @@ const logout = () => {
                     }"
                     class="sm:hidden"
                 >
-                    <div class="pt-2 pb-3 space-y-1">
-                        <ResponsiveNavLink
-                            :href="route('dashboard')"
-                            :active="route().current('dashboard')"
-                        >
-                            Dashboard
-                        </ResponsiveNavLink>
-                    </div>
-
                     <!-- Responsive Settings Options -->
                     <div class="pt-4 pb-1 border-t border-gray-200">
                         <div class="flex items-center px-4">

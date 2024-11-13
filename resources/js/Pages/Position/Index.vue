@@ -69,17 +69,17 @@ onUpdated(() => {
                 </div>
                 <table
                     v-if="positions && positions.data.length && !gettingData"
-                    class="table position__table"
+                    class="table table__index position__table"
                 >
-                    <thead class="thead">
+                    <thead class="thead thead__index">
                         <tr>
                             <th>Название</th>
                             <th></th>
                         </tr>
                     </thead>
-                    <tbody class="tbody">
+                    <tbody class="tbody tbody__index">
                         <tr v-for="(position, id) in positions.data" :key="id">
-                            <td>
+                            <td data-label="Название">
                                 <Link
                                     :href="route('positions.show', position)"
                                     class="link-main"

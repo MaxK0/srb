@@ -71,9 +71,9 @@ onUpdated(() => {
                 </div>
                 <table
                     v-if="employees && employees.data.length && !gettingData"
-                    class="table position__table"
+                    class="table table__index employee__table"
                 >
-                    <thead class="thead">
+                    <thead class="thead thead__index">
                         <tr>
                             <th>ФИО</th>
                             <th>Email</th>
@@ -82,22 +82,22 @@ onUpdated(() => {
                             <th></th>
                         </tr>
                     </thead>
-                    <tbody class="tbody">
+                    <tbody class="tbody tbody__index">
                         <tr v-for="(employee, id) in employees.data" :key="id">
-                            <td>
+                            <td data-label="ФИО">
                                 <Link
                                     :href="route('employees.show', employee)"
                                     class="link-main"
                                     >{{ employee.fio_short }}</Link
                                 >
                             </td>
-                            <td>
+                            <td data-label="Email">
                                 {{ employee.email }}
                             </td>
-                            <td>
+                            <td data-label="Пол">
                                 {{ employee.sex }}
                             </td>
-                            <td>
+                            <td data-label="Должность">
                                 {{ employee.position }}
                             </td>
                             <td>
