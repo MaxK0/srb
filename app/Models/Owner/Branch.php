@@ -43,7 +43,7 @@ class Branch extends Model
 
     public function employees(): BelongsToMany
     {
-        return $this->belongsToMany(Employee::class);
+        return $this->belongsToMany(Employee::class, 'branch_employees');
     }
 
     public function positions(): HasMany

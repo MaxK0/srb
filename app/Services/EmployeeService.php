@@ -28,7 +28,7 @@ class EmployeeService extends BaseService
         $employees = $this->model
             ->filter($filter)
             ->join('users', 'employees.user_id', '=', 'users.id')
-            ->join('positions', 'employees.position_id', '=', 'positions.id')
+            ->leftJoin('positions', 'employees.position_id', '=', 'positions.id')
             ->select([
                 'employees.id',
                 'users.email',
@@ -38,6 +38,7 @@ class EmployeeService extends BaseService
             ])
             ->paginate(25)
             ->withQueryString();
+
 
         $data =  [
             'branches' => $branches,

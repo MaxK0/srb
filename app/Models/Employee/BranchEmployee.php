@@ -9,6 +9,8 @@ class BranchEmployee extends Model
 {
     use HasFactory;
 
+    protected $table = 'branch_employees';
+
     protected $fillable = [
         'branch_id',
         'employee_id'

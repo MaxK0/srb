@@ -138,8 +138,8 @@ Route::middleware([
     Route::middleware(IsOwner::class)->group(function () {
         Route::post('users/find', [UserController::class, 'find'])->name('users.find');
 
-        Route::resource('clients', ClientController::class)->except(['edit', 'update', 'delete']);
-        Route::post('clients/{user}/attachUser', [ClientController::class, 'attachUserToClients'])->name('clients.attachUser');
+        // Route::resource('clients', ClientController::class)->except(['edit', 'update', 'delete']);
+        // Route::post('clients/{user}/attachUser', [ClientController::class, 'attachUserToClients'])->name('clients.attachUser');
     });
 
 });
