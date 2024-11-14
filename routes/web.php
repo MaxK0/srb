@@ -8,11 +8,14 @@ use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\OwnerController;
 use App\Http\Controllers\PositionController;
 use App\Http\Controllers\ScheduleController;
+use App\Http\Controllers\SitemapController;
 use App\Http\Controllers\UserController;
 use App\Http\Middleware\IsOwner;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+
+Route::get('/sitemap.xml', [SitemapController::class, 'index']);
 
 Route::get('/', function () {
     return Inertia::render('Home', [
