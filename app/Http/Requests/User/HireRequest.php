@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\User;
 
+use App\Rules\UserNotInBranch;
 use Illuminate\Foundation\Http\FormRequest;
 
 class HireRequest extends FormRequest
@@ -22,18 +23,19 @@ class HireRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'branch_id' => ['required', 'integer', 'exists:branches,id'],
+            'branch_id' => ['required', 'integer', 'exists:branches,id', new UserNotInBranch($this->user['id'])],
             'position_id' => ['required', 'integer', 'exists:positions,id'],
-            'work_phone' => ['nullable', 'string', 'min:11', 'max:11']
+            'work_phone' => ['nullable', 'string', 'min:11', 'max:11'],
         ];
     }
+
 
     public function prepareForValidation()
     {
         $dataMerge = [];
 
         if (! empty($this->branch['id'])) {
-            $dataMerge['branch_id'] = $this->branch['id'];            
+            $dataMerge['branch_id'] = $this->branch['id'];
         }
 
         if (! empty($this->position['id'])) {
@@ -43,7 +45,7 @@ class HireRequest extends FormRequest
         if (! empty($this->work_phone)) {
             $dataMerge['work_phone'] = preg_replace("/[^0-9]/", "", $this->work_phone);
         }
-        
+
         $this->merge($dataMerge);
     }
 }
