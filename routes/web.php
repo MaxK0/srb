@@ -126,6 +126,7 @@ Route::middleware([
         Route::delete('/{employee}', [EmployeeController::class, 'destroy'])->name('destroy')
             ->middleware('can:delete,employee');
 
+        // TODO: Cделать для пользователей
         Route::get('/{user}/hire', [EmployeeController::class, 'hire'])->name('hire')
             ->middleware('can:hire,user');
 

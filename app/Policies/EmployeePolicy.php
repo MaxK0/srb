@@ -46,13 +46,7 @@ class EmployeePolicy
     public function delete(User $user, Employee $employee): bool
     {
         return $user->isOwner() && $this->isUserOwnEmployee($user, $employee);
-    }
-
-
-    public function hire(User $user, User $userForHire): bool
-    {
-        return $user->isOwner() && !$userForHire->isEmployee();
-    }
+    }   
 
 
     private function isUserOwnEmployee(User $user, Employee $employee): bool

@@ -63,9 +63,11 @@ class EmployeeController extends Controller
     }
 
 
-    public function hireStore(HireRequest $request)
+    public function hireStore(HireRequest $request, User $user)
     {
         $data = $request->validated();
+
+        $data['user_id'] = $user->id;
 
         $this->employeeService->hire($data);
 
