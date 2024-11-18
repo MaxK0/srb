@@ -148,6 +148,6 @@ class SitemapController extends Controller
             )
             ->writeToFile(public_path('sitemap.xml'));
 
-        return response()->file(public_path('sitemap.xml'));
+        return response()->json(['status' => 'success']);
     }
 }
