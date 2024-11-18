@@ -54,26 +54,6 @@ class EmployeeController extends Controller
     }
 
 
-    public function hire(User $user, PositionFilter $filter)
-    {
-        $data = $this->employeeService->dataForHire($filter);
-
-        $data['user'] = $user;
-
-        return Inertia::render('Employee/Hire', $data);
-    }
-
-
-    public function hireStore(HireRequest $request, User $user)
-    {
-        $data = $request->validated();
-
-        $this->employeeService->hire($data, $user);
-
-        return redirect()->route('employees.index');
-    }
-
-
     public function edit(Employee $employee, PositionFilter $filter)
     {
         $data = $this->employeeService->dataForEdit($employee, $filter);

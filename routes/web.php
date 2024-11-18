@@ -132,13 +132,6 @@ Route::middleware([
 
         Route::delete('/{employee}/withoutRedirect', [EmployeeController::class, 'destroyWithoutRedirect'])->name('destroyWithoutRedirect')
             ->middleware('can:delete,employee');
-
-        // TODO: Cделать для пользователей
-        Route::get('/{user}/hire', [EmployeeController::class, 'hire'])->name('hire')
-            ->middleware('can:hire,user');
-
-        Route::post('/{user}/hire', [EmployeeController::class, 'hireStore'])->name('hire.store')
-            ->middleware('can:hire,user');
     });
 
     Route::name('owner.')->group(function () {
@@ -150,6 +143,12 @@ Route::middleware([
     Route::prefix('/users')->name('users.')->group(function () {
         Route::post('/find', [UserController::class, 'find'])->name('find')
             ->can('find', User::class);
+
+        Route::get('/{user}/hire', [UserController::class, 'hire'])->name('hire')
+            ->can('hire', 'user');
+
+        Route::post('/{user}/hire', [UserController::class, 'hireStore'])->name('hire.store')
+            ->can('hire', 'user');
 
         Route::post('/{user}/attachToClients', [UserController::class, 'attachToClients'])->name('attachToClients')
             ->can('attachToClients', 'user');

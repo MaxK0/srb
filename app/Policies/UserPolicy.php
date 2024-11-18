@@ -9,7 +9,9 @@ class UserPolicy
 {
     public function hire(User $user, User $userForHire): bool
     {
-        return $user->isOwner() && !$userForHire->isEmployee();
+        if (! $user->isOwner()) return false;
+
+        // TODO: Если пользователь уже работает в этом бизнесе, то false.
     }
 
 

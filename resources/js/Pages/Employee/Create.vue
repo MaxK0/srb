@@ -65,7 +65,7 @@ const submit = () => {
         form.post(route("users.find"), {
             onSuccess: (page) => {
                 if (page.props.user)
-                    router.get(route("employees.hire", page.props.user.id));
+                    router.get(route("users.hire", page.props.user.id));
                 else form.errors.submit = "Произошла ошибка";
             },
         });

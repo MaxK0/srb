@@ -30,17 +30,17 @@ const form = useForm({
     branch: props.branches.find((branch) => branch.id == props.filter.branchId),
     position: [],
     work_phone: "",
-    user: props.user
+    user: props.user,
 });
 
 const fetchPositions = () => {
     const branchId = form.branch.id;
 
-    router.get(route('employees.hire', {branch_id: branchId, user: props.user}));
+    router.get(route("users.hire", { branch_id: branchId, user: props.user }));
 };
 
 const submit = () => {
-    form.post(route("employees.hire.store", props.user));
+    form.post(route("users.hire.store", props.user));
 };
 </script>
 
