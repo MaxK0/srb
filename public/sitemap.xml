@@ -1,3 +1,113 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1" xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
+    <url>
+        <loc>https://srb</loc>
+        <lastmod>2024-11-18T00:00:00+00:00</lastmod>
+
+            </url>
+    <url>
+        <loc>https://srb/dashboard</loc>
+        <lastmod>2024-11-18T00:00:00+00:00</lastmod>
+
+            </url>
+    <url>
+        <loc>https://srb/schedule</loc>
+        <lastmod>2024-11-18T00:00:00+00:00</lastmod>
+
+            </url>
+    <url>
+        <loc>https://srb/businesses</loc>
+        <lastmod>2024-11-18T00:00:00+00:00</lastmod>
+
+            </url>
+    <url>
+        <loc>https://srb/businesses/create</loc>
+        <lastmod>2024-11-18T00:00:00+00:00</lastmod>
+
+            </url>
+    <url>
+        <loc>https://srb/businesses/{business}</loc>
+        <lastmod>2024-11-18T00:00:00+00:00</lastmod>
+
+            </url>
+    <url>
+        <loc>https://srb/businesses/{business}/edit</loc>
+        <lastmod>2024-11-18T00:00:00+00:00</lastmod>
+
+            </url>
+    <url>
+        <loc>https://srb/branches/create</loc>
+        <lastmod>2024-11-18T00:00:00+00:00</lastmod>
+
+            </url>
+    <url>
+        <loc>https://srb/branches/{branch}</loc>
+        <lastmod>2024-11-18T00:00:00+00:00</lastmod>
+
+            </url>
+    <url>
+        <loc>https://srb/branches/{branch}/edit</loc>
+        <lastmod>2024-11-18T00:00:00+00:00</lastmod>
+
+            </url>
+    <url>
+        <loc>https://srb/positions</loc>
+        <lastmod>2024-11-18T00:00:00+00:00</lastmod>
+
+            </url>
+    <url>
+        <loc>https://srb/positions/create</loc>
+        <lastmod>2024-11-18T00:00:00+00:00</lastmod>
+
+            </url>
+    <url>
+        <loc>https://srb/positions/{position}</loc>
+        <lastmod>2024-11-18T00:00:00+00:00</lastmod>
+
+            </url>
+    <url>
+        <loc>https://srb/positions/{position}/edit</loc>
+        <lastmod>2024-11-18T00:00:00+00:00</lastmod>
+
+            </url>
+    <url>
+        <loc>https://srb/employees</loc>
+        <lastmod>2024-11-18T00:00:00+00:00</lastmod>
+
+            </url>
+    <url>
+        <loc>https://srb/employees/create</loc>
+        <lastmod>2024-11-18T00:00:00+00:00</lastmod>
+
+            </url>
+    <url>
+        <loc>https://srb/employees/{employee}</loc>
+        <lastmod>2024-11-18T00:00:00+00:00</lastmod>
+
+            </url>
+    <url>
+        <loc>https://srb/employees/{employee}/edit</loc>
+        <lastmod>2024-11-18T00:00:00+00:00</lastmod>
+
+            </url>
+    <url>
+        <loc>https://srb/becomeOwner</loc>
+        <lastmod>2024-11-18T00:00:00+00:00</lastmod>
+
+            </url>
+    <url>
+        <loc>https://srb/users/find</loc>
+        <lastmod>2024-11-18T00:00:00+00:00</lastmod>
+
+            </url>
+    <url>
+        <loc>https://srb/users/{user}/hire</loc>
+        <lastmod>2024-11-18T00:00:00+00:00</lastmod>
+
+            </url>
+    <url>
+        <loc>https://srb/users/{user}/attachToClients</loc>
+        <lastmod>2024-11-18T00:00:00+00:00</lastmod>
+
+            </url>
 </urlset>

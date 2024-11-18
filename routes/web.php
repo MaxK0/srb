@@ -16,7 +16,7 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
-Route::get('/sitemap.xml', [SitemapController::class, 'index']);
+Route::get('/sitemap', [SitemapController::class, 'index']);
 
 Route::get('/', function () {
     return Inertia::render('Home', [
