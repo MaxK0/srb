@@ -15,6 +15,8 @@ class ClientService extends BaseService
 
     public function dataForIndex(ClientFilter $filter): array
     {
+        
+
         return [];
     }
 

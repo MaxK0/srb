@@ -11,6 +11,7 @@ use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\SitemapController;
 use App\Http\Controllers\UserController;
 use App\Http\Middleware\IsOwner;
+use App\Models\User\User;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -126,7 +127,7 @@ Route::middleware([
         Route::delete('/{employee}', [EmployeeController::class, 'destroy'])->name('destroy')
             ->middleware('can:delete,employee');
 
-        Route::delete('/{employee}/without_redirect', [EmployeeController::class, 'destroyWithoutRedirect'])->name('destroyWithoutRedirect')
+        Route::delete('/{employee}/withoutRedirect', [EmployeeController::class, 'destroyWithoutRedirect'])->name('destroyWithoutRedirect')
             ->middleware('can:delete,employee');
 
         // TODO: Cделать для пользователей
@@ -142,11 +143,19 @@ Route::middleware([
             ->middleware('can:create,\App\Models\Owner\Owner');
     });
 
-    Route::middleware(IsOwner::class)->group(function () {
-        Route::post('users/find', [UserController::class, 'find'])->name('users.find');
+    // TODO: Изменить middleware на can
+    Route::prefix('/users')->name('users.')->group(function () {
+        Route::post('/find', [UserController::class, 'find'])->name('find')
+            ->can('find', User::class);
 
-        // Route::resource('clients', ClientController::class)->except(['edit', 'update', 'delete']);
-        // Route::post('clients/{user}/attachUser', [ClientController::class, 'attachUserToClients'])->name('clients.attachUser');
+        Route::post('/{user}/attachToClients', [UserController::class, 'attachToClients'])->name('attachToClients')
+            ->can('attachToClients', 'user');
+    });
+
+    Route::middleware(IsOwner::class)->group(function () {
+        Route::resource('clients', ClientController::class)->except(['edit', 'update', 'destroy']);
+
+        Route::post('clients/{user}/detachClient', [ClientController::class, 'detachClient'])->name('clients.attachUser');
     });
 
 });

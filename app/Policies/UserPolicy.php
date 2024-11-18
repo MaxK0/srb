@@ -11,4 +11,16 @@ class UserPolicy
     {
         return $user->isOwner() && !$userForHire->isEmployee();
     }
+
+
+    public function find(User $user): bool
+    {
+        return $user->isOwner();
+    }
+
+    // 
+    // public function attachToClients(User $user, User $userForClients): bool
+    // {
+        
+    // }
 }
