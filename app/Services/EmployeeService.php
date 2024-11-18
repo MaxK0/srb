@@ -24,6 +24,7 @@ class EmployeeService extends BaseService
         $branchService = app(BranchService::class);
 
         $branches = $branchService->ownerBranches(['id', 'title']);
+        $branches->prepend(['id' => null, 'title' => 'Все филиалы']);
 
         $employees = $this->model
             ->filter($filter)
@@ -42,10 +43,13 @@ class EmployeeService extends BaseService
 
         $data =  [
             'branches' => $branches,
-            'employees' => $employees
+            'employees' => $employees,
+            'filter' => [
+                'branchId' => request('branch_id')
+            ]
         ];
 
-        if ($branchId = request('branch_id')) $data['branchId'] = $branchId;
+        $data['branchId'] = request('branch_id');
 
         return $data;
     }

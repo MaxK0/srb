@@ -10,12 +10,18 @@ const props = defineProps({
         type: Object,
         required: true,
     },
-    employees: Object,
-    branchId: String,
+    employees: {
+        type: Object,
+        required: true
+    },
+    filter: {
+        type: Object,
+        required: true
+    }
 });
 
 const branch = ref(
-    props.branches.find((branch) => branch.id == props.branchId)
+    props.branches.find((branch) => branch.id == props.filter.branchId)
 );
 
 const gettingData = ref(false);
