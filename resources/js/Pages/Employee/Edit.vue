@@ -9,7 +9,6 @@ import PrimaryButton from "@/Components/PrimaryButton.vue";
 
 import Select from "primevue/select";
 import InputMask from "primevue/inputmask";
-import { onMounted } from "vue";
 
 const props = defineProps({
     employee: {
@@ -34,7 +33,11 @@ const form = useForm({
             (props.filter.branchId ?? props.employee.branches[0].id)
     ),
     position: props.positions.find(
-        (position) => position.id == props.employee.position.id
+        (position) => {
+            if (props.employee.position) {
+                position.id == (props.employee.position.id)
+            }
+        }
     ),
     work_phone: props.employee.work_phone,
 });
