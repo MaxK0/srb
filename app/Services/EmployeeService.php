@@ -88,11 +88,14 @@ class EmployeeService extends BaseService
      * TODO: Пока у пользователя может лишь быть одно рабочее место. Нужно сделать так, чтобы сотрудник мог уволиться, если захочет на новую работу.
      * Можно сделать, чтобы сотрудник мог работать в нескольких филиалов, но тогда нужно переделать бд.
      */
-    public function hire(array $data): Employee
+    public function hire(array $data, User $user): Employee
     {
+        $data['user_id'] = $user->id;
+
         $employee = $this->model->create($data);
 
         $employee->branches()->sync($data['branch_id']);
+        $user->roles()->attach(User::EMPLOYEE_ID);
 
         return $employee;
     }
@@ -109,6 +112,7 @@ class EmployeeService extends BaseService
         $employee = $this->model->create($data);
 
         $employee->branches()->sync($data['branch_id']);
+        $user->roles()->attach(User::EMPLOYEE_ID);
 
         return $employee;
     }
@@ -167,5 +171,15 @@ class EmployeeService extends BaseService
         if ($result) $employee->branches()->sync($data['branch_id']);
 
         return $result;
+    }
+
+
+    public function delete(Model $employee): ?bool
+    {
+        $user = $employee->user;
+
+        $user->roles()->detach(User::EMPLOYEE_ID);
+
+        return $employee->delete();
     }
 }

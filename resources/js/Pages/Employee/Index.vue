@@ -12,12 +12,12 @@ const props = defineProps({
     },
     employees: {
         type: Object,
-        required: true
+        required: true,
     },
     filter: {
         type: Object,
-        required: true
-    }
+        required: true,
+    },
 });
 
 const branch = ref(
@@ -41,15 +41,11 @@ const edit = (employee) => {
 const destroy = (employee) => {
     gettingData.value = true;
 
-    router.delete(route("employees.destroy", employee));
+    router.delete(route("employees.destroyWithoutRedirect", employee));
 };
 
 onUpdated(() => {
-    if (branch.value.id) {
-        const branchId = branch.value.id;
-
-        router.get(route("employees.index", { branch_id: branchId }));
-    }
+    fetchEmployees();
 });
 </script>
 

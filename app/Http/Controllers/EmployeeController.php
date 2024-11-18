@@ -19,6 +19,8 @@ class EmployeeController extends Controller
 
     public function index(EmployeeFilter $filter)
     {
+        // dd(request('branch_id'));
+
         $data = $this->employeeService->dataForIndex($filter);
 
         return Inertia::render('Employee/Index', $data);
@@ -67,9 +69,7 @@ class EmployeeController extends Controller
     {
         $data = $request->validated();
 
-        $data['user_id'] = $user->id;
-
-        $this->employeeService->hire($data);
+        $this->employeeService->hire($data, $user);
 
         return redirect()->route('employees.index');
     }
@@ -98,5 +98,11 @@ class EmployeeController extends Controller
         $this->employeeService->delete($employee);
 
         return redirect()->route('employees.index');
+    }
+
+
+    public function destroyWithoutRedirect(Employee $employee)
+    {
+        $this->employeeService->delete($employee);
     }
 }
