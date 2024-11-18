@@ -24,11 +24,14 @@ const props = defineProps({
         type: Object,
         required: true,
     },
-    branch_id: String,
+    filter: {
+        type: Object,
+        required: true,
+    },
 });
 
 const form = useForm({
-    branch: props.branches.find((branch) => branch.id == props.branch_id),
+    branch: props.branches.find((branch) => branch.id == props.filter.branchId),
     position: [],
     sex: [],
     phone: "",

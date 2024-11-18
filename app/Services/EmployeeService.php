@@ -19,7 +19,7 @@ class EmployeeService extends BaseService
         parent::__construct(Employee::class);
     }
 
-    public function dataForIndex(EmployeeFilter $filter): array
+    public function dataForIndex(EmployeeFilter $filter, ?int $perPage): array
     {
         $branchService = app(BranchService::class);
 
@@ -37,7 +37,7 @@ class EmployeeService extends BaseService
                 'positions.title AS position',
                 DB::raw('CONCAT(users.lastname, " ", LEFT(users.name, 1), ".", IF(users.patronymic IS NOT NULL AND users.patronymic != "", CONCAT(" ", LEFT(users.patronymic, 1), "."), "")) AS fio_short')
             ])
-            ->paginate(25)
+            ->paginate($perPage)
             ->withQueryString();
 
 
@@ -48,8 +48,6 @@ class EmployeeService extends BaseService
                 'branchId' => request('branch_id')
             ]
         ];
-
-        $data['branchId'] = request('branch_id');
 
         return $data;
     }
@@ -63,7 +61,7 @@ class EmployeeService extends BaseService
         $data['branches'] = $branchService->ownerBranches(['id', 'title']);
         $data['sexes'] = $userService->getSexes();
 
-        if ($data['branch_id'] = request()->input('branch_id')) {
+        if ($data['filter']['branchId'] = request('branch_id')) {
             $data['positions'] = Position::filter($filter)->select(['id', 'title'])->get();
         }
 
@@ -77,7 +75,7 @@ class EmployeeService extends BaseService
 
         $data['branches'] = $branchService->ownerBranches(['id', 'title']);
 
-        if ($data['branch_id'] = request()->input('branch_id')) {
+        if ($data['filter']['branchId'] = request('branch_id')) {
             $data['positions'] = Position::filter($filter)->select(['id', 'title'])->get();
         }
 
@@ -154,7 +152,7 @@ class EmployeeService extends BaseService
             ]
         );
 
-        if ($data['branch_id'] = request()->input('branch_id')) {
+        if ($data['filter']['branchId'] = request('branch_id')) {
             $data['positions'] = Position::filter($filter)->select(['id', 'title'])->get();
         } else {
             $data['positions'] = Position::where('branch_id', $employee->branches[0]->id)->select(['id', 'title'])->get();

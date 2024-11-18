@@ -16,16 +16,16 @@ class BusinessController extends Controller
 
     public function index(Request $request)
     {
-        $businesses = $this->businessService->getUserBusinesses($request->get('perPage'));
+        $businesses = $this->businessService->getUserBusinesses($request->get('perPage', 25));
 
         return Inertia::render('Business/Index', [
             'businesses' => $businesses
         ]);
     }
 
-    public function show(Business $business)
+    public function show(Request $request, Business $business)
     {
-        $data = $this->businessService->dataForShow($business);
+        $data = $this->businessService->dataForShow($business, $request->get('perPage', 25));
 
         return Inertia::render('Business/Show', $data);
     }

@@ -103,6 +103,9 @@ Route::middleware([
 
         Route::delete('/{position}', [PositionController::class, 'destroy'])->name('destroy')
             ->middleware('can:delete,position');
+
+        Route::delete('/{position}/withoutRedirect', [PositionController::class, 'destroyWithoutRedirect'])->name('destroyWithoutRedirect')
+            ->middleware('can:delete,position');
     });
 
     Route::prefix('/employees')->name('employees.')->group(function () {

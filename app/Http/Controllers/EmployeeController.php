@@ -10,6 +10,7 @@ use App\Http\Requests\Employee\UpdateRequest;
 use App\Models\Employee\Employee;
 use App\Models\User\User;
 use App\Services\EmployeeService;
+use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 class EmployeeController extends Controller
@@ -17,11 +18,9 @@ class EmployeeController extends Controller
     public function __construct(protected EmployeeService $employeeService) {}
 
 
-    public function index(EmployeeFilter $filter)
+    public function index(Request $request, EmployeeFilter $filter)
     {
-        // dd(request('branch_id'));
-
-        $data = $this->employeeService->dataForIndex($filter);
+        $data = $this->employeeService->dataForIndex($filter, $request->get('perPage', 25));
 
         return Inertia::render('Employee/Index', $data);
     }

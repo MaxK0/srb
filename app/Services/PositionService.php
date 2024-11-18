@@ -13,6 +13,23 @@ class PositionService extends BaseService
         parent::__construct(Position::class);
     }
 
+
+    public function dataForIndex(PositionFilter $filter, ?int $perPage): array
+    {
+        $branchService = app(BranchService::class);
+        $data['branches'] = $branchService->ownerBranches(['id', 'title']);
+
+        if ($data['filter']['branchId'] = request('branch_id')) {
+            $data['positions'] = Position::filter($filter)
+                ->select('id', 'title')
+                ->paginate($perPage)
+                ->withQueryString();
+        }
+
+        return $data;
+    }
+
+
     public function ownerPositions(array $select = null): Collection
     {
         /** @var User $user */

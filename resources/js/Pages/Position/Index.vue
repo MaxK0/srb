@@ -11,11 +11,14 @@ const props = defineProps({
         required: true,
     },
     positions: Object,
-    branchId: String,
+    filter: {
+        type: Object,
+        required: true,
+    },
 });
 
 const branch = ref(
-    props.branches.find((branch) => branch.id == props.branchId)
+    props.branches.find((branch) => branch.id == props.filter.branchId)
 );
 
 const gettingData = ref(false);
@@ -35,13 +38,11 @@ const edit = (position) => {
 const destroy = (position) => {
     gettingData.value = true;
 
-    router.delete(route("positions.destroy", position));
+    router.delete(route("positions.destroyWithoutRedirect", position));
 };
 
 onUpdated(() => {
-    const branchId = branch.value.id;
-
-    router.get(`/positions?branch_id=${branchId}`);
+    fetchPositions();
 });
 </script>
 

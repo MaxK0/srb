@@ -21,12 +21,21 @@ const props = defineProps({
         required: true,
     },
     positions: Object,
-    branch_id: String,
+    filter: {
+        type: Object,
+        required: true,
+    },
 });
 
 const form = useForm({
-    branch: props.branches.find((branch) => branch.id == (props.branch_id ?? props.employee.branches[0].id)),
-    position: props.positions.find((position) => position.id == props.employee.position.id),
+    branch: props.branches.find(
+        (branch) =>
+            branch.id ==
+            (props.filter.branchId ?? props.employee.branches[0].id)
+    ),
+    position: props.positions.find(
+        (position) => position.id == props.employee.position.id
+    ),
     work_phone: props.employee.work_phone,
 });
 

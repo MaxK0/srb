@@ -16,7 +16,7 @@ class BusinessService extends BaseService
         parent::__construct(Business::class);
     }
 
-    public function getUserBusinesses(?int $perPage = 25): LengthAwarePaginator
+    public function getUserBusinesses(?int $perPage): LengthAwarePaginator
     {
         $businesses = auth()
             ->user()
@@ -39,11 +39,11 @@ class BusinessService extends BaseService
         ];
     }
 
-    public function dataForShow(Business $business): array {
+    public function dataForShow(Business $business, ?int $perPage): array {
         $branches = $business
             ->branches()
             ->select('id', 'title', 'address', 'information')
-            ->paginate(15)
+            ->paginate($perPage)
             ->withQueryString();
 
         return [

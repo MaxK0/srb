@@ -6,7 +6,6 @@ use App\Filters\PositionFilter;
 use App\Http\Requests\Position\StoreRequest;
 use App\Http\Requests\Position\UpdateRequest;
 use App\Models\Employee\Position;
-use App\Services\BranchService;
 use App\Services\PositionService;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -14,26 +13,17 @@ use Inertia\Inertia;
 class PositionController extends Controller
 {
     public function __construct(
-        protected PositionService $positionService,
-        protected BranchService $branchService
+        protected PositionService $positionService
     ) {}
 
 
     public function index(Request $request, PositionFilter $filter)
     {
-        $data = [
-            'branches' => $this->branchService
-                ->ownerBranches()
-                ->map(fn($branch) => $branch->only(['id', 'title'])),
-        ];
-
-        if ($branchId = $request->input('branch_id')) {
-            $data['positions'] = Position::filter($filter)->paginate(25)->withQueryString();
-            $data['branchId'] = $branchId;
-        }
+        $data = $this->positionService->dataForIndex($filter, $request->get('perPage', 25));
 
         return Inertia::render('Position/Index', $data);
     }
+
 
     public function create()
     {
@@ -41,6 +31,7 @@ class PositionController extends Controller
 
         return Inertia::render('Position/Create', $data);
     }
+
 
     public function store(StoreRequest $request)
     {
@@ -51,6 +42,7 @@ class PositionController extends Controller
         return redirect()->route('positions.index');
     }
 
+
     public function show(Position $position)
     {
         return Inertia::render('Position/Show', [
@@ -60,12 +52,14 @@ class PositionController extends Controller
         ]);
     }
 
+
     public function edit(Position $position)
     {
         $data = $this->positionService->dataForEdit($position);
 
         return Inertia::render('Position/Edit', $data);
     }
+
 
     public function update(UpdateRequest $request, Position $position)
     {
@@ -76,10 +70,17 @@ class PositionController extends Controller
         return redirect()->route('positions.index');
     }
 
+
     public function destroy(Position $position)
     {
         $this->positionService->delete($position);
 
         return redirect()->route('positions.index', request()->query());
+    }
+
+
+    public function destroyWithoutRedirect(Position $position)
+    {
+        $this->positionService->delete($position);
     }
 }

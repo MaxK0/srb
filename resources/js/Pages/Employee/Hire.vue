@@ -20,11 +20,14 @@ const props = defineProps({
         required: true,
     },
     positions: Object,
-    branch_id: String,
+    filter: {
+        type: Object,
+        required: true,
+    },
 });
 
 const form = useForm({
-    branch: props.branches.find((branch) => branch.id == props.branch_id),
+    branch: props.branches.find((branch) => branch.id == props.filter.branchId),
     position: [],
     work_phone: "",
     user: props.user

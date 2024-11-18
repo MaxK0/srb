@@ -4,6 +4,9 @@ import AppLayout from "@/Layouts/AppLayout.vue";
 import { formateDate } from "@/Scripts/formateDate";
 import { formateInf } from "@/Scripts/formateInf";
 
+import Paginator from "@/Components/Paginator.vue";
+
+
 const props = defineProps({
     business: {
         type: Object,
