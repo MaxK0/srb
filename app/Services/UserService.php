@@ -54,7 +54,7 @@ class UserService extends BaseService
     {
         $branchService = app(BranchService::class);
 
-        $data['branches'] = $branchService->ownerBranches(['id', 'title']);
+        $data['branches'] = $branchService->ownerBranches(['id', 'title'])->get();
 
         if ($data['filter']['branchId'] = request('branch_id')) {
             $data['positions'] = Position::filter($filter)->select(['id', 'title'])->get();

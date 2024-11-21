@@ -18,7 +18,7 @@ class PositionService extends BaseService
     public function dataForIndex(PositionFilter $filter, ?int $perPage): array
     {
         $branchService = app(BranchService::class);
-        $data['branches'] = $branchService->ownerBranches(['id', 'title']);
+        $data['branches'] = $branchService->ownerBranches(['id', 'title'])->get();
 
         if ($data['filter']['branchId'] = request('branch_id')) {
             $data['positions'] = $this->ownerPositions()
@@ -52,7 +52,7 @@ class PositionService extends BaseService
     {
         $branchService = app(BranchService::class);
 
-        $branches = $branchService->ownerBranches(['id', 'title']);
+        $branches = $branchService->ownerBranches(['id', 'title'])->get();
 
         return [
             'branches' => $branches
@@ -63,7 +63,7 @@ class PositionService extends BaseService
     {
         $branchService = app(BranchService::class);
 
-        $branches = $branchService->ownerBranches(['id', 'title']);
+        $branches = $branchService->ownerBranches(['id', 'title'])->get();
         $position = $position->load([
             'branch' => fn($q) => $q->select(['id', 'title'])
         ]);

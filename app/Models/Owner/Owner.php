@@ -34,12 +34,11 @@ class Owner extends Model
         return $this->belongsToMany(Business::class, 'business_owners');
     }
 
-    public function branches(): Collection
+    public function branches(): Builder
     {
-        return $this->businesses()
-            ->with('branches')
-            ->get()
-            ->flatMap(fn($business) => $business->branches);
+        return Branch::whereHas('business.owners', function ($q) {
+            return $q->where('owner_id', $this->id);
+        });
     }
 
     public function positions(): Builder

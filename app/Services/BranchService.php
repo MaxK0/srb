@@ -6,8 +6,7 @@ use App\Models\City;
 use App\Models\Owner\Branch;
 use App\Models\Owner\Business;
 use App\Models\User\User;
-use Illuminate\Database\Eloquent\Collection as ECollection;
-use Illuminate\Support\Collection;
+use Illuminate\Contracts\Database\Eloquent\Builder;
 
 class BranchService extends BaseService
 {
@@ -16,7 +15,7 @@ class BranchService extends BaseService
         parent::__construct(Branch::class);
     }
 
-    public function ownerBranches(array $select = null): Collection
+    public function ownerBranches(array $select = null): Builder
     {
         /** @var User $user */
         $user = auth()->user();
@@ -26,8 +25,7 @@ class BranchService extends BaseService
             ->branches();
 
         if ($select) {
-            $branches = $branches
-                ->map(fn($branch) => $branch->only($select));
+            $branches->select($select);
         }
 
         return $branches;

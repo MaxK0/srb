@@ -23,7 +23,7 @@ class EmployeeService extends BaseService
     {
         $branchService = app(BranchService::class);
 
-        $branches = $branchService->ownerBranches(['id', 'title']);
+        $branches = $branchService->ownerBranches(['id', 'title'])->get();
         $branches->prepend(['id' => null, 'title' => 'Все филиалы']);
 
         $owner = auth()->user()->owner;
@@ -61,7 +61,7 @@ class EmployeeService extends BaseService
         $branchService = app(BranchService::class);
         $userService = app(UserService::class);
 
-        $data['branches'] = $branchService->ownerBranches(['id', 'title']);
+        $data['branches'] = $branchService->ownerBranches(['id', 'title'])->get();
         $data['sexes'] = $userService->getSexes();
 
         if ($data['filter']['branchId'] = request('branch_id')) {
@@ -114,7 +114,7 @@ class EmployeeService extends BaseService
     {
         $branchService = app(BranchService::class);
 
-        $data['branches'] = $branchService->ownerBranches(['id', 'title']);
+        $data['branches'] = $branchService->ownerBranches(['id', 'title'])->get();
         $data['employee'] = $employee->load(
             [
                 'branch' => function ($q) {
