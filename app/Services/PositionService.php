@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Filters\PositionFilter;
 use App\Models\Employee\Position;
+use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
 
 class PositionService extends BaseService
@@ -20,7 +21,8 @@ class PositionService extends BaseService
         $data['branches'] = $branchService->ownerBranches(['id', 'title']);
 
         if ($data['filter']['branchId'] = request('branch_id')) {
-            $data['positions'] = Position::filter($filter)
+            $data['positions'] = $this->ownerPositions()
+                ->filter($filter)
                 ->select('id', 'title')
                 ->paginate($perPage)
                 ->withQueryString();
@@ -30,7 +32,7 @@ class PositionService extends BaseService
     }
 
 
-    public function ownerPositions(array $select = null): Collection
+    public function ownerPositions(array $select = null): Builder
     {
         /** @var User $user */
         $user = auth()->user();
@@ -40,8 +42,7 @@ class PositionService extends BaseService
             ->positions();
 
         if ($select) {
-            $positions = $positions
-                ->map(fn($position) => $position->only($select));
+            $positions->select($select);
         }
 
         return $positions;

@@ -3,6 +3,7 @@
 namespace App\Models\Owner;
 
 use App\Models\Employee\Employee;
+use App\Models\Employee\Position;
 use App\Models\User\User;
 use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -41,10 +42,11 @@ class Owner extends Model
             ->flatMap(fn($business) => $business->branches);
     }
 
-    public function positions(): Collection
+    public function positions(): Builder
     {
-        return $this->branches()
-            ->flatMap(fn($branch) => $branch->positions);
+        return Position::whereHas('branch.business.owners', function ($q) {
+            return $q->where('owner_id', $this->id);
+        });
     }
 
     public function employees(): Builder
