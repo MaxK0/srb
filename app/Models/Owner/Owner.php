@@ -2,12 +2,13 @@
 
 namespace App\Models\Owner;
 
+use App\Models\Employee\Employee;
 use App\Models\User\User;
+use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Support\Collection;
 
 class Owner extends Model
@@ -44,5 +45,12 @@ class Owner extends Model
     {
         return $this->branches()
             ->flatMap(fn($branch) => $branch->positions);
+    }
+
+    public function employees(): Builder
+    {
+        return Employee::whereHas('branch.business.owners', function ($q) {
+            return $q->where('owner_id', $this->id);
+        });
     }
 }

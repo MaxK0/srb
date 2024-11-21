@@ -26,7 +26,10 @@ class EmployeeService extends BaseService
         $branches = $branchService->ownerBranches(['id', 'title']);
         $branches->prepend(['id' => null, 'title' => 'Все филиалы']);
 
-        $employees = $this->model
+        $owner = auth()->user()->owner;
+
+        $employees = $owner
+            ->employees()
             ->filter($filter)
             ->join('users', 'employees.user_id', '=', 'users.id')
             ->leftJoin('positions', 'employees.position_id', '=', 'positions.id')
