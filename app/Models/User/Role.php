@@ -10,9 +10,9 @@ class Role extends Model
 {
     use HasFactory;
 
-    public const CLIENT_ID = 0;
     public const OWNER_ID = 1;
     public const EMPLOYEE_ID = 2;
+    public const CLIENT_ID = 3;
 
     public const CLIENT = 'Клиент';
     public const OWNER = 'Владелец';
