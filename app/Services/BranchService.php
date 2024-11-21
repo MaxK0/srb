@@ -6,7 +6,7 @@ use App\Models\City;
 use App\Models\Owner\Branch;
 use App\Models\Owner\Business;
 use App\Models\User\User;
-use Illuminate\Contracts\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Builder;
 
 class BranchService extends BaseService
 {

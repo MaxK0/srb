@@ -4,7 +4,7 @@ namespace App\Services;
 
 use App\Filters\PositionFilter;
 use App\Models\Employee\Position;
-use Illuminate\Contracts\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
 
 class PositionService extends BaseService
