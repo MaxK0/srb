@@ -11,6 +11,11 @@ use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\SitemapController;
 use App\Http\Controllers\UserController;
 use App\Http\Middleware\IsOwner;
+use App\Models\Employee\Employee;
+use App\Models\Employee\Position;
+use App\Models\Owner\Branch;
+use App\Models\Owner\Business;
+use App\Models\Owner\Owner;
 use App\Models\User\User;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -41,102 +46,102 @@ Route::middleware([
 
     Route::prefix('/businesses')->name('businesses.')->group(function () {
         Route::get('', [BusinessController::class, 'index'])->name('index')
-            ->middleware('can:viewAny,\App\Models\Owner\Business');
+            ->can('viewAny', Business::class);
 
         Route::get('/create', [BusinessController::class, 'create'])->name('create')
-            ->middleware('can:create,\App\Models\Owner\Business');
+            ->can('create', Business::class);
 
         Route::post('', [BusinessController::class, 'store'])->name('store')
-            ->middleware('can:create,\App\Models\Owner\Business');
+            ->can('create', Business::class);
 
         Route::get('/{business}', [BusinessController::class, 'show'])->name('show')
-            ->middleware('can:view,business');
+            ->can('view', 'business');
 
         Route::get('/{business}/edit', [BusinessController::class, 'edit'])->name('edit')
-            ->middleware('can:update,business');
+            ->can('update', 'business');
 
         Route::put('/{business}', [BusinessController::class, 'update'])->name('update')
-            ->middleware('can:update,business');
+            ->can('update', 'business');
 
         Route::delete('/{business}', [BusinessController::class, 'destroy'])->name('destroy')
-            ->middleware('can:delete,business');
+            ->can('delete', 'business');
     });
 
     Route::prefix('/branches')->name('branches.')->group(function () {
         Route::get('/create', [BranchController::class, 'create'])->name('create')
-            ->middleware('can:create,\App\Models\Owner\Branch');
+            ->can('create', Branch::class);
 
         Route::post('', [BranchController::class, 'store'])->name('store')
-            ->middleware('can:create,\App\Models\Owner\Branch');
+            ->can('create', Branch::class);
 
         Route::get('/{branch}', [BranchController::class, 'show'])->name('show')
-            ->middleware('can:view,branch');
+            ->can('view', 'branch');
 
         Route::get('/{branch}/edit', [BranchController::class, 'edit'])->name('edit')
-            ->middleware('can:update,branch');
+            ->can('update', 'branch');
 
         Route::put('/{branch}', [BranchController::class, 'update'])->name('update')
-            ->middleware('can:update,branch');
+            ->can('update', 'branch');
 
         Route::delete('/{branch}', [BranchController::class, 'destroy'])->name('destroy')
-            ->middleware('can:delete,branch');
+            ->can('delete', 'branch');
     });
 
     Route::prefix('/positions')->name('positions.')->group(function () {
         Route::get('', [PositionController::class, 'index'])->name('index')
-            ->middleware('can:viewAny,\App\Models\Employee\Position');
+            ->can('viewAny', Position::class);
 
         Route::get('/create', [PositionController::class, 'create'])->name('create')
-            ->middleware('can:create,\App\Models\Employee\Position');
+            ->can('create', Position::class);
 
         Route::post('', [PositionController::class, 'store'])->name('store')
-            ->middleware('can:create,\App\Models\Employee\Position');
+            ->can('create', Position::class);
 
         Route::get('/{position}', [PositionController::class, 'show'])->name('show')
-            ->middleware('can:view,position');
+            ->can('view', 'position');
 
         Route::get('/{position}/edit', [PositionController::class, 'edit'])->name('edit')
-            ->middleware('can:update,position');
+            ->can('update', 'position');
 
         Route::put('/{position}', [PositionController::class, 'update'])->name('update')
-            ->middleware('can:update,position');
+            ->can('update', 'position');
 
         Route::delete('/{position}', [PositionController::class, 'destroy'])->name('destroy')
-            ->middleware('can:delete,position');
+            ->can('delete', 'position');
 
         Route::delete('/{position}/withoutRedirect', [PositionController::class, 'destroyWithoutRedirect'])->name('destroyWithoutRedirect')
-            ->middleware('can:delete,position');
+            ->can('delete', 'position');
     });
 
     Route::prefix('/employees')->name('employees.')->group(function () {
         Route::get('', [EmployeeController::class, 'index'])->name('index')
-            ->middleware('can:viewAny,\App\Models\Employee\Employee');
+            ->can('viewAny', Employee::class);
 
         Route::get('/create', [EmployeeController::class, 'create'])->name('create')
-            ->middleware('can:create,\App\Models\Employee\Employee');
+            ->can('create', Employee::class);
 
         Route::post('', [EmployeeController::class, 'store'])->name('store')
-            ->middleware('can:create,\App\Models\Employee\Employee');
+            ->can('create', Employee::class);
 
         Route::get('/{employee}', [EmployeeController::class, 'show'])->name('show')
-            ->middleware('can:view,employee');
+            ->can('view', 'employee');
 
         Route::get('/{employee}/edit', [EmployeeController::class, 'edit'])->name('edit')
-            ->middleware('can:update,employee');
+            ->can('update', 'employee');
 
         Route::put('/{employee}', [EmployeeController::class, 'update'])->name('update')
-            ->middleware('can:update,employee');
+            ->can('update', 'employee');
 
         Route::delete('/{employee}', [EmployeeController::class, 'destroy'])->name('destroy')
-            ->middleware('can:delete,employee');
+            ->can('delete', 'employee');
 
         Route::delete('/{employee}/withoutRedirect', [EmployeeController::class, 'destroyWithoutRedirect'])->name('destroyWithoutRedirect')
-            ->middleware('can:delete,employee');
+            ->can('delete', 'employee');
     });
 
     Route::name('owner.')->group(function () {
         Route::post('/becomeOwner', [OwnerController::class, 'becomeOwner'])->name('become')
-            ->middleware('can:create,\App\Models\Owner\Owner');
+            ->can('create', Owner::class);
     });
 
     // TODO: Изменить middleware на can
@@ -159,5 +164,4 @@ Route::middleware([
 
         Route::post('clients/{user}/detachClient', [ClientController::class, 'detachClient'])->name('clients.attachUser');
     });
-
 });
