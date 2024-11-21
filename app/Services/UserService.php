@@ -70,8 +70,6 @@ class UserService extends BaseService
 
         $employee = Employee::create($data);
 
-        $employee->branches()->attach($data['branch_id']);
-
         if (! $user->isEmployee()) {
             $user->roles()->attach(User::EMPLOYEE_ID);
         }

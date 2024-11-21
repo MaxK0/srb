@@ -30,12 +30,12 @@ const form = useForm({
     branch: props.branches.find(
         (branch) =>
             branch.id ==
-            (props.filter.branchId ?? props.employee.branches[0].id)
+            (props.filter.branchId ?? props.employee.branch.id)
     ),
     position: props.positions.find(
         (position) => {
             if (props.employee.position) {
-                position.id == (props.employee.position.id)
+                return position.id == (props.employee.position.id)
             }
         }
     ),

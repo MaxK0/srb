@@ -64,11 +64,11 @@ const destroy = () => {
                                     :href="
                                         route(
                                             'branches.show',
-                                            employee.branches[0].id
+                                            employee.branch.id
                                         )
                                     "
                                     class="link-main"
-                                    >{{ employee.branches[0].title }}</Link
+                                    >{{ employee.branch.title }}</Link
                                 >
                             </td>
                         </tr>

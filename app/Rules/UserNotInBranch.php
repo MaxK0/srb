@@ -18,14 +18,13 @@ class UserNotInBranch implements Rule
     public function passes($attribute, $value)
     {
         $user = User::find($this->userId);
-        if ($user && $user->employees) {
-            foreach ($user->employees as $employee) {
-                if ($employee->branches->contains('id', $value)) {
-                    return false;
-                }
-            }
-        }
-        return true;
+
+        if (! $user) return true;
+
+        return ! $user
+            ->employees()
+            ->where('branch_id', $value)
+            ->exists();
     }
 
     public function message()

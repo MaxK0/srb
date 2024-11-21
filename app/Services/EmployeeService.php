@@ -78,8 +78,6 @@ class EmployeeService extends BaseService
         $data['user_id'] = $user->id;
 
         $employee = $this->model->create($data);
-
-        $employee->branches()->attach($data['branch_id']);
         
         if (! $user->isEmployee()) {
             $user->roles()->attach(User::EMPLOYEE_ID);
@@ -98,7 +96,7 @@ class EmployeeService extends BaseService
             'position' => function ($q) {
                 $q->select(['id', 'title']);
             },
-            'branches' => function ($q) {
+            'branch' => function ($q) {
                 $q->select(['branches.id', 'title']);
             }
         ]);
@@ -116,11 +114,11 @@ class EmployeeService extends BaseService
         $data['branches'] = $branchService->ownerBranches(['id', 'title']);
         $data['employee'] = $employee->load(
             [
-                'branches' => function ($q) {
+                'branch' => function ($q) {
                     $q->select(['branches.id', 'title']);
                 },
                 'position' => function ($q) {
-                    $q->select(['id', 'title']);
+                    $q->select(['positions.id', 'title']);
                 }
             ]
         );
@@ -128,19 +126,9 @@ class EmployeeService extends BaseService
         if ($data['filter']['branchId'] = request('branch_id')) {
             $data['positions'] = Position::filter($filter)->select(['id', 'title'])->get();
         } else {
-            $data['positions'] = Position::where('branch_id', $employee->branches[0]->id)->select(['id', 'title'])->get();
+            $data['positions'] = Position::where('branch_id', $employee->branch_id)->select(['id', 'title'])->get();
         }
 
         return $data;
-    }
-
-
-    public function update(Model $employee, array|Collection $data): bool
-    {
-        $result = $employee->update($data);
-
-        if ($result) $employee->branches()->sync($data['branch_id']);
-
-        return $result;
     }
 }

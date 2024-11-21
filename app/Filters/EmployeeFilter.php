@@ -2,6 +2,7 @@
 
 namespace App\Filters;
 
+use App\Models\Employee\Employee;
 use Filterable\Filter;
 use Illuminate\Database\Eloquent\Builder;
 
@@ -23,8 +24,6 @@ class EmployeeFilter extends Filter
      */
     protected function branchId(string $value): Builder
     {
-        return $this->builder->whereHas('branches', function($q) use ($value) {
-            $q->where('branches.id', $value);
-        });
+        return $this->builder->where(app(Employee::class)->getTable() . '.branch_id', $value);
     }
 }
