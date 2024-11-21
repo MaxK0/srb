@@ -21,12 +21,14 @@ class Employee extends Model implements FilterableInterface
     protected $fillable = [
         'work_phone',
         'user_id',
-        'position_id'
+        'position_id',
+        'branch_id'
     ];
 
     protected $casts = [
         'user_id' => 'integer',
-        'position_id' => 'integer'
+        'position_id' => 'integer',
+        'branch_id' => 'integer'
     ];
 
     protected $appends = ['formatted_work_phone'];
@@ -53,9 +55,9 @@ class Employee extends Model implements FilterableInterface
         return $this->belongsTo(Position::class);
     }
 
-    public function branches(): BelongsToMany
+    public function branch(): BelongsTo
     {
-        return $this->belongsToMany(Branch::class, 'branch_employees');
+        return $this->belongsTo(Branch::class);
     }
 
     public function workdays(): HasMany

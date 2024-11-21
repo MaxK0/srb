@@ -41,9 +41,9 @@ class Branch extends Model
         return $this->belongsTo(City::class);
     }
 
-    public function employees(): BelongsToMany
+    public function employees(): HasMany
     {
-        return $this->belongsToMany(Employee::class, 'branch_employees');
+        return $this->hasMany(Employee::class);
     }
 
     public function positions(): HasMany
