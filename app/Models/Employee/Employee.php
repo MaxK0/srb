@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Filterable\Interfaces\Filterable as FilterableInterface;
 use Filterable\Traits\Filterable as FilterableTrait;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Employee extends Model implements FilterableInterface
 {
@@ -60,9 +61,9 @@ class Employee extends Model implements FilterableInterface
         return $this->belongsTo(Branch::class);
     }
 
-    public function workdays(): HasMany
+    public function workday(): HasOne
     {
-        return $this->hasMany(Workday::class);
+        return $this->hasOne(Workday::class);
     }
 
     public function orders(): BelongsToMany
