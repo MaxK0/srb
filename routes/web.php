@@ -10,13 +10,17 @@ use App\Http\Controllers\PositionController;
 use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\SitemapController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\WorkdayController;
 use App\Http\Middleware\IsOwner;
 use App\Models\Employee\Employee;
 use App\Models\Employee\Position;
+use App\Models\Employee\Workday\Timework;
+use App\Models\Employee\Workday\Workday;
 use App\Models\Owner\Branch;
 use App\Models\Owner\Business;
 use App\Models\Owner\Owner;
 use App\Models\User\User;
+use Carbon\Carbon;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -137,6 +141,26 @@ Route::middleware([
 
         Route::delete('/{employee}/withoutRedirect', [EmployeeController::class, 'destroyWithoutRedirect'])->name('destroyWithoutRedirect')
             ->can('delete', 'employee');
+
+        Route::prefix('/{employee}/workdays')->name('workdays.')->group(function () {
+            Route::get('/create', [WorkdayController::class, 'create'])->name('create')
+                ->can('create', Workday::class);
+
+            Route::post('', [WorkdayController::class, 'store'])->name('store')
+                ->can('create', Workday::class);
+
+            Route::get('/{workday}', [WorkdayController::class, 'show'])->name('show')
+                ->can('view', 'workday');
+
+            Route::get('/{workday}/edit', [WorkdayController::class, 'edit'])->name('edit')
+                ->can('update', 'workday');
+
+            Route::put('/{workday}', [WorkdayController::class, 'update'])->name('update')            
+                ->can('update', 'workday');
+
+            Route::delete('/{workday}', [WorkdayController::class, 'destroy'])->name('destroy')
+                ->can('delete', 'workday');
+        });
     });
 
     Route::name('owner.')->group(function () {
