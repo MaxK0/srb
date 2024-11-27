@@ -14,14 +14,11 @@ return new class extends Migration
         Schema::create('extra_days', function (Blueprint $table) {
             $table->id();
 
-            $table->date('start');
-            $table->date('end');
+            $table->date('date_start');
+            $table->date('date_end');
             
-            $table->foreignId('timework_id')
-            ->nullable()
-            ->constrained()
-            ->cascadeOnUpdate()
-            ->nullOnDelete();
+            $table->time('time_start')->nullable();
+            $table->time('time_end')->nullable();
             
             $table->foreignId('workday_id')
                 ->constrained()

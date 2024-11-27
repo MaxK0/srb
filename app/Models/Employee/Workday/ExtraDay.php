@@ -11,22 +11,18 @@ class ExtraDay extends Model
     use HasFactory;
 
     protected $fillable = [
-        'start', 'end',
-        'timework_id',
+        'date_start', 'date_end',
+        'time_start', 'time_end',
         'workday_id'
     ];
 
     protected $casts = [
-        'start' => 'date',
-        'end' => 'date',
-        'timework_id' => 'integer',
+        'date_start' => 'date',
+        'date_end' => 'date',
         'workday_id' => 'integer',
+        'time_start' => 'datetime:H:i',
+        'time_end' => 'datetime:H:i'
     ];
-
-    public function timework(): BelongsTo
-    {
-        return $this->belongsTo(Timework::class);
-    }
 
     public function workday(): BelongsTo
     {

@@ -14,10 +14,13 @@ return new class extends Migration
         Schema::create('workdays', function (Blueprint $table) {
             $table->id();
 
-            $table->date('start_date');
+            $table->date('date_start');
             
             $table->unsignedTinyInteger('days_work');
             $table->unsignedTinyInteger('days_rest');
+            
+            $table->time('time_start')->nullable();
+            $table->time('time_end')->nullable();
 
             $table->foreignId('employee_id')
                 ->constrained()
@@ -29,11 +32,6 @@ return new class extends Migration
                 ->cascadeOnUpdate()
                 ->cascadeOnDelete();
 
-            $table->foreignId('timework_id')
-                ->nullable()
-                ->constrained()
-                ->cascadeOnUpdate()
-                ->nullOnDelete();
 
             $table->timestamps();
         });

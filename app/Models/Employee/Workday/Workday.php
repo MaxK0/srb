@@ -14,20 +14,21 @@ class Workday extends Model
     use HasFactory;
 
     protected $fillable = [
-        'start_date',
+        'date_start',
         'days_work', 'days_rest',
         'employee_id',
         'branch_id',
-        'timework_id'
+        'time_start', 'time_end'
     ];
 
     protected $casts = [
-        'start_date' => 'date',
+        'date_start' => 'date',
         'days_work' => 'integer',
         'days_rest' => 'integer',
         'employee_id' => 'integer',
         'branch_id' => 'integer',
-        'timework_id' => 'integer',
+        'time_start' => 'datetime:H:i',
+        'time_end' => 'datetime:H:i'
     ];
 
     public function employee(): BelongsTo
@@ -38,11 +39,6 @@ class Workday extends Model
     public function branch(): BelongsTo
     {
         return $this->belongsTo(Branch::class);
-    }
-
-    public function timework(): BelongsTo
-    {
-        return $this->belongsTo(Timework::class);
     }
 
     public function extraDays(): HasMany
