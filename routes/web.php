@@ -145,6 +145,7 @@ Route::middleware([
             Route::get('/create', [WorkdayController::class, 'create'])->name('create')
                 ->can('create', Workday::class);
 
+            // TODO: сотрудник может создавать только, если у него нет рабочего дня
             Route::post('', [WorkdayController::class, 'store'])->name('store')
                 ->can('create', Workday::class);
 

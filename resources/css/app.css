@@ -205,7 +205,8 @@ section {
     margin-left: 1rem;
 }
 
-.input {
+.input,
+.p-inputtext {
     font-size: var(--font-size-normal);
     border-radius: var(--border-radius);
     background: none;
@@ -300,7 +301,8 @@ section {
     cursor: pointer;
 }
 
-[data-pc-name="password"] > input {
+[data-pc-name="password"] > input,
+[data-pc-name="datepicker"] > input {
     font-size: var(--font-size-normal);
     border-radius: var(--border-radius);
     background: none;
@@ -308,6 +310,49 @@ section {
     padding: 1rem 4.5rem 1rem 1.5rem;
     height: 100%;
     width: 100%;
+}
+
+.p-select-option {
+    color: var(--color-main);
+}
+.p-select-option:hover {
+    color: var(--color-second);
+}
+
+#date_start_panel {
+    padding: 2rem 1rem;
+    background-color: var(--color-second);
+}
+
+.p-datepicker-header {
+    background-color: var(--color-second);
+}
+
+.p-datepicker-day-cell {
+    padding: 0.5rem 0;
+}
+
+.p-datepicker-select-month,
+.p-datepicker-header,
+.p-datepicker-year,
+.p-datepicker-month {
+    color: var(--color-main);
+}
+
+.p-datepicker-day, .p-datepicker-weekday {
+    font-size: var(--font-size-small);
+    margin-inline: auto;
+    color: var(--color-main);
+}
+
+[data-p-today="true"] .p-datepicker-day {
+    color: var(--color-second);
+}
+
+.p-datepicker-day:hover,
+.p-datepicker-year:hover,
+.p-datepicker-month:hover {
+    color: var(--color-second);
 }
 
 .error {

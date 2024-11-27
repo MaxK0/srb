@@ -2,6 +2,7 @@
 
 namespace App\Policies;
 
+use App\Models\Employee\Employee;
 use App\Models\Employee\Workday\Workday;
 use App\Models\User\User;
 use Illuminate\Auth\Access\Response;
@@ -13,7 +14,7 @@ class WorkdayPolicy
      */
     public function viewAny(User $user): bool
     {
-        //
+        return true;
     }
 
     /**
@@ -21,7 +22,7 @@ class WorkdayPolicy
      */
     public function view(User $user, Workday $workday): bool
     {
-        //
+        return true;
     }
 
     /**
@@ -29,7 +30,7 @@ class WorkdayPolicy
      */
     public function create(User $user): bool
     {
-        //
+        return true;
     }
 
     /**
@@ -37,7 +38,7 @@ class WorkdayPolicy
      */
     public function update(User $user, Workday $workday): bool
     {
-        //
+        return true;
     }
 
     /**
@@ -45,6 +46,6 @@ class WorkdayPolicy
      */
     public function delete(User $user, Workday $workday): bool
     {
-        //
+        return true;
     }
 }

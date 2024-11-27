@@ -2,7 +2,9 @@
 
 namespace App\Services;
 
+use App\Models\Employee\Employee;
 use App\Models\Employee\Workday\Workday;
+use Carbon\Carbon;
 
 class WorkdayService extends BaseService
 {
@@ -12,9 +14,18 @@ class WorkdayService extends BaseService
     }
 
 
-    public function dataForCreate(): array
+    public function dataForCreate(Employee $employee): array
     {
-        return [];
+        $employee = $employee->load([
+            'user' => fn($q) => $q->select('id', 'name', 'lastname', 'patronymic')
+        ]);
+
+        $employeeArray['id'] = $employee->id;
+        $employeeArray['fio_short'] = $employee->user->fio_short;
+
+        return [
+            'employee' => $employeeArray
+        ];
     }
 
 
@@ -27,5 +38,16 @@ class WorkdayService extends BaseService
     public function dataForEdit(): array
     {
         return [];
+    }
+
+
+    public function store(array $data, Employee $employee)
+    {
+        $data['employee_id'] = $employee->id;
+
+        $data['time_start'] = Carbon::parse($data['time_start'])->toTimeString('minutes');
+        $data['time_end'] = Carbon::parse($data['time_end'])->toTimeString('minutes');
+        
+        $this->create($data);
     }
 }

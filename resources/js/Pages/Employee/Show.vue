@@ -21,9 +21,9 @@ const destroy = () => {
 
 <template>
     <AppLayout :title="employee.user.fio_short">
-        <section class="position__show">
+        <section class="employee__show">
             <div class="container">
-                <div class="position__show__btns">
+                <div class="employee__show__btns">
                     <button @click="edit" class="btn-main">
                         Редактировать
                     </button>
@@ -92,14 +92,27 @@ const destroy = () => {
                 </table>
             </div>
         </section>
+        <section class="employee__show__workday">
+            <div class="container">
+                <Link
+                    class="btn-main employee__workday__create-link"
+                    :href="route('employees.workdays.create', employee.id)"
+                >Создать рабочий день</Link>
+            </div>
+        </section>
     </AppLayout>
 </template>
 
 <style scoped>
-.position__show__btns {
+.employee__show__btns {
     align-self: flex-end;
     display: flex;
     gap: 2.5rem;
+    margin-bottom: 4rem;
+}
+
+.employee__workday__create-link {
+    align-self: flex-end;
     margin-bottom: 4rem;
 }
 </style>
