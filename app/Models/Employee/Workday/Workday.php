@@ -17,7 +17,6 @@ class Workday extends Model
         'date_start',
         'days_work', 'days_rest',
         'employee_id',
-        'branch_id',
         'time_start', 'time_end'
     ];
 
@@ -26,7 +25,6 @@ class Workday extends Model
         'days_work' => 'integer',
         'days_rest' => 'integer',
         'employee_id' => 'integer',
-        'branch_id' => 'integer',
         'time_start' => 'datetime:H:i',
         'time_end' => 'datetime:H:i'
     ];
@@ -34,11 +32,6 @@ class Workday extends Model
     public function employee(): BelongsTo
     {
         return $this->belongsTo(Employee::class);
-    }
-
-    public function branch(): BelongsTo
-    {
-        return $this->belongsTo(Branch::class);
     }
 
     public function extraDays(): HasMany
