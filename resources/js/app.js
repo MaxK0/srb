@@ -6,6 +6,7 @@ import { createInertiaApp } from '@inertiajs/vue3';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import { ZiggyVue } from '../../vendor/tightenco/ziggy';
 import PrimeVue from 'primevue/config';
+import Aura from '@primevue/themes/aura';
 import Store from './store/store.js';
 import vClickOutside from 'v-click-outside';
 
@@ -20,7 +21,12 @@ createInertiaApp({
             .use(ZiggyVue)
             .use(Store)
             .use(PrimeVue, {
-                unstyled: true
+                theme: {
+                    preset: Aura,
+                    options: {
+                        cssLayer: true
+                    }
+                }
             })
             .use(vClickOutside)
             .mount(el);
