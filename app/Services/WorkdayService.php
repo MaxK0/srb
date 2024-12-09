@@ -35,9 +35,11 @@ class WorkdayService extends BaseService
     }
 
 
-    public function dataForEdit(): array
+    public function dataForEdit(Workday $workday): array
     {
-        return [];
+        return [
+            'workday' => $workday
+        ];
     }
 
 
