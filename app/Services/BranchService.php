@@ -15,6 +15,7 @@ class BranchService extends BaseService
         parent::__construct(Branch::class);
     }
 
+    // TODO: Перенести в OwnerService
     public function ownerBranches(array $select = null): Builder
     {
         /** @var User $user */

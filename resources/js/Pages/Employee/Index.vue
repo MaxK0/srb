@@ -127,7 +127,7 @@ onUpdated(() => {
                     :pagination="employees"
                 />
             </div>
-        </section>
+        </section>        
     </AppLayout>
 </template>
 

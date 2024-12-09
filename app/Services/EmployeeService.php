@@ -43,7 +43,6 @@ class EmployeeService extends BaseService
             ->paginate($perPage)
             ->withQueryString();
 
-
         $data =  [
             'branches' => $branches,
             'employees' => $employees,
@@ -81,7 +80,7 @@ class EmployeeService extends BaseService
         $data['user_id'] = $user->id;
 
         $employee = $this->model->create($data);
-        
+
         if (! $user->isEmployee()) {
             $user->roles()->attach(User::EMPLOYEE_ID);
         }
@@ -100,7 +99,10 @@ class EmployeeService extends BaseService
                 $q->select(['id', 'title']);
             },
             'branch' => function ($q) {
-                $q->select(['branches.id', 'title']);
+                $q->select(['id', 'title']);
+            },
+            'workday' => function ($q) {
+                $q->select(['id', 'date_start', 'days_work', 'days_rest', 'time_start', 'time_end', 'employee_id']);
             }
         ]);
 

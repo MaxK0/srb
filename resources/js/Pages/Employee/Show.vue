@@ -1,7 +1,7 @@
 <script setup>
 import { router, Link } from "@inertiajs/vue3";
 import AppLayout from "@/Layouts/AppLayout.vue";
-import { formateDate } from "@/Scripts/formateDate";
+import { formateDate, formateTime } from "@/Scripts/formateDate";
 
 const props = defineProps({
     employee: {
@@ -16,6 +16,12 @@ const edit = () => {
 
 const destroy = () => {
     router.delete(route("employees.destroy", props.employee));
+};
+
+const destroyWorkday = () => {
+    router.delete(
+        route("employees.workdays.destroy", [props.employee.id, props.employee.workday.id])
+    );
 };
 </script>
 
@@ -94,10 +100,70 @@ const destroy = () => {
         </section>
         <section class="employee__show__workday">
             <div class="container">
-                <Link
-                    class="btn-main employee__workday__create-link"
-                    :href="route('employees.workdays.create', employee.id)"
-                >Создать рабочий день</Link>
+                <h2 class="mb-20">Рабочий день</h2>
+                <div class="employee__workday__btns">
+                    <Link
+                        v-if="!employee.workday"
+                        class="btn-main"
+                        :href="route('employees.workdays.create', employee.id)"
+                        >Создать</Link
+                    >
+                    <Link
+                        v-else
+                        class="btn-main"
+                        :href="
+                            route('employees.workdays.edit', [
+                                employee.id,
+                                employee.workday.id,
+                            ])
+                        "
+                        >Редактировать</Link
+                    >
+                    <button
+                        v-if="employee.workday"
+                        @click="destroyWorkday"
+                        class="btn-main delete"
+                    >
+                        Удалить
+                    </button>
+                </div>
+
+                <table v-if="employee.workday" class="table table__show">
+                    <tbody class="tbody">
+                        <tr>
+                            <th>Начало расчета</th>
+                            <td>
+                                <Link
+                                    class="link-main"
+                                    :href="
+                                        route('employees.workdays.show', [
+                                            employee.id,
+                                            employee.workday.id,
+                                        ])
+                                    "
+                                >
+                                    {{
+                                        formateDate(employee.workday.date_start)
+                                    }}
+                                </Link>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Смена</th>
+                            <td>
+                                {{ employee.workday.days_work }} /
+                                {{ employee.workday.days_rest }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Время работы</th>
+                            <td>
+                                {{ formateTime(employee.workday.time_start) }} -
+                                {{ formateTime(employee.workday.time_end) }}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </section>
     </AppLayout>
@@ -111,8 +177,10 @@ const destroy = () => {
     margin-bottom: 4rem;
 }
 
-.employee__workday__create-link {
+.employee__workday__btns {
     align-self: flex-end;
+    display: flex;
+    gap: 2rem;
     margin-bottom: 4rem;
 }
 </style>

@@ -31,7 +31,7 @@ class PositionService extends BaseService
         return $data;
     }
 
-
+    // TODO: Перенести в OwnerService
     public function ownerPositions(array $select = null): Builder
     {
         /** @var User $user */
