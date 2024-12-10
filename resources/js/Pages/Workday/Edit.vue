@@ -1,6 +1,5 @@
 <script setup>
 import { useForm } from "@inertiajs/vue3";
-import { formateDate, formateTime } from "@/Scripts/formateDate";
 
 import AppLayout from "@/Layouts/AppLayout.vue";
 
@@ -18,16 +17,24 @@ const props = defineProps({
     },
 });
 
-const formattedDateStart = formateDate(props.workday.date_start);
+const formateTime = (time) => {
+    const [hours, minutes] = time.split(":");
+
+    const date = new Date();
+    date.setUTCHours(parseInt(hours, 10));
+    date.setUTCMinutes(parseInt(minutes, 10));
+    date.setUTCSeconds(0);
+
+    return date;
+};
 
 const form = useForm({
-    date_start: props.workday.date_start,
+    date_start: new Date(props.workday.date_start),
     days_work: props.workday.days_work,
     days_rest: props.workday.days_rest,
-    time_start: props.workday.time_start,
-    time_end: props.workday.time_end,
+    time_start: formateTime(props.workday.time_start),
+    time_end: formateTime(props.workday.time_end),
 });
-
 
 
 const submit = () => {

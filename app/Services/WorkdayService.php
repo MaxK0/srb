@@ -5,6 +5,8 @@ namespace App\Services;
 use App\Models\Employee\Employee;
 use App\Models\Employee\Workday\Workday;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Collection;
 
 class WorkdayService extends BaseService
 {
@@ -51,5 +53,16 @@ class WorkdayService extends BaseService
         $data['time_end'] = Carbon::parse($data['time_end'])->toTimeString('minutes');
         
         $this->create($data);
+    }
+
+
+    public function update(Model $model, array|Collection $data): bool
+    {
+        if (! is_array($data) && $data instanceof Collection) $data = $data->all();
+
+        $data['time_start'] = Carbon::parse($data['time_start'])->toTimeString('minutes');
+        $data['time_end'] = Carbon::parse($data['time_end'])->toTimeString('minutes');
+
+        return $model->update($data);
     }
 }

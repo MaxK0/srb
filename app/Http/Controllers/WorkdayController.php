@@ -48,11 +48,10 @@ class WorkdayController extends Controller
     {
         $data = $request->validated();
 
-        $workday->update($data);
+        $this->workdayService
+            ->update($workday, $data);
+        
         return redirect()->route('employees.show', $employee);
-
-
-        dd($data);
     }
 
 
