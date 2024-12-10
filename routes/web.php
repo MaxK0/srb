@@ -1,4 +1,3 @@
-
 <?php
 
 use App\Http\Controllers\BranchController;
@@ -155,7 +154,7 @@ Route::middleware([
             Route::get('/{workday}/edit', [WorkdayController::class, 'edit'])->name('edit')
                 ->can('update', 'workday');
 
-            Route::put('/{workday}', [WorkdayController::class, 'update'])->name('update')            
+            Route::put('/{workday}', [WorkdayController::class, 'update'])->name('update')
                 ->can('update', 'workday');
 
             Route::delete('/{workday}', [WorkdayController::class, 'destroy'])->name('destroy')
