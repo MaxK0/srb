@@ -33,7 +33,13 @@ class WorkdayController extends Controller
     }
 
 
-    public function show(Employee $employee, Workday $workday) {}
+    public function show(Employee $employee, Workday $workday)
+    {
+        $data = $this->workdayService
+            ->dataForShow($workday);
+
+        return Inertia::render('Workday/Show', $data);
+    }
 
 
     public function edit(Employee $employee, Workday $workday)
@@ -50,10 +56,16 @@ class WorkdayController extends Controller
 
         $this->workdayService
             ->update($workday, $data);
-        
+
         return redirect()->route('employees.show', $employee);
     }
 
 
-    public function destroy(Employee $employee, Workday $workday) {}
+    public function destroy(Employee $employee, Workday $workday)
+    {
+        $this->workdayService
+            ->delete($workday);
+
+        return redirect()->route('employees.show', $employee->id);
+    }
 }

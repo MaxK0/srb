@@ -31,9 +31,11 @@ class WorkdayService extends BaseService
     }
 
 
-    public function dataForShow(): array
+    public function dataForShow(Workday $workday): array
     {
-        return [];
+        return [
+            'workday' => $workday
+        ];
     }
 
 
@@ -51,7 +53,7 @@ class WorkdayService extends BaseService
 
         $data['time_start'] = Carbon::parse($data['time_start'])->toTimeString('minutes');
         $data['time_end'] = Carbon::parse($data['time_end'])->toTimeString('minutes');
-        
+
         $this->create($data);
     }
 
