@@ -1,6 +1,6 @@
 <?php
 
-namespace Database\Factories;
+namespace Database\Factories\User;
 
 use App\Models\Team;
 use App\Models\User\User;
@@ -26,16 +26,22 @@ class UserFactory extends Factory
      */
     public function definition(): array
     {
+        $sexes = ['м', 'ж'];
+        $randSexId = array_rand($sexes);
+        $randSex = $sexes[$randSexId];
+
         return [
             'name' => fake()->name(),
+            'lastname' => fake()->lastName(),
+            'patronymic' => fake()->name(),
             'email' => fake()->unique()->safeEmail(),
             'email_verified_at' => now(),
+            'sex' => $randSex,
+            'phone' => fake()->unique()->numberBetween(1000000000, 9999999999),
             'password' => static::$password ??= Hash::make('password'),
             'two_factor_secret' => null,
             'two_factor_recovery_codes' => null,
             'remember_token' => Str::random(10),
-            'profile_photo_path' => null,
-            'current_team_id' => null,
         ];
     }
 
@@ -44,7 +50,7 @@ class UserFactory extends Factory
      */
     public function unverified(): static
     {
-        return $this->state(fn (array $attributes) => [
+        return $this->state(fn(array $attributes) => [
             'email_verified_at' => null,
         ]);
     }
@@ -60,7 +66,7 @@ class UserFactory extends Factory
 
         return $this->has(
             Team::factory()
-                ->state(fn (array $attributes, User $user) => [
+                ->state(fn(array $attributes, User $user) => [
                     'name' => $user->name . '\'s Team',
                     'user_id' => $user->id,
                     'personal_team' => true,
