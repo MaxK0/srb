@@ -35,6 +35,9 @@ const becomeOwner = () => {
                 >
                     Бизнесом
                 </NavLink>
+                <!-- TODO: Сделать выбор филиала здесь, убрать из других мест (можно оставить на стр. создания, edit)
+                  Для этого можно сохранить id выбранного филиала в cookie или в vuex.
+                  Лучше cookie -->
                 <NavLink
                     :href="route('positions.index')"
                     :active="route().current('positions.index')"
