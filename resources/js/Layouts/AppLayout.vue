@@ -46,7 +46,7 @@ onMounted(() => {
                         <div class="header__ul">
                             <button @click="toggleAside" class="toggle-aside">
                                 <img
-                                    src="@/assets/img/icons/burger-menu.svg"
+                                    src="/assets/img/icons/burger-menu.svg"
                                     alt="Меню"
                                 />
                             </button>

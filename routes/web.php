@@ -26,10 +26,10 @@ use Inertia\Inertia;
 
 Route::get('/sitemap', [SitemapController::class, 'index']);
 
-// Route::get('/test', function () {
-//     Cookie::queue('branch_id', 1, 60);
-//     dd(request()->cookie());
-// });
+Route::get('/test', function () {
+    // Cookie::queue('branch_id', 1, 60);
+    dd(request()->cookie());
+});
 
 Route::get('/', function () {
     return Inertia::render('Home', [

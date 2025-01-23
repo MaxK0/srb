@@ -4,6 +4,7 @@ const store = createStore({
     state() {
         return {
             isAsideOpen: false,
+            branches: [],
         };
     },
     mutations: {
@@ -12,7 +13,10 @@ const store = createStore({
         },
         setIsAsideOpen(state, value) {
             state.isAsideOpen = value;
-        }
+        },
+        setBranches(state, branches) {
+            state.branches = branches;
+        },
     },
 });
 

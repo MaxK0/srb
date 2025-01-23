@@ -1,10 +1,22 @@
 <script setup>
-import { router } from "@inertiajs/vue3";
+import { router, usePage } from "@inertiajs/vue3";
 import NavLink from "@/Components/NavLink.vue";
+import { Select } from "primevue";
+import { computed, ref } from "vue";
 
 const becomeOwner = () => {
     router.post(route("owner.become"));
 };
+
+const branches = computed(() => usePage().props.owner.branches);
+
+const branch = ref([]);
+
+const changeBranch = () => {
+    $branchId = `branch_id={branch.value.id}`;
+    console.log($branchId);
+    document.cookie = "branch_id=" + branch.value.id;
+}
 </script>
 
 <template>
@@ -35,9 +47,15 @@ const becomeOwner = () => {
                 >
                     Бизнесом
                 </NavLink>
-                <!-- TODO: Сделать выбор филиала здесь, убрать из других мест (можно оставить на стр. создания, edit)
-                  Для этого можно сохранить id выбранного филиала в cookie или в vuex.
-                  Лучше cookie -->
+                <Select
+                    v-model="branch"
+                    :options="branches"
+                    filter
+                    optionLabel="title"
+                    placeholder="Филиал"
+                    class="select"
+                    @change="changeBranch"
+                ></Select>
                 <NavLink
                     :href="route('positions.index')"
                     :active="route().current('positions.index')"
@@ -68,6 +86,7 @@ const becomeOwner = () => {
     left: 3rem;
     top: 11rem;
     z-index: 50;
+    max-width: 15rem;
 }
 
 .aside__nav {
@@ -106,6 +125,7 @@ const becomeOwner = () => {
         border-radius: var(--border-radius);
         left: 1rem;
         top: 5rem;
+        max-width: 25rem;
     }
 
     .aside * {
@@ -114,6 +134,10 @@ const becomeOwner = () => {
 
     .aside__nav__block:not(:last-child)::after {
         background-color: var(--color-main);
+    }
+
+    .select {
+        border-color: var(--color-main);
     }
 }
 </style>

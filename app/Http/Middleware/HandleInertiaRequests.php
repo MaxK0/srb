@@ -35,8 +35,12 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request): array
     {
+        $user = $request->user();
+
         return array_merge(parent::share($request), [
-            //
+            'owner.branches' => fn() => $user && $user->isOwner()
+                ? $user->owner->branches()->select(['id', 'title'])->get()
+                : null
         ]);
     }
 }
