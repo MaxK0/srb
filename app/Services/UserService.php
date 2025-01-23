@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Filters\PositionFilter;
 use App\Models\Employee\Employee;
 use App\Models\Employee\Position;
+use App\Models\Owner\Owner;
 use App\Models\User\User;
 
 class UserService extends BaseService
@@ -52,9 +53,7 @@ class UserService extends BaseService
 
     public function dataForHire(PositionFilter $filter): array
     {
-        $branchService = app(BranchService::class);
-
-        $data['branches'] = $branchService->ownerBranches(['id', 'title'])->get();
+        $data['branches'] = Owner::staticBranches()->select(['id', 'title'])->get();
 
         if ($data['filter']['branchId'] = request('branch_id')) {
             $data['positions'] = Position::filter($filter)->select(['id', 'title'])->get();

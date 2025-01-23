@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Filters\PositionFilter;
 use App\Models\Employee\Position;
+use App\Models\Owner\Owner;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
 
@@ -17,11 +18,10 @@ class PositionService extends BaseService
 
     public function dataForIndex(PositionFilter $filter, ?int $perPage): array
     {
-        $branchService = app(BranchService::class);
-        $data['branches'] = $branchService->ownerBranches(['id', 'title'])->get();
+        $data['branches'] = Owner::staticBranches()->select(['id', 'title'])->get();
 
         if ($data['filter']['branchId'] = request('branch_id')) {
-            $data['positions'] = $this->ownerPositions()
+            $data['positions'] = Owner::staticPositions()
                 ->filter($filter)
                 ->select('id', 'title')
                 ->paginate($perPage)
@@ -31,28 +31,9 @@ class PositionService extends BaseService
         return $data;
     }
 
-    // TODO: Перенести в OwnerService
-    public function ownerPositions(array $select = null): Builder
-    {
-        /** @var User $user */
-        $user = auth()->user();
-
-        $positions = $user
-            ->owner
-            ->positions();
-
-        if ($select) {
-            $positions->select($select);
-        }
-
-        return $positions;
-    }
-
     public function dataForCreate(): array
     {
-        $branchService = app(BranchService::class);
-
-        $branches = $branchService->ownerBranches(['id', 'title'])->get();
+        $branches = Owner::staticBranches()->select(['id', 'title'])->get();
 
         return [
             'branches' => $branches
@@ -61,9 +42,7 @@ class PositionService extends BaseService
 
     public function dataForEdit(Position $position): array
     {
-        $branchService = app(BranchService::class);
-
-        $branches = $branchService->ownerBranches(['id', 'title'])->get();
+        $branches = Owner::staticBranches()->select(['id', 'title'])->get();
         $position = $position->load([
             'branch' => fn($q) => $q->select(['id', 'title'])
         ]);

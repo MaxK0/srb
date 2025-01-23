@@ -39,7 +39,8 @@ class BusinessService extends BaseService
         ];
     }
 
-    public function dataForShow(Business $business, ?int $perPage): array {
+    public function dataForShow(Business $business, ?int $perPage): array
+    {
         $branches = $business
             ->branches()
             ->select('id', 'title', 'address', 'information')

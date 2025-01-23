@@ -6,6 +6,7 @@ use App\Filters\EmployeeFilter;
 use App\Filters\PositionFilter;
 use App\Models\Employee\Employee;
 use App\Models\Employee\Position;
+use App\Models\Owner\Owner;
 use App\Models\User\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
@@ -21,9 +22,7 @@ class EmployeeService extends BaseService
 
     public function dataForIndex(EmployeeFilter $filter, ?int $perPage): array
     {
-        $branchService = app(BranchService::class);
-
-        $branches = $branchService->ownerBranches(['id', 'title'])->get();
+        $branches = Owner::staticBranches()->select(['id', 'title'])->get();
         $branches->prepend(['id' => null, 'title' => 'Все филиалы']);
 
         $owner = auth()->user()->owner;
@@ -57,10 +56,9 @@ class EmployeeService extends BaseService
 
     public function dataForCreate(PositionFilter $filter): array
     {
-        $branchService = app(BranchService::class);
         $userService = app(UserService::class);
 
-        $data['branches'] = $branchService->ownerBranches(['id', 'title'])->get();
+        $data['branches'] = Owner::staticBranches()->select(['id', 'title'])->get();
         $data['sexes'] = $userService->getSexes();
 
         if ($data['filter']['branchId'] = request('branch_id')) {
@@ -114,9 +112,7 @@ class EmployeeService extends BaseService
 
     public function dataForEdit(Employee $employee, PositionFilter $filter): array
     {
-        $branchService = app(BranchService::class);
-
-        $data['branches'] = $branchService->ownerBranches(['id', 'title'])->get();
+        $data['branches'] = Owner::staticBranches()->select(['id', 'title'])->get();
         $data['employee'] = $employee->load(
             [
                 'branch' => function ($q) {
