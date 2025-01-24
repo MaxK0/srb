@@ -3,6 +3,7 @@ import { router, usePage } from "@inertiajs/vue3";
 import NavLink from "@/Components/NavLink.vue";
 import { Select } from "primevue";
 import { computed, ref } from "vue";
+import { getCookie } from "@/Scripts/cookie";
 
 const becomeOwner = () => {
     router.post(route("owner.become"));
@@ -10,19 +11,28 @@ const becomeOwner = () => {
 
 const branches = computed(() => usePage().props.owner.branches);
 
-const branch = ref([]);
+const branch = ref(branches.value.find((branch) => branch.id == getCookie('branch_id')));
 
 const changeBranch = () => {
-    $branchId = `branch_id={branch.value.id}`;
-    console.log($branchId);
-    document.cookie = "branch_id=" + branch.value.id;
-}
+    const branchIdCookie = `branch_id=${branch.value.id}; path=/; SameSite=Lax;`;
+    document.cookie = branchIdCookie;
+};
 </script>
 
 <template>
     <aside class="aside">
         <nav class="aside__nav">
             <div class="aside__nav__block">
+                <Select
+                    v-if="$page.props.auth.user.is_owner"
+                    v-model="branch"
+                    :options="branches"
+                    filter
+                    optionLabel="title"
+                    placeholder="Филиал"
+                    class="select"
+                    @change="changeBranch"
+                ></Select>
                 <NavLink
                     :href="route('schedule.index')"
                     :active="route().current('schedule.index')"
@@ -47,15 +57,6 @@ const changeBranch = () => {
                 >
                     Бизнесом
                 </NavLink>
-                <Select
-                    v-model="branch"
-                    :options="branches"
-                    filter
-                    optionLabel="title"
-                    placeholder="Филиал"
-                    class="select"
-                    @change="changeBranch"
-                ></Select>
                 <NavLink
                     :href="route('positions.index')"
                     :active="route().current('positions.index')"
@@ -115,6 +116,11 @@ const changeBranch = () => {
     background-color: var(--color-second);
     left: 0;
     bottom: -2rem;
+}
+
+.select {
+    font-size: var(--font-size-small);
+    margin-bottom: 1rem;
 }
 
 @media (max-width: 1024px) {
