@@ -494,6 +494,17 @@ button.delete:active {
 
 /* <===================== Конец таблиц =====================> */
 
+.top-btns {
+    margin-bottom: 4rem;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 2rem;
+}
+.top-btns .select {
+    width: fit-content;
+}
+
 @media (max-width: 1600px) {
     :root {
         --container-width: var(--container-width-md);

@@ -1,6 +1,6 @@
 <script setup>
 import { useForm, router } from "@inertiajs/vue3";
-import { ref } from "vue";
+import { onMounted, ref } from "vue";
 
 import AppLayout from "@/Layouts/AppLayout.vue";
 
@@ -13,6 +13,7 @@ import Checkbox from "@/Components/Checkbox.vue";
 import Select from "primevue/select";
 import InputMask from "primevue/inputmask";
 import Password from "primevue/password";
+import { getCookie } from "@/Scripts/cookie";
 
 const props = defineProps({
     branches: {
@@ -31,7 +32,7 @@ const props = defineProps({
 });
 
 const form = useForm({
-    branch: props.branches.find((branch) => branch.id == props.filter.branchId),
+    branch: null,
     position: [],
     sex: [],
     phone: "",
@@ -71,6 +72,13 @@ const submit = () => {
         });
     } else form.post(route("employees.store"));
 };
+
+// onMounted(() => {
+//     if (!form.branch && getCookie('branch_id')) {
+//         form.branch = props.branches.find((branch) => branch.id == getCookie('branch_id'))
+//         fetchPositions()
+//     }
+// });
 </script>
 
 <template>

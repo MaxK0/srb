@@ -11,10 +11,8 @@ use Inertia\Inertia;
 
 class BranchController extends Controller
 {
-    public function __construct(protected BranchService $branchService)
-    {        
-    }  
-    
+    public function __construct(protected BranchService $branchService) {}
+
 
     public function create()
     {
@@ -23,7 +21,7 @@ class BranchController extends Controller
         return Inertia::render('Branch/Create', $data);
     }
 
-    
+
     public function store(StoreRequest $request)
     {
         $data = $request->validated();
@@ -33,7 +31,7 @@ class BranchController extends Controller
         return redirect()->route('businesses.show', $branch->business_id);
     }
 
-    
+
     public function show(Branch $branch)
     {
         return Inertia::render('Branch/Show', [
@@ -41,7 +39,7 @@ class BranchController extends Controller
         ]);
     }
 
-    
+
     public function edit(Branch $branch)
     {
         $data = $this->branchService->dataForEdit($branch);
@@ -49,7 +47,7 @@ class BranchController extends Controller
         return Inertia::render('Branch/Edit', $data);
     }
 
-    
+
     public function update(UpdateRequest $request, Branch $branch)
     {
         $data = $request->validated();
@@ -59,11 +57,17 @@ class BranchController extends Controller
         return redirect()->route('businesses.show', $branch->business_id);
     }
 
-    
+
     public function destroy(Branch $branch)
     {
         $this->branchService->delete($branch);
 
         return redirect()->route('businesses.show', $branch->business_id);
+    }
+
+    public function change()
+    {
+        $referer = request()->server('HTTP_REFERER');
+        return redirect($referer);
     }
 }

@@ -20,6 +20,7 @@ use App\Models\Owner\Owner;
 use App\Models\User\User;
 use Carbon\Carbon;
 use Illuminate\Foundation\Application;
+use Illuminate\Http\Client\Response;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -88,6 +89,9 @@ Route::middleware([
 
         Route::delete('/{branch}', [BranchController::class, 'destroy'])->name('destroy')
             ->can('delete', 'branch');
+
+        // TODO: policy?
+        Route::post('/change', [BranchController::class, 'change'])->name('change');
     });
 
     Route::prefix('/positions')->name('positions.')->group(function () {

@@ -15,6 +15,7 @@ const branch = ref(branches.value.find((branch) => branch.id == getCookie('branc
 
 const changeBranch = () => {
     const branchIdCookie = `branch_id=${branch.value.id}; path=/; SameSite=Lax;`;
+    router.post(route("branches.change"));
     document.cookie = branchIdCookie;
 };
 </script>

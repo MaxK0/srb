@@ -1,15 +1,10 @@
 <script setup>
 import { router, Link } from "@inertiajs/vue3";
 import AppLayout from "@/Layouts/AppLayout.vue";
-import { onUpdated, ref } from "vue";
+import { ref } from "vue";
 import Paginator from "@/Components/Paginator.vue";
-import Select from "primevue/select";
 
 const props = defineProps({
-    branches: {
-        type: Object,
-        required: true,
-    },
     employees: {
         type: Object,
         required: true,
@@ -20,50 +15,22 @@ const props = defineProps({
     },
 });
 
-const branch = ref(
-    props.branches.find((branch) => branch.id == props.filter.branchId)
-);
-
 const gettingData = ref(false);
-
-const fetchEmployees = () => {
-    gettingData.value = true;
-
-    const branchId = branch.value.id;
-
-    router.get(route("employees.index", { branch_id: branchId }));
-};
 
 const edit = (employee) => {
     router.get(route("employees.edit", employee));
 };
 
 const destroy = (employee) => {
-    gettingData.value = true;
-
-    router.delete(route("employees.destroyWithoutRedirect", employee));
+    router.delete(route("employees.destroy", employee));
 };
-
-onUpdated(() => {
-    fetchEmployees();
-});
 </script>
 
 <template>
     <AppLayout title="Сотрудники">
         <section class="employees">
             <div class="container">
-                <div class="employees-top-btns">
-                    <Select
-                        v-model="branch"
-                        :options="branches"
-                        filter
-                        optionLabel="title"
-                        placeholder="Выберите филиал"
-                        class="select"
-                        @change="fetchEmployees"
-                    >
-                    </Select>
+                <div class="top-btns">
                     <Link class="btn-main" :href="route('employees.create')"
                         >Создать сотрудника</Link
                     >
@@ -127,7 +94,7 @@ onUpdated(() => {
                     :pagination="employees"
                 />
             </div>
-        </section>        
+        </section>
     </AppLayout>
 </template>
 

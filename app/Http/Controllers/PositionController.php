@@ -75,7 +75,7 @@ class PositionController extends Controller
     {
         $this->positionService->delete($position);
 
-        return redirect()->route('positions.index', request()->query());
+        return redirect()->route('positions.index');
     }
 
 

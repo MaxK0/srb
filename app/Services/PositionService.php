@@ -15,15 +15,12 @@ class PositionService extends BaseService
         parent::__construct(Position::class);
     }
 
-
+    // TODO: убрать фильтер
     public function dataForIndex(PositionFilter $filter, ?int $perPage): array
     {
-        $data['branches'] = Owner::staticBranches()->select(['id', 'title'])->get();
-
-        if ($data['filter']['branchId'] = request('branch_id')) {
+        if ($branchId = request()->cookie('branch_id')) {
             $data['positions'] = Owner::staticPositions()
-                ->filter($filter)
-                ->select('id', 'title')
+                ->where('branch_id', $branchId)
                 ->paginate($perPage)
                 ->withQueryString();
         }

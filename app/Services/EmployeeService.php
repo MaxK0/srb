@@ -20,15 +20,14 @@ class EmployeeService extends BaseService
         parent::__construct(Employee::class);
     }
 
+    // TODO: Если удалить должность, то она всё равно выводится. Выяснить почему и может исправить.
     public function dataForIndex(EmployeeFilter $filter, ?int $perPage): array
     {
-        $branches = Owner::staticBranches()->select(['id', 'title'])->get();
-        $branches->prepend(['id' => null, 'title' => 'Все филиалы']);
-
         $owner = auth()->user()->owner;
 
         $employees = $owner
             ->employees()
+            ->where('employees.branch_id', request()->cookie('branch_id'))
             ->filter($filter)
             ->join('users', 'employees.user_id', '=', 'users.id')
             ->leftJoin('positions', 'employees.position_id', '=', 'positions.id')
@@ -43,10 +42,9 @@ class EmployeeService extends BaseService
             ->withQueryString();
 
         $data =  [
-            'branches' => $branches,
             'employees' => $employees,
             'filter' => [
-                'branchId' => request('branch_id')
+                // 'branchId' => request('branch_id')
             ]
         ];
 

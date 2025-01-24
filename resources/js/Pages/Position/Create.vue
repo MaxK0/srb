@@ -8,6 +8,7 @@ import PrimaryButton from "@/Components/PrimaryButton.vue";
 import TextInput from "@/Components/TextInput.vue";
 
 import Select from "primevue/select";
+import { getCookie } from "@/Scripts/cookie";
 
 const props = defineProps({
     branches: {
@@ -18,7 +19,7 @@ const props = defineProps({
 
 const form = useForm({
     title: "",
-    branch: [],
+    branch: props.branches.find((branch) => branch.id == getCookie('branch_id')),
 });
 
 const submit = () => {
