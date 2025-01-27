@@ -32,7 +32,9 @@ const props = defineProps({
 });
 
 const form = useForm({
-    branch: null,
+    branch: props.branches.find(
+        (branch) => branch.id == props.filter?.branchId
+    ),
     position: [],
     sex: [],
     phone: "",
@@ -54,11 +56,13 @@ const changedFindUser = () => {
 };
 
 const fetchPositions = () => {
-    const branchId = form.branch.id;
+    const branchId = form.branch?.id;
 
-    router.get(
-        route("employees.create", { branch_id: branchId, user: props.user })
-    );
+    if (branchId) {
+        router.get(
+            route("employees.create", { branch_id: branchId, user: props.user })
+        );
+    }
 };
 
 const submit = () => {
@@ -73,12 +77,14 @@ const submit = () => {
     } else form.post(route("employees.store"));
 };
 
-// onMounted(() => {
-//     if (!form.branch && getCookie('branch_id')) {
-//         form.branch = props.branches.find((branch) => branch.id == getCookie('branch_id'))
-//         fetchPositions()
-//     }
-// });
+onMounted(() => {
+    if (form.branch == null && getCookie("branch_id")) {
+        form.branch = props.branches.find(
+            (branch) => branch.id == getCookie("branch_id")
+        );
+        fetchPositions();
+    }
+});
 </script>
 
 <template>
@@ -92,6 +98,7 @@ const submit = () => {
                                 v-model:checked="form.find_user"
                                 @change="changedFindUser"
                                 name="find_user"
+                                id="find_user"
                             />
                             <InputLabel
                                 for="find_user"
@@ -136,6 +143,7 @@ const submit = () => {
                             <div class="form__block">
                                 <InputLabel for="branch" value="Филиал" />
                                 <Select
+                                    id="branch"
                                     v-model="form.branch"
                                     :options="branches"
                                     filter
@@ -151,6 +159,7 @@ const submit = () => {
                             <div class="form__block">
                                 <InputLabel for="position" value="Должность" />
                                 <Select
+                                    id="position"
                                     v-model="form.position"
                                     :options="positions"
                                     filter
@@ -169,6 +178,7 @@ const submit = () => {
                         <div class="form__block">
                             <InputLabel for="sex" value="Пол" />
                             <Select
+                                id="sex"
                                 v-model="form.sex"
                                 :options="sexes"
                                 filter

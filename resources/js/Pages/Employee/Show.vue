@@ -20,7 +20,10 @@ const destroy = () => {
 
 const destroyWorkday = () => {
     router.delete(
-        route("employees.workdays.destroy", [props.employee.id, props.employee.workday.id])
+        route("employees.workdays.destroy", [
+            props.employee.id,
+            props.employee.workday.id,
+        ])
     );
 };
 </script>
@@ -29,7 +32,7 @@ const destroyWorkday = () => {
     <AppLayout :title="employee.user.fio_short">
         <section class="employee__show">
             <div class="container">
-                <div class="employee__show__btns">
+                <div class="show__btns">
                     <button @click="edit" class="btn-main">
                         Редактировать
                     </button>
@@ -101,7 +104,7 @@ const destroyWorkday = () => {
         <section class="employee__show__workday">
             <div class="container">
                 <h2 class="mb-20">Рабочий день</h2>
-                <div class="employee__workday__btns">
+                <div class="show__btns">
                     <Link
                         v-if="!employee.workday"
                         class="btn-main"
@@ -166,21 +169,116 @@ const destroyWorkday = () => {
                 </table>
             </div>
         </section>
+        <section v-if="employee.workday" class="workday__extra-days">
+            <div class="container">
+                <div class="top-btns-h2">
+                    <!-- TODO: поменять route -->
+                    <h2>Дополнительные смены</h2>
+                    <Link class="btn-main" :href="route('employees.create')"
+                        >Создать</Link
+                    >
+                </div>
+                <table class="table table__index">
+                    <thead class="thead thead__index">
+                        <tr>
+                            <th>Дата начала</th>
+                            <th>Дата конца</th>
+                            <th>Время работы</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody class="tbody tbody__index">
+                        <tr
+                            v-for="(extraDay, id) in employee.workday
+                                .extra_days"
+                            :key="id"
+                        >
+                            <td data-label="Дата начала">
+                                {{ formateDate(extraDay.date_start) }}
+                            </td>
+                            <td data-label="Дата конца">
+                                {{ formateDate(extraDay.date_end) }}
+                            </td>
+                            <td data-label="Время работы">
+                                {{ formateTime(extraDay.time_start) }} -
+                                {{ formateTime(extraDay.time_end) }}
+                            </td>
+                            <td>
+                                <div class="table__btns">
+                                    <button
+                                        class="btn-main"
+                                        @click="edit(employee)"
+                                    >
+                                        Изменить
+                                    </button>
+                                    <button
+                                        class="btn-main delete"
+                                        @click="destroy(employee)"
+                                    >
+                                        Удалить
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+        <section v-if="employee.workday" class="workday__workless-days">
+            <div class="container">
+                <div class="top-btns-h2">
+                    <h2>Безрабочие смены</h2>
+                    <!-- TODO: поменять routes и для buttons -->
+                    <Link class="btn-main" :href="route('employees.create')"
+                        >Создать</Link
+                    >
+                </div>
+                <table class="table table__index">
+                    <thead class="thead thead__index">
+                        <tr>
+                            <th>Дата начала</th>
+                            <th>Дата конца</th>
+                            <th>Статус</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody class="tbody tbody__index">
+                        <tr
+                            v-for="(worklessDay, id) in employee.workday
+                                .workless_days"
+                            :key="id"
+                        >
+                            <td data-label="Дата начала">
+                                {{ formateDate(worklessDay.start) }}
+                            </td>
+                            <td data-label="Дата конца">
+                                {{ formateDate(worklessDay.end) }}
+                            </td>
+                            <td data-label="Статус">
+                                {{ worklessDay.status.title }}
+                            </td>
+                            <td>
+                                <div class="table__btns">
+                                    <button
+                                        class="btn-main"
+                                        @click="edit(employee)"
+                                    >
+                                        Изменить
+                                    </button>
+                                    <button
+                                        class="btn-main delete"
+                                        @click="destroy(employee)"
+                                    >
+                                        Удалить
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
     </AppLayout>
 </template>
 
-<style scoped>
-.employee__show__btns {
-    align-self: flex-end;
-    display: flex;
-    gap: 2.5rem;
-    margin-bottom: 4rem;
-}
-
-.employee__workday__btns {
-    align-self: flex-end;
-    display: flex;
-    gap: 2rem;
-    margin-bottom: 4rem;
-}
-</style>
+<style scoped></style>

@@ -15,9 +15,10 @@ class PositionService extends BaseService
         parent::__construct(Position::class);
     }
 
-    // TODO: убрать фильтер
     public function dataForIndex(PositionFilter $filter, ?int $perPage): array
     {
+        $data = [];
+
         if ($branchId = request()->cookie('branch_id')) {
             $data['positions'] = Owner::staticPositions()
                 ->where('branch_id', $branchId)

@@ -44,7 +44,7 @@ class EmployeeService extends BaseService
         $data =  [
             'employees' => $employees,
             'filter' => [
-                // 'branchId' => request('branch_id')
+                'branchId' => request('branch_id')
             ]
         ];
 
@@ -98,7 +98,11 @@ class EmployeeService extends BaseService
                 $q->select(['id', 'title']);
             },
             'workday' => function ($q) {
-                $q->select(['id', 'date_start', 'days_work', 'days_rest', 'time_start', 'time_end', 'employee_id']);
+                $q->with([
+                    'extraDays',
+                    'worklessDays' => fn($q2) => $q2->with('status')
+                ])
+                    ->select(['id', 'date_start', 'days_work', 'days_rest', 'time_start', 'time_end', 'employee_id']);
             }
         ]);
 
