@@ -9,9 +9,13 @@ const becomeOwner = () => {
     router.post(route("owner.become"));
 };
 
-const branches = computed(() => usePage().props.owner.branches);
+const branches = computed(() => usePage().props.owner?.branches);
 
-const branch = ref(branches.value.find((branch) => branch.id == getCookie('branch_id')));
+const branch = ref([]);
+
+if (branches.value) {
+    branch.value = ref(branches.value.find((branch) => branch.id == getCookie('branch_id')));
+}
 
 const changeBranch = () => {
     const branchIdCookie = `branch_id=${branch.value.id}; path=/; SameSite=Lax;`;
@@ -25,7 +29,8 @@ const changeBranch = () => {
         <nav class="aside__nav">
             <div class="aside__nav__block">
                 <Select
-                    v-if="$page.props.auth.user.is_owner"
+                    v-if="$page.props.auth.user.is_owner &&
+                        $page.props.owner.branches.length > 0"
                     v-model="branch"
                     :options="branches"
                     filter
