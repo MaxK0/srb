@@ -8,6 +8,10 @@ const props = defineProps({
         type: Object,
         required: true,
     },
+    can: {
+        type: Object,
+        required: true,
+    },
 });
 
 const edit = () => {
@@ -32,7 +36,7 @@ const destroyWorkday = () => {
     <AppLayout :title="employee.user.fio_short">
         <section class="employee__show">
             <div class="container">
-                <div class="show__btns">
+                <div v-if="can.manage" class="show__btns">
                     <button @click="edit" class="btn-main">
                         Редактировать
                     </button>
@@ -103,32 +107,36 @@ const destroyWorkday = () => {
         </section>
         <section class="employee__show__workday">
             <div class="container">
-                <h2 class="mb-20">Рабочий день</h2>
-                <div class="show__btns">
-                    <Link
-                        v-if="!employee.workday"
-                        class="btn-main"
-                        :href="route('employees.workdays.create', employee.id)"
-                        >Создать</Link
-                    >
-                    <Link
-                        v-else
-                        class="btn-main"
-                        :href="
-                            route('employees.workdays.edit', [
-                                employee.id,
-                                employee.workday.id,
-                            ])
-                        "
-                        >Редактировать</Link
-                    >
-                    <button
-                        v-if="employee.workday"
-                        @click="destroyWorkday"
-                        class="btn-main delete"
-                    >
-                        Удалить
-                    </button>
+                <div v-if="can.manage" class="top-btns-h2">
+                    <h2 class="mb-20">Рабочий день</h2>
+                    <div class="top-btns-h2__btns">
+                        <Link
+                            v-if="!employee.workday"
+                            class="btn-main"
+                            :href="
+                                route('employees.workdays.create', employee.id)
+                            "
+                            >Создать</Link
+                        >
+                        <Link
+                            v-else
+                            class="btn-main"
+                            :href="
+                                route('employees.workdays.edit', [
+                                    employee.id,
+                                    employee.workday.id,
+                                ])
+                            "
+                            >Редактировать</Link
+                        >
+                        <button
+                            v-if="employee.workday"
+                            @click="destroyWorkday"
+                            class="btn-main delete"
+                        >
+                            Удалить
+                        </button>
+                    </div>
                 </div>
 
                 <table v-if="employee.workday" class="table table__show">
@@ -174,17 +182,23 @@ const destroyWorkday = () => {
                 <div class="top-btns-h2">
                     <!-- TODO: поменять route -->
                     <h2>Дополнительные смены</h2>
-                    <Link class="btn-main" :href="route('employees.create')"
+                    <Link
+                        v-if="can.manage"
+                        class="btn-main"
+                        :href="route('employees.create')"
                         >Создать</Link
                     >
                 </div>
-                <table class="table table__index">
+                <table
+                    v-if="employee.workday?.extra_days.length"
+                    class="table table__index"
+                >
                     <thead class="thead thead__index">
                         <tr>
                             <th>Дата начала</th>
                             <th>Дата конца</th>
                             <th>Время работы</th>
-                            <th></th>
+                            <th v-if="can.manage"></th>
                         </tr>
                     </thead>
                     <tbody class="tbody tbody__index">
@@ -203,7 +217,7 @@ const destroyWorkday = () => {
                                 {{ formateTime(extraDay.time_start) }} -
                                 {{ formateTime(extraDay.time_end) }}
                             </td>
-                            <td>
+                            <td v-if="can.manage">
                                 <div class="table__btns">
                                     <button
                                         class="btn-main"
@@ -229,17 +243,23 @@ const destroyWorkday = () => {
                 <div class="top-btns-h2">
                     <h2>Безрабочие смены</h2>
                     <!-- TODO: поменять routes и для buttons -->
-                    <Link class="btn-main" :href="route('employees.create')"
+                    <Link
+                        v-if="can.manage"
+                        class="btn-main"
+                        :href="route('employees.create')"
                         >Создать</Link
                     >
                 </div>
-                <table class="table table__index">
+                <table
+                    v-if="employee.workday?.workless_days.length"
+                    class="table table__index"
+                >
                     <thead class="thead thead__index">
                         <tr>
                             <th>Дата начала</th>
                             <th>Дата конца</th>
                             <th>Статус</th>
-                            <th></th>
+                            <th v-if="can.manage"></th>
                         </tr>
                     </thead>
                     <tbody class="tbody tbody__index">
@@ -257,7 +277,7 @@ const destroyWorkday = () => {
                             <td data-label="Статус">
                                 {{ worklessDay.status.title }}
                             </td>
-                            <td>
+                            <td v-if="can.manage">
                                 <div class="table__btns">
                                     <button
                                         class="btn-main"

@@ -106,9 +106,11 @@ class EmployeeService extends BaseService
             }
         ]);
 
-        return [
-            'employee' => $employee,
+        $can = [
+            'manage' => auth()->user()->can('update', $employee)
         ];
+
+        return compact('employee', 'can');
     }
 
 
