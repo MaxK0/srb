@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\Owner\Owner;
 use App\Models\User\User;
+use Illuminate\Database\Eloquent\Model;
 
 class OwnerService extends BaseService
 {
@@ -25,5 +26,18 @@ class OwnerService extends BaseService
         $owner = $this->create(['user_id' => $user->id]);
 
         return true;
+    }
+
+    public static function isOwnInBusinesses(User $user, Model $model, string $relation)
+    {
+        if (!$user->isOwner()) return false;
+
+        /** @var Owner $owner */
+        $owner = $user->owner;
+
+        return $owner->businesses()
+            ->whereHas($relation, function ($q) use ($model) {
+                $q->where('id', $model->id);
+            })->exists();
     }
 }

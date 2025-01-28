@@ -4,6 +4,7 @@ namespace App\Policies;
 
 use App\Models\Employee\Employee;
 use App\Models\User\User;
+use App\Services\OwnerService;
 use Illuminate\Auth\Access\Response;
 
 class EmployeePolicy
@@ -37,7 +38,7 @@ class EmployeePolicy
      */
     public function update(User $user, Employee $employee): bool
     {
-        return $user->isOwner() && $this->isUserOwnEmployee($user, $employee);
+        return OwnerService::isOwnInBusinesses($user, $employee, 'branches.employees');
     }
 
     /**
@@ -45,19 +46,6 @@ class EmployeePolicy
      */
     public function delete(User $user, Employee $employee): bool
     {
-        return $user->isOwner() && $this->isUserOwnEmployee($user, $employee);
-    }   
-
-
-    private function isUserOwnEmployee(User $user, Employee $employee): bool
-    {
-        $owner = $user->owner;
-
-        return $owner
-            ->businesses()
-            ->whereHas('branches.employees', function ($q) use ($employee) {
-                $q->where('employees.id', $employee->id);
-            })
-            ->exists();
+        return OwnerService::isOwnInBusinesses($user, $employee, 'branches.employees');
     }
 }

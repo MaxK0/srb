@@ -4,6 +4,7 @@ namespace App\Policies;
 
 use App\Models\Owner\Branch;
 use App\Models\User\User;
+use App\Services\OwnerService;
 use Illuminate\Auth\Access\Response;
 
 class BranchPolicy
@@ -37,7 +38,7 @@ class BranchPolicy
      */
     public function update(User $user, Branch $branch): bool
     {
-        return $user->isOwner() && $this->isUserOwnBranch($user, $branch);
+        return OwnerService::isOwnInBusinesses($user, $branch, 'branches');
     }
 
     /**
@@ -45,19 +46,6 @@ class BranchPolicy
      */
     public function delete(User $user, Branch $branch): bool
     {
-        return $user->isOwner() && $this->isUserOwnBranch($user, $branch);
-    }
-
-
-    private function isUserOwnBranch(User $user, Branch $branch): bool
-    {
-        $owner = $user->owner;
-
-        return $owner
-            ->businesses()
-            ->whereHas('branches', function ($q) use ($branch) {
-                $q->where('branches.id', $branch->id);
-            })
-            ->exists();
+        return OwnerService::isOwnInBusinesses($user, $branch, 'branches');
     }
 }

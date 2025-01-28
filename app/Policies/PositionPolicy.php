@@ -4,6 +4,7 @@ namespace App\Policies;
 
 use App\Models\Employee\Position;
 use App\Models\User\User;
+use App\Services\OwnerService;
 use Illuminate\Auth\Access\Response;
 
 class PositionPolicy
@@ -37,7 +38,7 @@ class PositionPolicy
      */
     public function update(User $user, Position $position): bool
     {
-        return $user->isOwner() && $this->isUserOwnPosition($user, $position);
+        return OwnerService::isOwnInBusinesses($user, $position, 'branches.positions');
     }
 
     /**
@@ -45,19 +46,6 @@ class PositionPolicy
      */
     public function delete(User $user, Position $position): bool
     {
-        return $user->isOwner() && $this->isUserOwnPosition($user, $position);
-    }
-
-
-    private function isUserOwnPosition(User $user, Position $position): bool
-    {
-        $owner = $user->owner;
-
-        return $owner
-            ->businesses()
-            ->whereHas('branches', function ($q) use ($position) {
-                $q->where('branches.id', $position->branch_id);
-            })
-            ->exists();
+        return OwnerService::isOwnInBusinesses($user, $position, 'branches.positions');
     }
 }

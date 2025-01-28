@@ -5,7 +5,7 @@ namespace App\Policies;
 use App\Models\Employee\Employee;
 use App\Models\Employee\Workday\Workday;
 use App\Models\User\User;
-use Illuminate\Auth\Access\Response;
+use App\Services\OwnerService;
 
 class WorkdayPolicy
 {
@@ -14,7 +14,7 @@ class WorkdayPolicy
      */
     public function viewAny(User $user): bool
     {
-        return true;
+        return $user->isOwner();
     }
 
     /**
@@ -22,15 +22,16 @@ class WorkdayPolicy
      */
     public function view(User $user, Workday $workday): bool
     {
-        return true;
+        return OwnerService::isOwnInBusinesses($user, $workday, 'branches.employees.workday') ||
+            $this->isEmployeeOwnWorkday($user, $workday);
     }
 
     /**
      * Determine whether the user can create models.
      */
-    public function create(User $user): bool
+    public function create(User $user, Employee $employee): bool
     {
-        return true;
+        return !$employee->workday()->exists();
     }
 
     /**
@@ -38,7 +39,7 @@ class WorkdayPolicy
      */
     public function update(User $user, Workday $workday): bool
     {
-        return true;
+        return OwnerService::isOwnInBusinesses($user, $workday, 'branches.employees.workday');
     }
 
     /**
@@ -46,6 +47,19 @@ class WorkdayPolicy
      */
     public function delete(User $user, Workday $workday): bool
     {
-        return true;
+        return OwnerService::isOwnInBusinesses($user, $workday, 'branches.employees.workday');
+    }
+
+    protected function isEmployeeOwnWorkday(User $user, Workday $workday)
+    {
+        if (!$user->isEmployee()) return false;
+
+        $isEmployeeWorkday = $user
+            ->employees()
+            ->whereHas('workday', function ($q) use ($workday) {
+                $q->where('workdays.id', $workday->id);
+            })->exists();
+
+        return $isEmployeeWorkday;
     }
 }
