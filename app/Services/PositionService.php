@@ -33,9 +33,7 @@ class PositionService extends BaseService
     {
         $branches = Owner::staticBranches()->select(['id', 'title'])->get();
 
-        return [
-            'branches' => $branches
-        ];
+        return compact('branches');
     }
 
     public function dataForEdit(Position $position): array
@@ -45,9 +43,6 @@ class PositionService extends BaseService
             'branch' => fn($q) => $q->select(['id', 'title'])
         ]);
 
-        return [
-            'branches' => $branches,
-            'position' => $position
-        ];
+        return compact('branches', 'position');
     }
 }

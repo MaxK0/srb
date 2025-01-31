@@ -23,7 +23,6 @@ class EmployeeFactory extends Factory
         return [
             'work_phone' => fake()->numberBetween(1000000000, 9999999999),
             'user_id' => User::factory(),
-            'position_id' => Position::inRandomOrder()->first()->id,
             'branch_id' => Branch::inRandomOrder()->first()->id
         ];
     }
@@ -35,6 +34,16 @@ class EmployeeFactory extends Factory
 
             $user->roles()
                 ->attach(User::EMPLOYEE_ID);
+
+            $positionId = $employee->branch
+                ->positions()
+                ->inRandomOrder()
+                ->first()
+                ->id;
+
+            $employee->update([
+                'position_id' => $positionId
+            ]);
         });
     }
 }

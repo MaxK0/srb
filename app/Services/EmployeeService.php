@@ -8,9 +8,6 @@ use App\Models\Employee\Employee;
 use App\Models\Employee\Position;
 use App\Models\Owner\Owner;
 use App\Models\User\User;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
 class EmployeeService extends BaseService
@@ -21,49 +18,49 @@ class EmployeeService extends BaseService
     }
 
     // TODO: Если удалить должность, то она всё равно выводится. Выяснить почему и может исправить.
-    public function dataForIndex(EmployeeFilter $filter, ?int $perPage): array
+    public function dataForIndex(EmployeeFilter $eFilter, ?int $perPage): array
     {
-        $owner = auth()->user()->owner;
+        $owner = auth()->user()
+            ->owner;
 
         $employees = $owner
             ->employees()
             ->where('employees.branch_id', request()->cookie('branch_id'))
-            ->filter($filter)
-            ->join('users', 'employees.user_id', '=', 'users.id')
-            ->leftJoin('positions', 'employees.position_id', '=', 'positions.id')
-            ->select([
-                'employees.id',
-                'users.email',
-                'users.sex',
-                'positions.title AS position',
-                DB::raw('CONCAT(users.lastname, " ", LEFT(users.name, 1), ".", IF(users.patronymic IS NOT NULL AND users.patronymic != "", CONCAT(" ", LEFT(users.patronymic, 1), "."), "")) AS fio_short')
+            ->filter($eFilter)
+            ->select(['id', 'user_id', 'position_id', 'branch_id'])
+            ->with([
+                'user' => function ($q) {
+                    $q->select(['id', 'email', 'sex', 'lastname', 'name', 'patronymic']);
+                },
+                'position' => function ($q) {
+                    $q->select(['id', 'title']);
+                }
             ])
             ->paginate($perPage)
             ->withQueryString();
 
-        $data =  [
-            'employees' => $employees,
-            'filter' => [
-                'branchId' => request('branch_id')
-            ]
+
+        $filter = [
+            'branchId' => request('branch_id')
         ];
 
-        return $data;
+        return compact('employees', 'filter');
     }
 
 
-    public function dataForCreate(PositionFilter $filter): array
+    public function dataForCreate(PositionFilter $pFilter): array
     {
         $userService = app(UserService::class);
 
-        $data['branches'] = Owner::staticBranches()->select(['id', 'title'])->get();
-        $data['sexes'] = $userService->getSexes();
+        $branches = Owner::staticBranches()->select(['id', 'title'])->get();
+        $sexes = $userService->getSexes();
+        $positions = null;
 
-        if ($data['filter']['branchId'] = request('branch_id')) {
-            $data['positions'] = Position::filter($filter)->select(['id', 'title'])->get();
+        if ($filter['branchId'] = request('branch_id')) {
+            $positions = Position::filter($pFilter)->select(['id', 'title'])->get();
         }
 
-        return $data;
+        return compact('branches', 'sexes', 'filter', 'positions');
     }
 
 
@@ -114,10 +111,13 @@ class EmployeeService extends BaseService
     }
 
 
-    public function dataForEdit(Employee $employee, PositionFilter $filter): array
+    public function dataForEdit(Employee $employee, PositionFilter $pFilter): array
     {
-        $data['branches'] = Owner::staticBranches()->select(['id', 'title'])->get();
-        $data['employee'] = $employee->load(
+        $branches = Owner::staticBranches()
+            ->select(['id', 'title'])
+            ->get();
+
+        $employee = $employee->load(
             [
                 'branch' => function ($q) {
                     $q->select(['branches.id', 'title']);
@@ -128,12 +128,16 @@ class EmployeeService extends BaseService
             ]
         );
 
-        if ($data['filter']['branchId'] = request('branch_id')) {
-            $data['positions'] = Position::filter($filter)->select(['id', 'title'])->get();
+        if ($filter['branchId'] = request('branch_id')) {
+            $positions = Position::filter($pFilter)
+                ->select(['id', 'title'])
+                ->get();
         } else {
-            $data['positions'] = Position::where('branch_id', $employee->branch_id)->select(['id', 'title'])->get();
+            $positions = Position::where('branch_id', $employee->branch_id)
+                ->select(['id', 'title'])
+                ->get();
         }
 
-        return $data;
+        return compact('branches', 'employee', 'filter', 'positions');
     }
 }

@@ -27,10 +27,7 @@ class BranchService extends BaseService
             ->select('businesses.id', 'businesses.title')
             ->get();
 
-        return [
-            'cities' => $cities,
-            'businesses' => $businesses
-        ];
+        return compact('cities', 'businesses');
     }
 
     public function dataForEdit(Branch $branch): array
@@ -57,9 +54,6 @@ class BranchService extends BaseService
             ->paginate(15)
             ->withQueryString();
 
-        return [
-            'business' => $business,
-            'branches' => $branches
-        ];
+        return compact('business', 'branches');
     }
 }

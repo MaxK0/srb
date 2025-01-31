@@ -34,9 +34,7 @@ class BusinessService extends BaseService
     {
         $cities = City::all(['id', 'title']);
 
-        return [
-            'cities' => $cities
-        ];
+        return compact('cities');
     }
 
     public function dataForShow(Business $business, ?int $perPage): array
@@ -47,10 +45,7 @@ class BusinessService extends BaseService
             ->paginate($perPage)
             ->withQueryString();
 
-        return [
-            'business' => $business,
-            'branches' => $branches
-        ];
+        return compact('business', 'branches');
     }
 
     public function create(array|Collection $data): Business
