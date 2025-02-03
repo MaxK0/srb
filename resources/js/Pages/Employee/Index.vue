@@ -57,17 +57,17 @@ const destroy = (employee) => {
                                 <Link
                                     :href="route('employees.show', employee)"
                                     class="link-main"
-                                    >{{ employee.fio_short }}</Link
+                                    >{{ employee.user.fio_short }}</Link
                                 >
                             </td>
                             <td data-label="Email">
-                                {{ employee.email }}
+                                {{ employee.user.email }}
                             </td>
                             <td data-label="Пол">
-                                {{ employee.sex }}
+                                {{ employee.user.sex }}
                             </td>
                             <td data-label="Должность">
-                                {{ employee.position }}
+                                {{ employee.position?.title }}
                             </td>
                             <td>
                                 <div class="table__btns">

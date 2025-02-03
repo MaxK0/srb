@@ -516,9 +516,16 @@ button.delete:active {
     align-items: center;
     justify-content: space-between;
     gap: 2rem;
+    flex-wrap: wrap;
 }
 .top-btns-h2 h2 {
     margin-bottom: 0;
+}
+.top-btns-h2__btns {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    flex-wrap: wrap;
 }
 
 @media (max-width: 1600px) {

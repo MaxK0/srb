@@ -25,7 +25,7 @@ class EmployeeController extends Controller
         return Inertia::render('Employee/Index', $data);
     }
 
-    // TODO: Сделать вывод доп. смен и нерабочих дней
+
     public function show(Employee $employee)
     {
         $data = $this->employeeService->dataForShow($employee);
