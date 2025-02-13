@@ -1,5 +1,6 @@
 <script setup>
 import { useForm } from "@inertiajs/vue3";
+import { formateTime } from "@/Scripts/formateDate";
 
 import AppLayout from "@/Layouts/AppLayout.vue";
 
@@ -9,6 +10,7 @@ import PrimaryButton from "@/Components/PrimaryButton.vue";
 
 import DatePicker from "primevue/datepicker";
 import InputNumber from "primevue/inputnumber";
+import TextInput from "@/Components/TextInput.vue";
 
 const props = defineProps({
     workday: {
@@ -17,13 +19,13 @@ const props = defineProps({
     },
 });
 
-const formateTime = (time) => {
+const toTime = (time) => {
     const [hours, minutes] = time.split(":");
 
     const date = new Date();
-    date.setUTCHours(parseInt(hours, 10));
-    date.setUTCMinutes(parseInt(minutes, 10));
-    date.setUTCSeconds(0);
+    date.setHours(parseInt(hours, 10));
+    date.setMinutes(parseInt(minutes, 10));
+    date.setSeconds(0);
 
     return date;
 };
@@ -36,14 +38,15 @@ const form = useForm({
     time_end: formateTime(props.workday.time_end),
 });
 
-
 const submit = () => {
-    form.put(
-        route("employees.workdays.update", [
-            props.workday.employee_id,
-            props.workday.id,
-        ])
-    );
+    form.time_start = toTime(form.time_start);
+    form.time_end = toTime(form.time_end);
+    form.put(route("employees.workday.update", props.workday.employee_id), {
+        onBefore: () => {
+            form.time_start = new Date(form.time_start).toLocaleTimeString();
+            form.time_end = new Date(form.time_end).toLocaleTimeString();
+        }
+    });
 };
 </script>
 
@@ -95,22 +98,36 @@ const submit = () => {
                     <div class="form__blocks">
                         <div class="form__block">
                             <InputLabel for="time_start" value="Начало смены" />
-                            <DatePicker
+                            <TextInput
+                                id="time_start"
+                                class="input"
+                                type="time"
+                                v-model="form.time_start"
+                                placeholder="09:00"
+                            ></TextInput>
+                            <!-- <DatePicker
                                 id="time_start"
                                 v-model="form.time_start"
                                 timeOnly
                                 placeholder="09:00"
-                            />
+                            /> -->
                             <InputError :message="form.errors.time_start" />
                         </div>
                         <div class="form__block">
                             <InputLabel for="time_end" value="Конец смены" />
-                            <DatePicker
+                            <TextInput
+                                id="time_end"
+                                class="input"
+                                type="time"
+                                v-model="form.time_end"
+                                placeholder="17:00"
+                            ></TextInput>
+                            <!-- <DatePicker
                                 id="time_end"
                                 v-model="form.time_end"
                                 timeOnly
                                 placeholder="17:00"
-                            />
+                            /> -->
                             <InputError :message="form.errors.time_end" />
                         </div>
                     </div>

@@ -1,5 +1,5 @@
 <script setup>
-import { router, Link } from "@inertiajs/vue3";
+import { Link } from "@inertiajs/vue3";
 import AppLayout from "@/Layouts/AppLayout.vue";
 import { formateDate, formateTime } from "@/Scripts/formateDate";
 
@@ -100,19 +100,14 @@ const props = defineProps({
                             v-if="!employee.workday"
                             class="btn-main"
                             :href="
-                                route('employees.workdays.create', employee.id)
+                                route('employees.workday.create', employee.id)
                             "
                             >Создать</Link
                         >
                         <Link
                             v-else
                             class="btn-main"
-                            :href="
-                                route('employees.workdays.edit', [
-                                    employee.id,
-                                    employee.workday.id,
-                                ])
-                            "
+                            :href="route('employees.workday.edit', employee)"
                             >Редактировать</Link
                         >
                         <Link
@@ -120,12 +115,7 @@ const props = defineProps({
                             class="btn-main delete"
                             as="button"
                             method="DELETE"
-                            :href="
-                                route('employees.workdays.destroy', [
-                                    employee,
-                                    employee.workday,
-                                ])
-                            "
+                            :href="route('employees.workday.destroy', employee)"
                             >Удалить</Link
                         >
                     </div>
@@ -139,14 +129,17 @@ const props = defineProps({
                                 <Link
                                     class="link-main"
                                     :href="
-                                        route('employees.workdays.show', [
-                                            employee,
-                                            employee.workday,
-                                        ])
+                                        route(
+                                            'employees.workday.show',
+                                            employee
+                                        )
                                     "
                                 >
                                     {{
-                                        formateDate(employee.workday.date_start, true)
+                                        formateDate(
+                                            employee.workday.date_start,
+                                            true
+                                        )
                                     }}
                                 </Link>
                             </td>
@@ -177,10 +170,7 @@ const props = defineProps({
                         v-if="can.manage"
                         class="btn-main"
                         :href="
-                            route('employees.workdays.extra.create', [
-                                employee,
-                                employee.workday,
-                            ])
+                            route('employees.workday.extra.create', employee)
                         "
                         >Создать</Link
                     >
@@ -219,12 +209,8 @@ const props = defineProps({
                                         class="btn-main"
                                         :href="
                                             route(
-                                                'employees.workdays.extra.edit',
-                                                [
-                                                    employee,
-                                                    employee.workday,
-                                                    extraDay,
-                                                ]
+                                                'employees.workday.extra.edit',
+                                                [employee, extraDay]
                                             )
                                         "
                                         >Изменить</Link
@@ -235,12 +221,8 @@ const props = defineProps({
                                         method="DELETE"
                                         :href="
                                             route(
-                                                'employees.workdays.extra.destroy',
-                                                [
-                                                    employee,
-                                                    employee.workday,
-                                                    extraDay,
-                                                ]
+                                                'employees.workday.extra.destroy',
+                                                [employee, extraDay]
                                             )
                                         "
                                         >Удалить</Link
@@ -259,7 +241,9 @@ const props = defineProps({
                     <Link
                         v-if="can.manage"
                         class="btn-main"
-                        :href="route('employees.workdays.workless.create', [employee, employee.workday])"
+                        :href="
+                            route('employees.workday.workless.create', employee)
+                        "
                         >Создать</Link
                     >
                 </div>
@@ -296,12 +280,8 @@ const props = defineProps({
                                         class="btn-main"
                                         :href="
                                             route(
-                                                'employees.workdays.workless.edit',
-                                                [
-                                                    employee,
-                                                    employee.workday,
-                                                    worklessDay,
-                                                ]
+                                                'employees.workday.workless.edit',
+                                                [employee, worklessDay]
                                             )
                                         "
                                         >Изменить</Link
@@ -312,12 +292,8 @@ const props = defineProps({
                                         method="DELETE"
                                         :href="
                                             route(
-                                                'employees.workdays.workless.destroy',
-                                                [
-                                                    employee,
-                                                    employee.workday,
-                                                    worklessDay,
-                                                ]
+                                                'employees.workday.workless.destroy',
+                                                [employee, worklessDay]
                                             )
                                         "
                                         >Удалить</Link

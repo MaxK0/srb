@@ -150,26 +150,27 @@ Route::middleware([
         Route::delete('/{employee}/withoutRedirect', [EmployeeController::class, 'destroyWithoutRedirect'])->name('destroyWithoutRedirect')
             ->can('delete', 'employee');
 
-        Route::prefix('/{employee}/workdays')->name('workdays.')->group(function () {
+            //TODO: у одного сотрудника только одно расписание.
+        Route::prefix('/{employee}/workday')->name('workday.')->group(function () {
             Route::get('/create', [WorkdayController::class, 'create'])->name('create')
                 ->can('create', [Workday::class, 'employee']);
 
             Route::post('', [WorkdayController::class, 'store'])->name('store')
                 ->can('create', [Workday::class, 'employee']);
 
-            Route::get('/{workday}', [WorkdayController::class, 'show'])->name('show')
-                ->can('view', 'workday');
+            Route::get('', [WorkdayController::class, 'show'])->name('show')
+                ->can('view', [Workday::class, 'employee']);
 
-            Route::get('/{workday}/edit', [WorkdayController::class, 'edit'])->name('edit')
-                ->can('update', 'workday');
+            Route::get('/edit', [WorkdayController::class, 'edit'])->name('edit')
+                ->can('update', [Workday::class, 'employee']);
 
-            Route::put('/{workday}', [WorkdayController::class, 'update'])->name('update')
-                ->can('update', 'workday');
+            Route::put('', [WorkdayController::class, 'update'])->name('update')
+                ->can('update', [Workday::class, 'employee']);
 
-            Route::delete('/{workday}', [WorkdayController::class, 'destroy'])->name('destroy')
-                ->can('delete', 'workday');
+            Route::delete('', [WorkdayController::class, 'destroy'])->name('destroy')
+                ->can('delete', [Workday::class, 'employee']);
 
-            Route::prefix('/{workday}/extraDays')->name('extra.')->group(function () {
+            Route::prefix('/extraDays')->name('extra.')->group(function () {
                 Route::get('/create', [ExtraDayController::class, 'create'])->name('create')
                     ->can('create', ExtraDay::class);
 
@@ -186,7 +187,7 @@ Route::middleware([
                     ->can('delete', 'extraDay');
             });
 
-            Route::prefix('/{workday}/worklessDays')->name('workless.')->group(function () {
+            Route::prefix('/worklessDays')->name('workless.')->group(function () {
                 Route::get('/create', [WorklessDayController::class, 'create'])->name('create')
                     ->can('create', WorklessDay::class);
 

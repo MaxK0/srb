@@ -31,15 +31,23 @@ class WorkdayService extends BaseService
     }
 
 
-    public function dataForShow(Workday $workday): array
+    public function dataWorkday(Employee $employee): array
     {
+        $workday = $employee->workday;
+
         return compact('workday');
     }
 
 
-    public function dataForEdit(Workday $workday): array
+    public function dataForShow(Employee $employee): array
     {
-        return compact('workday');
+        return $this->dataWorkday($employee);
+    }
+
+
+    public function dataForEdit(Employee $employee): array
+    {
+        return $this->dataWorkday($employee);
     }
 
 

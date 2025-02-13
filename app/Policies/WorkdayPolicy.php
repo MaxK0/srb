@@ -20,8 +20,10 @@ class WorkdayPolicy
     /**
      * Determine whether the user can view the model.
      */
-    public function view(User $user, Workday $workday): bool
+    public function view(User $user, Employee $employee): bool
     {
+        $workday = $employee->workday;
+
         return OwnerService::isOwnInBusinesses($user, $workday, 'branches.employees.workday') ||
             $this->isEmployeeOwnWorkday($user, $workday);
     }
@@ -37,22 +39,28 @@ class WorkdayPolicy
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, Workday $workday): bool
+    public function update(User $user, Employee $employee): bool
     {
+        $workday = $employee->workday;
+
         return OwnerService::isOwnInBusinesses($user, $workday, 'branches.employees.workday');
     }
 
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, Workday $workday): bool
+    public function delete(User $user, Employee $employee): bool
     {
+        $workday = $employee->workday;
+
         return OwnerService::isOwnInBusinesses($user, $workday, 'branches.employees.workday');
     }
 
-    protected function isEmployeeOwnWorkday(User $user, Workday $workday)
+    protected function isEmployeeOwnWorkday(User $user, Employee $employee)
     {
         if (!$user->isEmployee()) return false;
+
+        $workday = $employee->workday;
 
         $isEmployeeWorkday = $user
             ->employees()

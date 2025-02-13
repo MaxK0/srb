@@ -26,7 +26,7 @@ const form = useForm({
 });
 
 const submit = () => {
-    form.post(route("employees.workdays.store", props.employee.id));
+    form.post(route("employees.workday.store", props.employee.id));
 };
 </script>
 

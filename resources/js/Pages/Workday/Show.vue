@@ -1,5 +1,5 @@
 <script setup>
-import { router } from "@inertiajs/vue3";
+import { router, Link } from "@inertiajs/vue3";
 import AppLayout from "@/Layouts/AppLayout.vue";
 import { formateDate, formateTime } from "@/Scripts/formateDate";
 
@@ -9,24 +9,6 @@ const props = defineProps({
         required: true,
     },
 });
-
-const edit = () => {
-    router.get(
-        route("employees.workdays.edit", [
-            props.workday.id,
-            props.workday.employee_id,
-        ])
-    );
-};
-
-const destroy = () => {
-    router.delete(
-        route("employees.workdays.destroy", [
-            props.workday.id,
-            props.workday.employee_id,
-        ])
-    );
-};
 </script>
 
 <template>
@@ -34,19 +16,32 @@ const destroy = () => {
         <section class="workday__show">
             <div class="container">
                 <div class="workday__show__btns">
-                    <button @click="edit" class="btn-main">
-                        Редактировать
-                    </button>
-                    <button @click="destroy" class="btn-main delete">
-                        Удалить
-                    </button>
+                    <Link
+                        class="btn-main"
+                        :href="
+                            route('employees.workday.edit', workday.employee_id)
+                        "
+                        >Редактировать</Link
+                    >
+                    <Link
+                        class="btn-main delete"
+                        as="button"
+                        method="DELETE"
+                        :href="
+                            route(
+                                'employees.workday.destroy',
+                                workday.employee_id
+                            )
+                        "
+                        >Удалить</Link
+                    >
                 </div>
                 <table class="table table__show">
                     <tbody class="tbody">
                         <tr>
                             <th>Начало расчета</th>
                             <td>
-                                {{ formateDate(workday.date_start) }}
+                                {{ formateDate(workday.date_start, true) }}
                             </td>
                         </tr>
                         <tr>
