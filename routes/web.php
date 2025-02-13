@@ -4,20 +4,25 @@ use App\Http\Controllers\BranchController;
 use App\Http\Controllers\BusinessController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\EmployeeController;
+use App\Http\Controllers\ExtraDayController;
 use App\Http\Controllers\OwnerController;
 use App\Http\Controllers\PositionController;
 use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\SitemapController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WorkdayController;
+use App\Http\Controllers\WorklessDayController;
 use App\Http\Middleware\IsOwner;
 use App\Models\Employee\Employee;
 use App\Models\Employee\Position;
+use App\Models\Employee\Workday\ExtraDay;
 use App\Models\Employee\Workday\Workday;
+use App\Models\Employee\Workday\WorklessDay;
 use App\Models\Owner\Branch;
 use App\Models\Owner\Business;
 use App\Models\Owner\Owner;
 use App\Models\User\User;
+use App\Policies\ExtraDayPolicy;
 use Carbon\Carbon;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\Client\Response;
@@ -149,9 +154,8 @@ Route::middleware([
             Route::get('/create', [WorkdayController::class, 'create'])->name('create')
                 ->can('create', [Workday::class, 'employee']);
 
-            // TODO: сотрудник может создавать только, если у него нет рабочего дня
             Route::post('', [WorkdayController::class, 'store'])->name('store')
-                ->can('create', Workday::class);
+                ->can('create', [Workday::class, 'employee']);
 
             Route::get('/{workday}', [WorkdayController::class, 'show'])->name('show')
                 ->can('view', 'workday');
@@ -164,6 +168,46 @@ Route::middleware([
 
             Route::delete('/{workday}', [WorkdayController::class, 'destroy'])->name('destroy')
                 ->can('delete', 'workday');
+
+            Route::prefix('/{workday}/extraDays')->name('extra.')->group(function () {
+                Route::get('/create', [ExtraDayController::class, 'create'])->name('create')
+                    ->can('create', ExtraDay::class);
+
+                Route::post('', [ExtraDayController::class, 'store'])->name('store')
+                    ->can('create', ExtraDay::class);
+
+                Route::get('/{extraDay}', [ExtraDayController::class, 'show'])->name('show')
+                    ->can('view', 'extraday');
+                    
+                Route::get('/{extraDay}/edit', [ExtraDayController::class, 'edit'])->name('edit')
+                    ->can('update', 'extraDay');
+
+                Route::put('/{extraDay}', [ExtraDayController::class, 'update'])->name('update')
+                    ->can('update', 'extraDay');
+
+                Route::delete('/{extraDay}', [ExtraDayController::class, 'destroy'])->name('destroy')
+                    ->can('delete', 'extraDay');
+            });
+
+            Route::prefix('/{workday}/worklessDays')->name('workless.')->group(function () {
+                Route::get('/create', [WorklessDayController::class, 'create'])->name('create')
+                    ->can('create', WorklessDay::class);
+
+                Route::post('', [WorklessDayController::class, 'store'])->name('store')
+                    ->can('create', WorklessDay::class);
+
+                Route::get('/{worklessDay}', [WorklessDayController::class, 'show'])->name('show')
+                    ->can('view', 'worklessDay');
+                    
+                Route::get('/{worklessDay}/edit', [WorklessDayController::class, 'edit'])->name('edit')
+                    ->can('update', 'worklessDay');
+
+                Route::put('/{worklessDay}', [WorklessDayController::class, 'update'])->name('update')
+                    ->can('update', 'worklessDay');
+
+                Route::delete('/{worklessDay}', [WorklessDayController::class, 'destroy'])->name('destroy')
+                    ->can('delete', 'worklessDay');
+            });
         });
     });
 
