@@ -390,6 +390,18 @@ button.delete:active {
     background-color: var(--color-wrong-active);
 }
 
+.btn-main.delete {
+    background-color: var(--color-wrong);
+}
+
+.btn-main.delete:hover {
+    background-color: var(--color-wrong-hover);
+}
+
+.btn-main.delete:active {
+    background-color: var(--color-wrong-active);
+}
+
 .btn-main {
     background-color: var(--color-btn);
     color: var(--color-second);

@@ -175,9 +175,6 @@ Route::middleware([
 
                 Route::post('', [ExtraDayController::class, 'store'])->name('store')
                     ->can('create', ExtraDay::class);
-
-                Route::get('/{extraDay}', [ExtraDayController::class, 'show'])->name('show')
-                    ->can('view', 'extraday');
                     
                 Route::get('/{extraDay}/edit', [ExtraDayController::class, 'edit'])->name('edit')
                     ->can('update', 'extraDay');
@@ -195,9 +192,6 @@ Route::middleware([
 
                 Route::post('', [WorklessDayController::class, 'store'])->name('store')
                     ->can('create', WorklessDay::class);
-
-                Route::get('/{worklessDay}', [WorklessDayController::class, 'show'])->name('show')
-                    ->can('view', 'worklessDay');
                     
                 Route::get('/{worklessDay}/edit', [WorklessDayController::class, 'edit'])->name('edit')
                     ->can('update', 'worklessDay');
@@ -216,7 +210,6 @@ Route::middleware([
             ->can('create', Owner::class);
     });
 
-    // TODO: Изменить middleware на can
     Route::prefix('/users')->name('users.')->group(function () {
         Route::post('/find', [UserController::class, 'find'])->name('find')
             ->can('find', User::class);

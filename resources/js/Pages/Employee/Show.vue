@@ -13,23 +13,6 @@ const props = defineProps({
         required: true,
     },
 });
-
-const edit = () => {
-    router.get(route("employees.edit", props.employee));
-};
-
-const destroy = () => {
-    router.delete(route("employees.destroy", props.employee));
-};
-
-const destroyWorkday = () => {
-    router.delete(
-        route("employees.workdays.destroy", [
-            props.employee.id,
-            props.employee.workday.id,
-        ])
-    );
-};
 </script>
 
 <template>
@@ -37,12 +20,18 @@ const destroyWorkday = () => {
         <section class="employee__show">
             <div class="container">
                 <div v-if="can.manage" class="show__btns">
-                    <button @click="edit" class="btn-main">
-                        Редактировать
-                    </button>
-                    <button @click="destroy" class="btn-main delete">
-                        Удалить
-                    </button>
+                    <Link
+                        class="btn-main"
+                        :href="route('employees.edit', employee)"
+                        >Изменить</Link
+                    >
+                    <Link
+                        class="btn-main delete"
+                        as="button"
+                        method="DELETE"
+                        :href="route('employees.destroy', employee)"
+                        >Удалить</Link
+                    >
                 </div>
                 <table class="table show__table">
                     <tbody class="tbody">
@@ -75,10 +64,7 @@ const destroyWorkday = () => {
                             <td>
                                 <Link
                                     :href="
-                                        route(
-                                            'branches.show',
-                                            employee.branch.id
-                                        )
+                                        route('branches.show', employee.branch)
                                     "
                                     class="link-main"
                                     >{{ employee.branch.title }}</Link
@@ -129,13 +115,19 @@ const destroyWorkday = () => {
                             "
                             >Редактировать</Link
                         >
-                        <button
+                        <Link
                             v-if="employee.workday"
-                            @click="destroyWorkday"
                             class="btn-main delete"
+                            as="button"
+                            method="DELETE"
+                            :href="
+                                route('employees.workdays.destroy', [
+                                    employee,
+                                    employee.workday,
+                                ])
+                            "
+                            >Удалить</Link
                         >
-                            Удалить
-                        </button>
                     </div>
                 </div>
 
@@ -148,13 +140,13 @@ const destroyWorkday = () => {
                                     class="link-main"
                                     :href="
                                         route('employees.workdays.show', [
-                                            employee.id,
-                                            employee.workday.id,
+                                            employee,
+                                            employee.workday,
                                         ])
                                     "
                                 >
                                     {{
-                                        formateDate(employee.workday.date_start)
+                                        formateDate(employee.workday.date_start, true)
                                     }}
                                 </Link>
                             </td>
@@ -180,12 +172,16 @@ const destroyWorkday = () => {
         <section v-if="employee.workday" class="workday__extra-days">
             <div class="container">
                 <div class="top-btns-h2">
-                    <!-- TODO: поменять route -->
                     <h2>Дополнительные смены</h2>
                     <Link
                         v-if="can.manage"
                         class="btn-main"
-                        :href="route('employees.create')"
+                        :href="
+                            route('employees.workdays.extra.create', [
+                                employee,
+                                employee.workday,
+                            ])
+                        "
                         >Создать</Link
                     >
                 </div>
@@ -208,10 +204,10 @@ const destroyWorkday = () => {
                             :key="id"
                         >
                             <td data-label="Дата начала">
-                                {{ formateDate(extraDay.date_start) }}
+                                {{ formateDate(extraDay.date_start, true) }}
                             </td>
                             <td data-label="Дата конца">
-                                {{ formateDate(extraDay.date_end) }}
+                                {{ formateDate(extraDay.date_end, true) }}
                             </td>
                             <td data-label="Время работы">
                                 {{ formateTime(extraDay.time_start) }} -
@@ -219,18 +215,36 @@ const destroyWorkday = () => {
                             </td>
                             <td v-if="can.manage">
                                 <div class="table__btns">
-                                    <button
+                                    <Link
                                         class="btn-main"
-                                        @click="edit(employee)"
+                                        :href="
+                                            route(
+                                                'employees.workdays.extra.edit',
+                                                [
+                                                    employee,
+                                                    employee.workday,
+                                                    extraDay,
+                                                ]
+                                            )
+                                        "
+                                        >Изменить</Link
                                     >
-                                        Изменить
-                                    </button>
-                                    <button
+                                    <Link
                                         class="btn-main delete"
-                                        @click="destroy(employee)"
+                                        as="button"
+                                        method="DELETE"
+                                        :href="
+                                            route(
+                                                'employees.workdays.extra.destroy',
+                                                [
+                                                    employee,
+                                                    employee.workday,
+                                                    extraDay,
+                                                ]
+                                            )
+                                        "
+                                        >Удалить</Link
                                     >
-                                        Удалить
-                                    </button>
                                 </div>
                             </td>
                         </tr>
@@ -242,11 +256,10 @@ const destroyWorkday = () => {
             <div class="container">
                 <div class="top-btns-h2">
                     <h2>Безрабочие смены</h2>
-                    <!-- TODO: поменять routes и для buttons -->
                     <Link
                         v-if="can.manage"
                         class="btn-main"
-                        :href="route('employees.create')"
+                        :href="route('employees.workdays.workless.create', [employee, employee.workday])"
                         >Создать</Link
                     >
                 </div>
@@ -269,28 +282,46 @@ const destroyWorkday = () => {
                             :key="id"
                         >
                             <td data-label="Дата начала">
-                                {{ formateDate(worklessDay.start) }}
+                                {{ formateDate(worklessDay.start, true) }}
                             </td>
                             <td data-label="Дата конца">
-                                {{ formateDate(worklessDay.end) }}
+                                {{ formateDate(worklessDay.end, true) }}
                             </td>
                             <td data-label="Статус">
                                 {{ worklessDay.status.title }}
                             </td>
                             <td v-if="can.manage">
                                 <div class="table__btns">
-                                    <button
+                                    <Link
                                         class="btn-main"
-                                        @click="edit(employee)"
+                                        :href="
+                                            route(
+                                                'employees.workdays.workless.edit',
+                                                [
+                                                    employee,
+                                                    employee.workday,
+                                                    worklessDay,
+                                                ]
+                                            )
+                                        "
+                                        >Изменить</Link
                                     >
-                                        Изменить
-                                    </button>
-                                    <button
+                                    <Link
                                         class="btn-main delete"
-                                        @click="destroy(employee)"
+                                        as="button"
+                                        method="DELETE"
+                                        :href="
+                                            route(
+                                                'employees.workdays.workless.destroy',
+                                                [
+                                                    employee,
+                                                    employee.workday,
+                                                    worklessDay,
+                                                ]
+                                            )
+                                        "
+                                        >Удалить</Link
                                     >
-                                        Удалить
-                                    </button>
                                 </div>
                             </td>
                         </tr>
