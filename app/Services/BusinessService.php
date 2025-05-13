@@ -57,13 +57,8 @@ class BusinessService extends BaseService
         $dataBusiness = $data->only(['title', 'information']);
 
         $business = Business::create($dataBusiness->all());
-        $businessId = $business->id;
 
-        $dataBranch = $data->merge([
-            'business_id' => $businessId
-        ]);
-
-        Branch::create($dataBranch->all());
+        $business->branches()->create($dataBusiness->all());
 
         $business->owners()
             ->sync(

@@ -67,7 +67,6 @@ class BranchController extends Controller
 
     public function change()
     {
-        $referer = request()->server('HTTP_REFERER');
-        return redirect($referer);
+        return back();
     }
 }

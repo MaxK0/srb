@@ -8,14 +8,6 @@ import Paginator from "@/Components/Paginator.vue";
 const props = defineProps({
     businesses: Object,
 });
-
-const edit = (business) => {
-    router.get(route("businesses.edit", business));
-};
-
-const destroy = (business) => {
-    router.delete(route("businesses.destroy", business));
-};
 </script>
 
 <template>
@@ -45,18 +37,16 @@ const destroy = (business) => {
                             </td>
                             <td data-label="">
                                 <div class="table__btns">
-                                    <button
+                                    <Link
+                                        :href="route('businesses.edit', business)"
                                         class="btn-main"
-                                        @click="edit(business)"
-                                    >
-                                        Изменить
-                                    </button>
-                                    <button
+                                    >Изменить</Link>
+                                    <Link
                                         class="btn-main delete"
-                                        @click="destroy(business)"
-                                    >
-                                        Удалить
-                                    </button>
+                                        as="button"
+                                        method="DELETE"
+                                        :href="route('businesses.destroy', business)"
+                                    >Удалить</Link>
                                 </div>
                             </td>
                         </tr>

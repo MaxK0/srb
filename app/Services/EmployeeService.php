@@ -17,7 +17,6 @@ class EmployeeService extends BaseService
         parent::__construct(Employee::class);
     }
 
-    // TODO: Если удалить должность, то она всё равно выводится. Выяснить почему и может исправить.
     public function dataForIndex(EmployeeFilter $eFilter, ?int $perPage): array
     {
         $owner = auth()->user()
