@@ -580,6 +580,7 @@ button.delete:active {
 
     .tbody__index .table-inf {
         max-width: 100%;
+        text-wrap: wrap;
     }
 
     .tbody__index td:last-child {

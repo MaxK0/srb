@@ -176,7 +176,7 @@ Route::middleware([
 
                 Route::post('', [ExtraDayController::class, 'store'])->name('store')
                     ->can('create', ExtraDay::class);
-                    
+
                 Route::get('/{extraDay}/edit', [ExtraDayController::class, 'edit'])->name('edit')
                     ->can('update', 'extraDay');
 
@@ -193,7 +193,7 @@ Route::middleware([
 
                 Route::post('', [WorklessDayController::class, 'store'])->name('store')
                     ->can('create', WorklessDay::class);
-                    
+
                 Route::get('/{worklessDay}/edit', [WorklessDayController::class, 'edit'])->name('edit')
                     ->can('update', 'worklessDay');
 
@@ -230,4 +230,8 @@ Route::middleware([
 
         Route::post('clients/{user}/detachClient', [ClientController::class, 'detachClient'])->name('clients.attachUser');
     });
+
+    Route::resource('branches.services', \App\Http\Controllers\ServiceController::class)
+        ->scoped(['service' => 'id'])
+        ->parameters(['services' => 'service']);
 });

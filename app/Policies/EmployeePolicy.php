@@ -22,7 +22,7 @@ class EmployeePolicy
      */
     public function view(User $user, Employee $employee): bool
     {
-        return true;
+        return OwnerService::isOwnInBusinesses($user, $employee, 'branches.employees');
     }
 
     /**

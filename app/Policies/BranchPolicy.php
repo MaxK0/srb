@@ -22,7 +22,7 @@ class BranchPolicy
      */
     public function view(User $user, Branch $branch): bool
     {
-        return true;
+        return OwnerService::isOwnInBusinesses($user, $branch, 'branches');
     }
 
     /**

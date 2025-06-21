@@ -54,7 +54,7 @@ class BusinessService extends BaseService
             $data = collect($data);
         }
 
-        $dataBusiness = $data->only(['title', 'information']);
+        $dataBusiness = $data->only(['title', 'information', 'address']);
 
         $business = Business::create($dataBusiness->all());
 

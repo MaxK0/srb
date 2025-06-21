@@ -22,7 +22,7 @@ class BusinessPolicy
      */
     public function view(User $user, Business $business): bool
     {
-        return true;
+        return $user->isOwner() && $this->isUserOwnBusiness($user, $business);
     }
 
     /**

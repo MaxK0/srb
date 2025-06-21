@@ -39,18 +39,18 @@ const changeBranch = () => {
                     class="select"
                     @change="changeBranch"
                 ></Select>
-                <NavLink
-                    :href="route('schedule.index')"
-                    :active="route().current('schedule.index')"
-                >
-                    Расписание
-                </NavLink>
-                <NavLink
-                    :href="route('dashboard')"
-                    :active="route().current('dashboard')"
-                >
-                    Статистика
-                </NavLink>
+<!--                <NavLink-->
+<!--                    :href="route('schedule.index')"-->
+<!--                    :active="route().current('schedule.index')"-->
+<!--                >-->
+<!--                    Расписание-->
+<!--                </NavLink>-->
+<!--                <NavLink-->
+<!--                    :href="route('dashboard')"-->
+<!--                    :active="route().current('dashboard')"-->
+<!--                >-->
+<!--                    Статистика-->
+<!--                </NavLink>-->
             </div>
             <div
                 v-if="$page.props.auth.user.is_owner"
@@ -75,6 +75,12 @@ const changeBranch = () => {
                 >
                     Сотрудниками
                 </NavLink>
+<!--                <NavLink-->
+<!--                    :href="route('branches.services.index', { branch: branch ? branch.id : null })"-->
+<!--                    :active="route().current('branches.services.index', { branch: branch?.id })"-->
+<!--                >-->
+<!--                    Услуги-->
+<!--                </NavLink>-->
             </div>
             <div v-else class="aside__nav__block">
                 <form @submit.prevent="becomeOwner">
