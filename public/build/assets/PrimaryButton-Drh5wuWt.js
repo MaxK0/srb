@@ -1,0 +1,1 @@
+import{o,e as r,r as s}from"./app-BlvVrBEN.js";const n=["type"],c={__name:"PrimaryButton",props:{type:{type:String,default:"submit"}},setup(t){return(e,a)=>(o(),r("button",{type:t.type,class:"btn-main"},[s(e.$slots,"default")],8,n))}};export{c as _};

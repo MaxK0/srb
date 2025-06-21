@@ -1,0 +1,1 @@
+import{M as s,N as a,o as t,e as r,a as o,t as c}from"./app-BlvVrBEN.js";const n={class:"error"},p={__name:"InputError",props:{message:String},setup(e){return(i,m)=>s((t(),r("div",null,[o("p",n,c(e.message),1)],512)),[[a,e.message]])}};export{p as _};
